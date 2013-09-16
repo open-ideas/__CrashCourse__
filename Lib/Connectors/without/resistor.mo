@@ -1,4 +1,4 @@
-within CrashCourse.Connectors.without;
+within Lib.Connectors.without;
 model resistor
 
 Modelica.SIunits.Temperature T_a "Left-side resistor temprature";

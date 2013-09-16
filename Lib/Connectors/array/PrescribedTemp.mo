@@ -1,4 +1,4 @@
-within CrashCourse.Connectors.array;
+within Lib.Connectors.array;
 model PrescribedTemp
 
   input Real T;

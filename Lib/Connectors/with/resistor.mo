@@ -1,4 +1,4 @@
-within CrashCourse.Connectors.with;
+within Lib.Connectors.with;
 model resistor
 
   HeatPort heatPort_a

@@ -1,4 +1,4 @@
-within CrashCourse.Example_IDEAS;
+within Lib.Example_IDEAS;
 model SimpleOccupant "Simple office occupant"
   extends IDEAS.Interfaces.BaseClasses.Occupant(
                                     nLoads=1);

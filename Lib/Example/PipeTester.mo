@@ -1,4 +1,4 @@
-within CrashCourse.Example;
+within Lib.Example;
 model PipeTester "Xtremely basic pipe tester"
 
   PipeWithHeatPort simplePipe

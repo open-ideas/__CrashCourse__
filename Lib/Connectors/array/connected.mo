@@ -1,4 +1,4 @@
-within CrashCourse.Connectors.array;
+within Lib.Connectors.array;
 model connected
 
   with.mass mass annotation (Placement(transformation(extent={{-70,30},{-50,50}})));

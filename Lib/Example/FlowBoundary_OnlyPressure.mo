@@ -1,4 +1,4 @@
-within CrashCourse.Example;
+within Lib.Example;
 model FlowBoundary_OnlyPressure "Fixes pressure, temperature "
 parameter Modelica.SIunits.Temperature T "Boundary temperature";
 parameter Modelica.SIunits.Pressure p "Boundary pressure";

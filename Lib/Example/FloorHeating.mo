@@ -1,4 +1,4 @@
-within CrashCourse.Example;
+within Lib.Example;
 model FloorHeating "Model with Pipe connected to layer, Pump and Boiler"
   parameter Modelica.SIunits.HeatCapacity cFloor=80000 "capacity of the floor";
 
@@ -13,7 +13,7 @@ model FloorHeating "Model with Pipe connected to layer, Pump and Boiler"
     annotation (Placement(transformation(extent={{42,26},{62,46}})));
   FluidCircuitMerger fluidCircuitMerger
     annotation (Placement(transformation(extent={{26,-14},{36,0}})));
-  CrashCourse.FixedPressure prescribedPressure(p=200000)
+  Lib.FixedPressure prescribedPressure(p=200000)
     annotation (Placement(transformation(extent={{12,52},{32,72}})));
   PipeWithHeatPort boiler(
     dia=0.080,

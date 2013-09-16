@@ -1,4 +1,4 @@
-within CrashCourse.Classes;
+within Lib.Classes;
 model Capacity_extended "Another example of extending an existing class"
   extends Connectors.with.mass;
   /* 

@@ -1,4 +1,4 @@
-within CrashCourse.Connectors.array;
+within Lib.Connectors.array;
 model Array_TSet
 parameter Integer n=4;
 parameter Real[n] cvalues={600,1000,400,600};
