@@ -1,9 +1,9 @@
 within Lib.Classes;
 model TwoLayers
 
-  Connectors.array.PrescribedTemp
+  Connectors.Array.PrescribedTemp
                  prescribedTemp_a(T=step.y) annotation (extent=[-84,-6; -64,14]);
-  Connectors.array.PrescribedTemp
+  Connectors.Array.PrescribedTemp
                  prescribedTemp_b(T=273.15) annotation (extent=[30,-6; 50,14]);
 
   // object of type: Layer. IMPORT: use "redeclare" to specify the type of the variable "c"

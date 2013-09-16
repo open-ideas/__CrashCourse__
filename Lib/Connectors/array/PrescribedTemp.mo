@@ -1,4 +1,4 @@
-within Lib.Connectors.array;
+within Lib.Connectors.Array;
 model PrescribedTemp
                      // prescribed temperature
 

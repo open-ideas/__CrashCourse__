@@ -1,5 +1,5 @@
-within Lib.Connectors.with;
-model mass
+within Lib.Connectors.With;
+model Mass
 
 Modelica.SIunits.Temperature T(start=200) "mass temprature";
 
@@ -26,4 +26,4 @@ C * der(T) = heatPort.Q_flow;
           extent={{-20,20},{20,-20}},
           lineColor={0,0,255},
           textString="m")}));
-end mass;
+end Mass;

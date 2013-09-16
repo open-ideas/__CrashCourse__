@@ -1,5 +1,5 @@
 within Lib.Connectors;
-package array 
+package Array 
   extends Modelica.Icons.Package;
 
-end array;
+end Array;

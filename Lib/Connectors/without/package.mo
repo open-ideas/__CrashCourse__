@@ -1,5 +1,5 @@
 within Lib.Connectors;
-package without 
+package Without 
 extends Modelica.Icons.Package;
 
-end without;
+end Without;
