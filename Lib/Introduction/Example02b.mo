@@ -1,5 +1,5 @@
-within CrashCourse.Introduction;
-model Example02b
+within CrashCourse_Dymola;
+model Example02b "Solution of a non linear set of equation"
 
   parameter Real a=3;
   Real x(start=-2);
@@ -9,6 +9,6 @@ model Example02b
 equation
   y - a*z = 4;
   z + y = -8;
-  cosh(x) = y + 10;
+  cosh(x) = y + 10; // non linear equation using the predefined function: cosh (hyperbolic cosine)
 
 end Example02b;
