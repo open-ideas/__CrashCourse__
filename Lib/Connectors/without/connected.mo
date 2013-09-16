@@ -3,7 +3,7 @@ model Connected
 
   Mass mass_a "object of type mass" annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
   Mass mass_b(T(start = 400)) "use of modifier" annotation (Placement(transformation(extent={{20,-10},{40,10}})));
-  resistor resistor
+  Resistor resistor
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
 
 equation
