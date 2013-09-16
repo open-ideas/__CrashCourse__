@@ -1,5 +1,6 @@
 within Lib.Classes;
 model PCMCap
+             // extension of partial cap: variable capacity value depending on the temperature of the phase-changing material
 
   extends Classes.PartialCap;
 
@@ -7,6 +8,7 @@ model PCMCap
   parameter Modelica.SIunits.Temperature TNom=330;
 
 equation
+  // conditional capacity value
   if T<TNom-5 or T>TNom+5 then
     C=CNom;
   else
