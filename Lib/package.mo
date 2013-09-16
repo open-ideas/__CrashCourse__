@@ -1,5 +1,5 @@
 within ;
-package CrashCourse "Library for crash course Modelica and IDEAS"
+package Lib "Library for crash course Modelica and IDEAS"
   extends Modelica.Icons.Package;
   import IDEAS;
 
@@ -13,4 +13,4 @@ package CrashCourse "Library for crash course Modelica and IDEAS"
   annotation (uses(Modelica(version="3.2"), IDEAS(version="2")),
     version="1",
     conversion(noneFromVersion=""));
-end CrashCourse;
+end Lib;
