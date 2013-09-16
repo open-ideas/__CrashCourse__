@@ -6,6 +6,7 @@ model TwoLayers
   Connectors.array.PrescribedTemp
                  prescribedTemp_b(T=273.15) annotation (extent=[30,-6; 50,14]);
 
+  // object of type: Layer. IMPORT: use "redeclare" to specify the type of the variable "c"
   Layer layer_fix(redeclare FixedCap  c(T(start=500)))
     annotation (extent=[-24,10; -4,30], Placement(transformation(extent={{-6,32},
             {14,52}})));
