@@ -1,4 +1,4 @@
-within CrashCourse.Example;
+within Lib.Example;
 partial model PartialTwoFlowPorts
   "Partial model for a 2 flowport component with conservation of mass"
 

@@ -1,4 +1,4 @@
-within CrashCourse.Introduction;
+within Lib.Introduction;
 model Example01b
 
 parameter Real a=2;

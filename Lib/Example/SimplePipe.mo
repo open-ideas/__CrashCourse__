@@ -1,4 +1,4 @@
-within CrashCourse.Example;
+within Lib.Example;
 model SimplePipe "Fluid pipe , no heatPort"
   extends PartialTwoFlowPorts;
 

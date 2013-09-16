@@ -1,4 +1,4 @@
-within CrashCourse.Example;
+within Lib.Example;
 model FixedPressure "Fixes the absolute pressure in a hydraulic circuit"
   parameter Modelica.SIunits.Pressure p "absolute pressure";
 

@@ -1,4 +1,4 @@
-within CrashCourse.Classes;
+within Lib.Classes;
 model FixedCap
 
     extends Classes.PartialCap;

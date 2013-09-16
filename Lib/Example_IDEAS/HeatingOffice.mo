@@ -1,4 +1,4 @@
-within CrashCourse.Example_IDEAS;
+within Lib.Example_IDEAS;
 model HeatingOffice "Office heating with TABS"
   import IDEAS.Thermal.Components.Emission.Interfaces.EmissionType;
 

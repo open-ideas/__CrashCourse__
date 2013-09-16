@@ -1,4 +1,4 @@
-within CrashCourse.Example;
+within Lib.Example;
 model FixedTemperature "Fixes the temperature in a HeatPort"
   parameter Modelica.SIunits.Temperature T "constant temperature";
 

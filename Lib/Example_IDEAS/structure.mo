@@ -1,4 +1,4 @@
-within CrashCourse.Example_IDEAS;
+within Lib.Example_IDEAS;
 model structure
 
 extends IDEAS.Interfaces.BaseClasses.Structure(nZones=2, ATrans=211, VZones={north.V,south.V});

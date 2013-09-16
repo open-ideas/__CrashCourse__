@@ -1,4 +1,4 @@
-within CrashCourse.Example_IDEAS;
+within Lib.Example_IDEAS;
 model Office "2-zone office building with TABS"
 
   inner IDEAS.SimInfoManager sim(redeclare IDEAS.Climate.Meteo.Files.min15

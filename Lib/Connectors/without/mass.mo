@@ -1,4 +1,4 @@
-within CrashCourse.Connectors.without;
+within Lib.Connectors.without;
 model mass
 
 Modelica.SIunits.Temperature T(start=200) "mass temprature";

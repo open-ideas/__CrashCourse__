@@ -1,4 +1,4 @@
-within CrashCourse.Example_IDEAS;
+within Lib.Example_IDEAS;
 model HeatingStupid "stupid heating"
 
   import IDEAS.Thermal.Components.Emission.Interfaces.EmissionType;

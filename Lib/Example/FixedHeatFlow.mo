@@ -1,4 +1,4 @@
-within CrashCourse.Example;
+within Lib.Example;
 model FixedHeatFlow "Fixes the heat flow in a HeatPort connector"
 
   parameter Modelica.SIunits.HeatFlowRate Q "Heat flowrate";

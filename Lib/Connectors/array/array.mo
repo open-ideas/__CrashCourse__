@@ -1,4 +1,4 @@
-within CrashCourse.Connectors.array;
+within Lib.Connectors.array;
 model array
 
 parameter Integer n=4;

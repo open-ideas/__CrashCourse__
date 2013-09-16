@@ -4,12 +4,6 @@ package Lib "Library for crash course Modelica and IDEAS"
   import IDEAS;
 
 
-
-
-
-
-
-
   annotation (uses(Modelica(version="3.2"), IDEAS(version="2")),
     version="1",
     conversion(noneFromVersion=""));

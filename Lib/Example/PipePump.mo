@@ -1,4 +1,4 @@
-within CrashCourse.Example;
+within Lib.Example;
 model PipePump "Tester for pipe and pump"
 
   PipeWithHeatPort simplePipe
@@ -7,9 +7,9 @@ model PipePump "Tester for pipe and pump"
     annotation (Placement(transformation(extent={{42,26},{62,46}})));
   FluidCircuitMerger fluidCircuitMerger
     annotation (Placement(transformation(extent={{26,-14},{36,0}})));
-  CrashCourse.FixedPressure prescribedPressure(p=200000)
+  Lib.FixedPressure prescribedPressure(p=200000)
     annotation (Placement(transformation(extent={{12,52},{32,72}})));
-  CrashCourse.FixedHeatFlow prescribedHeatFlow(Q=100)
+  Lib.FixedHeatFlow prescribedHeatFlow(Q=100)
     annotation (Placement(transformation(extent={{-48,54},{-28,74}})));
 equation
 

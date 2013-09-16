@@ -1,4 +1,4 @@
-within CrashCourse.Connectors.without;
+within Lib.Connectors.without;
 model connected
 
   mass mass_a annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));

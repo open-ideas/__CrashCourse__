@@ -1,4 +1,4 @@
-within CrashCourse.Example;
+within Lib.Example;
 model SimplePump "Pump model withhout heat exchange, fixed pressure increase"
   extends PartialTwoFlowPorts;
   parameter Modelica.SIunits.Pressure dp=10000 "pressure increase of the pump";
