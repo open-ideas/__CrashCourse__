@@ -3,33 +3,41 @@
 # cd 'C:\myfolder\folder'
 
 import matplotlib.pyplot as plt
+import numpy as np
 
 # import the compiler function and FMUModel
-from jmodelica.fmi import compile_fmu
-from jmodelica.fmi import FMUModel
+from pymodelica import compile_fmu
+from pyfmi import load_fmu 
 
 # specify Modelica model and model file
-model_name = 'CrashCourse_Dymola.FloorHeating'
-#mo_file = 'JModelica_Crashcourse.mo'
-mo_file = 'CrashCourse_Dymola.mo'
+model_name = 'CrashCourseJModelica.FloorHeating'
+file_name = 'CrashCourseJModelica.mo'
+
 # compile the model, return argument is the file name of the JMU
-fmu_name=compile_fmu(model_name, mo_file)
-mymodel=FMUModel(fmu_name)
-
-# changing a parameter in the model
-# mymodel.set('c1.C',2000)
-
-# simulation
-res=mymodel.simulate(final_time=40000)
+fmu_name=compile_fmu(model_name, file_name)
+mymodel=load_fmu(fmu_name)
 
 
-# Getting and plotting some results
-T1=res['layer.c.T']
-T2=res['boiler.T']
-time=res['time']
-
+# Running a few loops
 plt.figure()
-plt.plot(time,T1,time,T2)
-plt.legend(('T1','T2'))
+for c in np.arange(10000, 200000, 50000):
+    
+    # reset the model (limitation in PyFMI: FMU can only be simulated once)
+    mymodel.reset()
+    
+    # changing a parameter in the model
+    mymodel.set('layer.c.CNom', c)
+    
+    # simulation
+    res=mymodel.simulate(final_time=40000)
+    
+
+    # Getting and plotting some results
+    T = res['layer.c.T']
+    time=res['time']
+
+    plt.plot(time,T, label='C={}'.format(c))
+    plt.legend(loc='lower right')
+
 plt.show()
 
