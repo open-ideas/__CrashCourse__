@@ -21,7 +21,7 @@ model FloorHeating "Model with Pipe connected to layer, Pump and Boiler"
     V_flowNominal=0.001)
     annotation (Placement(transformation(extent={{-22,10},{-42,-10}})));
   Lib.Classes.Layer layer(R=0.01,    C=cFloor,
-    redeclare Lib.Classes.FixedCap c(CNom=80000, T(start=288.15)))
+    redeclare Lib.Classes.FixedCap c(CNom=cFloor, T(start=288.15)))
               annotation (Placement(transformation(extent={{-44,58},{-24,78}})));
   OnOffHeatFlow boilerHeatFlow(       onoff=onoff.y, Q=5000)
     annotation (Placement(transformation(extent={{-72,-28},{-52,-8}})));
@@ -73,5 +73,7 @@ equation
       points={{-70.2,68},{-44,68}},
       color={0,0,255},
       smooth=Smooth.None));
-  annotation (Diagram(graphics));
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{100,100}}),
+                      graphics));
 end FloorHeating;
