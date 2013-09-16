@@ -4,10 +4,10 @@ model structure
 extends IDEAS.Interfaces.BaseClasses.Structure(nZones=2, ATrans=211, VZones={north.V,south.V});
 
   //Definition of the thermal zones
-IDEAS.Buildings.Components.Zone north(V=216.0, nSurf=5)
+IDEAS.Buildings.Components.Zone north(         nSurf=5, V=39.2)
     "north zone of office area"
   annotation (Placement(transformation(extent={{30,-38},{50,-18}})));
-IDEAS.Buildings.Components.Zone south(V=216.0, nSurf=5)
+IDEAS.Buildings.Components.Zone south(         nSurf=5, V=39.2)
     "south zone of office area"
   annotation (Placement(transformation(extent={{30,22},{50,42}})));
   //Definition of the building envelope for gF
@@ -50,14 +50,15 @@ IDEAS.Buildings.Components.Window south_win(
       extent={{-5.5,-10.5},{5.5,10.5}},
       rotation=90,
       origin={0.5,6.5})));
+
 IDEAS.Buildings.Components.InternalWall wall(
   redeclare IDEAS.Buildings.Data.Insulation.Pur insulationType,
   insulationThickness=0.04,
-  AWall=74,
   inc=IDEAS.Constants.Floor,
   azi=IDEAS.Constants.South,
      redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyWall
-       constructionType)     annotation (Placement(transformation(
+       constructionType,
+    AWall=8.1)               annotation (Placement(transformation(
       extent={{-5,-10},{5,10}},
       rotation=90,
       origin={-57,-10})));
@@ -65,22 +66,20 @@ IDEAS.Buildings.Components.InternalWall wall(
 IDEAS.Buildings.Components.InternalWall south_floor(
   redeclare IDEAS.Buildings.Data.Insulation.Pur insulationType,
   insulationThickness=0.04,
-  AWall=74,
   inc=IDEAS.Constants.Floor,
   azi=IDEAS.Constants.South,
-     redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyFloor
-       constructionType)     annotation (Placement(transformation(
+     redeclare Example_IDEAS.IntFloHeaFh constructionType,
+    AWall=11.9)                                                annotation (Placement(transformation(
       extent={{-5,-10},{5,10}},
       rotation=90,
       origin={-103,20})));
 IDEAS.Buildings.Components.InternalWall north_floor(
   redeclare IDEAS.Buildings.Data.Insulation.Pur insulationType,
   insulationThickness=0.04,
-  AWall=74,
   inc=IDEAS.Constants.Floor,
   azi=IDEAS.Constants.South,
-     redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyFloor
-       constructionType)     annotation (Placement(transformation(
+     redeclare Example_IDEAS.IntFloHeaFh constructionType,
+    AWall=11.9)                                                annotation (Placement(transformation(
       extent={{-5,-10},{5,10}},
       rotation=90,
       origin={-103,-40})));

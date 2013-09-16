@@ -7,7 +7,7 @@ model PipeTester "Xtremely basic pipe tester"
     annotation (Placement(transformation(extent={{-62,0},{-42,20}})));
   FlowBoundary_OnlyPressure flowBoundary_OnlyPressure(T=303.15, p=210000)
     annotation (Placement(transformation(extent={{10,20},{30,40}})));
-  Layer layer
+  Lib.Classes.Layer layer
     annotation (Placement(transformation(extent={{-62,54},{-42,74}})));
   Connectors.array.PrescribedTemp
                  prescribedTemp
