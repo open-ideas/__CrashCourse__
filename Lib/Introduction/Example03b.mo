@@ -1,20 +1,20 @@
 within Lib.Introduction;
-model Example03b
+model Example03b "Illustration of conditional statements"
 
 parameter Real a=2;
 parameter Real b=-10;
 parameter Integer n = 6;
-Boolean biggerThan5(start=false);
+Boolean bigThan5(start=false);
 Real x;
 Real y; // Integer y would give an error
 
 equation
 x^2 + a*x + b = 0;
-biggerThan5= n>5;
+bigThan5= n>5;
 
 algorithm
   y:= n*x;
-  if y > x then
+  if y > x then    // if statement. If statement can also be written in equation but it will cause EVENTS.
     y :=x;
   else
      y:=-x;

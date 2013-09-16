@@ -1,12 +1,13 @@
 within Lib.Connectors.without;
 model connected
 
-  mass mass_a annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
-  mass mass_b(T(start = 400)) annotation (Placement(transformation(extent={{20,-10},{40,10}})));
+  mass mass_a "object of type mass" annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
+  mass mass_b(T(start = 400)) "use of modifier" annotation (Placement(transformation(extent={{20,-10},{40,10}})));
   resistor resistor
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
 
 equation
+// Kirchhoff
 mass_a.T = resistor.T_a;
 mass_b.T = resistor.T_b;
 
