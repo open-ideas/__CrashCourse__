@@ -1,11 +1,11 @@
-within Lib.Connectors.array;
+within Lib.Connectors.Array;
 model Array_TSet
 parameter Integer n=4;
 parameter Real[n] cvalues={600,1000,400,600}; // write the modifiers as parameters
 parameter Real[n] Tstarts={500,350,600,200};
 
-  with.mass[n] mass(c=cvalues, T(start=Tstarts))   annotation (Placement(transformation(extent={{-20,-10},{0,10}})));
-  with.resistor[n-1] resistor
+  With.Mass[n] mass(c=cvalues, T(start=Tstarts))   annotation (Placement(transformation(extent={{-20,-10},{0,10}})));
+  With.Resistor[n-1] resistor
     annotation (Placement(transformation(extent={{2,-10},{22,10}})));
 PrescribedTemp TSet(T=step.y);
 Modelica.Blocks.Sources.Step step(height=50,startTime=3000,offset=300); // use modelica's library! Step input source

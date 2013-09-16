@@ -7,8 +7,8 @@ model Layer
     parameter Real R=3;
     parameter Real C=800;
 
-    Lib.Connectors.with.resistor r1(R=R/2);
-    Lib.Connectors.with.resistor r2(R=R/2);
+    Lib.Connectors.With.Resistor r1(R=R/2);
+    Lib.Connectors.With.Resistor r2(R=R/2);
     replaceable Lib.Classes.FixedCap c(CNom=C, T(start = 273.15)) constrainedby
     Classes.PartialCap(                                                        CNom=C)
                                                                  annotation (choicesAllMatching=true);

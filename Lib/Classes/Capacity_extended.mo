@@ -1,6 +1,6 @@
 within Lib.Classes;
 model Capacity_extended "Another example of extending an existing class"
-  extends Connectors.with.mass;
+  extends Connectors.With.Mass;
   /* 
   All declarations, equations etc. from Capacity are literally copied into this model
   They cannot be changed

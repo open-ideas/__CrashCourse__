@@ -1,5 +1,5 @@
-within Lib.Connectors.with;
-model resistor
+within Lib.Connectors.With;
+model Resistor
 
 // a resistance has two heat port
 // notice the coding convention "_a" and "_b"
@@ -21,4 +21,4 @@ heatPort_a.Q_flow + heatPort_b.Q_flow = 0;
 
   annotation (Icon(graphics={Rectangle(extent={{-80,20},{80,-20}}, lineColor={0,
               0,255})}));
-end resistor;
+end Resistor;

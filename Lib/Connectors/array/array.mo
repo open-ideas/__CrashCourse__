@@ -1,10 +1,10 @@
-within Lib.Connectors.array;
-model array
+within Lib.Connectors.Array;
+model Array
 
 parameter Integer n=4 "number of capacities";
 
-  with.mass[n] mass "array of mass" annotation (Placement(transformation(extent={{-20,-10},{0,10}})));
-  with.resistor[n-1] resistor "array of resistors"
+  With.Mass[n] mass "array of mass" annotation (Placement(transformation(extent={{-20,-10},{0,10}})));
+  With.Resistor[n-1] resistor "array of resistors"
     annotation (Placement(transformation(extent={{2,-10},{22,10}})));
 
 equation
@@ -23,4 +23,4 @@ end for;
             -100},{100,100}}), graphics),
         experiment(StopTime=5000),
         __Dymola_experimentSetupOutput);
-end array;
+end Array;

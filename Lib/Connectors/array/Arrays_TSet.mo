@@ -1,4 +1,4 @@
-within Lib.Connectors.array;
+within Lib.Connectors.Array;
 model Arrays_TSet "Arrays instantiated"
 
 Array_TSet array1(step(height=55));
