@@ -17,6 +17,8 @@ file_name = 'CrashCourseJModelica.mo'
 fmu_name=compile_fmu(model_name, file_name)
 mymodel=load_fmu(fmu_name)
 
+opts=mymodel.simulate_options()
+print opts
 
 # Running a few loops
 plt.figure()
@@ -29,7 +31,9 @@ for c in np.arange(10000, 200000, 50000):
     mymodel.set('layer.c.CNom', c)
     
     # simulation
-    res=mymodel.simulate(final_time=40000)
+    res_file = 'result_' + str(c) + '.txt'
+    opts['result_file_name'] = res_file
+    res=mymodel.simulate(final_time=40000, options = opts)
     
 
     # Getting and plotting some results
