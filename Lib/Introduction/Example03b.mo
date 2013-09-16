@@ -1,4 +1,4 @@
-within CrashCourse_Dymola;
+within Lib.Introduction;
 model Example03b "Illustration of conditional statements"
 
 parameter Real a=2;

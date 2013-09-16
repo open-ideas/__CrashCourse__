@@ -1,4 +1,4 @@
-within CrashCourse.Example;
+within Lib.Example;
 model FloorHeating "Model with Pipe connected to layer, Pump and Boiler"
   parameter Modelica.SIunits.HeatCapacity cFloor=80000 "capacity of the floor";
 
@@ -13,15 +13,15 @@ model FloorHeating "Model with Pipe connected to layer, Pump and Boiler"
     annotation (Placement(transformation(extent={{42,26},{62,46}})));
   FluidCircuitMerger fluidCircuitMerger
     annotation (Placement(transformation(extent={{26,-14},{36,0}})));
-  CrashCourse.FixedPressure prescribedPressure(p=200000)
+  Lib.Example.FixedPressure prescribedPressure(p=200000)
     annotation (Placement(transformation(extent={{12,52},{32,72}})));
   PipeWithHeatPort boiler(
     dia=0.080,
     T(start=293),
     V_flowNominal=0.001)
     annotation (Placement(transformation(extent={{-22,10},{-42,-10}})));
-  Layer layer(R=0.01,    C=cFloor,
-    redeclare FixedCap c(CNom=80000, T(start=288.15)))
+  Lib.Classes.Layer layer(R=0.01,    C=cFloor,
+    redeclare Lib.Classes.FixedCap c(CNom=cFloor, T(start=288.15)))
               annotation (Placement(transformation(extent={{-44,58},{-24,78}})));
   OnOffHeatFlow boilerHeatFlow(       onoff=onoff.y, Q=5000)
     annotation (Placement(transformation(extent={{-72,-28},{-52,-8}})));
@@ -73,5 +73,7 @@ equation
       points={{-70.2,68},{-44,68}},
       color={0,0,255},
       smooth=Smooth.None));
-  annotation (Diagram(graphics));
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{100,100}}),
+                      graphics));
 end FloorHeating;

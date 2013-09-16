@@ -1,4 +1,4 @@
-within CrashCourse.Example;
+within Lib.Example;
 model PipeWithHeatPort
   "Fluid pipe with 1 heatport for heat exchange with environment"
   extends PartialTwoFlowPorts;
@@ -18,7 +18,7 @@ model PipeWithHeatPort
   Modelica.SIunits.VolumeFlowRate V_flow "volume flowrate";
   Modelica.SIunits.Pressure dp "pressure drop";
 
-  HeatPort heatPort
+  Lib.Connectors.with.HeatPort heatPort
     annotation (Placement(transformation(extent={{-10,6},{10,26}})));
 equation
   heatPort.T=T;

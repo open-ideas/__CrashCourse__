@@ -1,4 +1,4 @@
-within CrashCourse.Example;
+within Lib.Example;
 connector FlowPort "Fluid flowport, temperature based"
   Modelica.SIunits.AbsolutePressure p "absolute pressure";
   flow Modelica.SIunits.MassFlowRate m_flow "massflowrate";

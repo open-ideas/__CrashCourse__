@@ -1,4 +1,4 @@
-within CrashCourse_Dymola;
+within Lib.Introduction;
 model Example01a "Calculation of an equation of second order"
 
 parameter Real a=2;      // Parameter

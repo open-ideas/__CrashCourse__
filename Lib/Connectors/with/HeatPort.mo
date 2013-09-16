@@ -1,4 +1,4 @@
-within CrashCourse.Connectors.with;
+within Lib.Connectors.with;
 connector HeatPort
 Modelica.SIunits.Temperature T "potential";
 flow Modelica.SIunits.HeatFlowRate Q_flow "flow variable";

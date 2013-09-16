@@ -1,4 +1,4 @@
-within CrashCourse.Example;
+within Lib.Example;
 model FluidCircuitMerger
   "Arranges the singularity that would arise without this component in a hydraulic circuit"
 

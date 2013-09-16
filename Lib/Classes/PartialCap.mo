@@ -1,4 +1,4 @@
-within CrashCourse.Classes;
+within Lib.Classes;
 partial model PartialCap
 
 Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatPort;

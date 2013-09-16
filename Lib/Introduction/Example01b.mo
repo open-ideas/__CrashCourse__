@@ -1,4 +1,4 @@
-within CrashCourse_Dymola;
+within Lib.Introduction;
 model Example01b
   "Calculation of an equation of second order, with specification of start (guess) value."
 

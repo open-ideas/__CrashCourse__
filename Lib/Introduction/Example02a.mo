@@ -1,4 +1,4 @@
-within CrashCourse_Dymola;
+within Lib.Introduction;
 model Example02a
   "Calculation of an equation of second order and illustration of a boolean variable."
 

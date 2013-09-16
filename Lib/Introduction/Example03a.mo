@@ -1,4 +1,4 @@
-within CrashCourse_Dymola;
+within Lib.Introduction;
 model Example03a "Illustration of the algorithm statement"
 
 parameter Real a=2;

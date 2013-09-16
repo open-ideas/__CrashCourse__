@@ -1,4 +1,4 @@
-within CrashCourse_Dymola;
+within Lib.Introduction;
 model Example03c
   "Illustration of conditional statements and the importance of start value"
 
