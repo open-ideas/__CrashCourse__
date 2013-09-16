@@ -25,7 +25,12 @@ model Office "2-zone office building with TABS"
     redeclare IDEAS.Buildings.Validation.BaseClasses.VentilationSystem.None
       ventilationSystem,
     redeclare SimpleOccupant                         occupant,
-    redeclare Lib.Example_IDEAS.HeatingOffice heatingSystem(FHChars=FHCharsArray))
+    standAlone=true,
+    redeclare IDEAS.Thermal.HeatingSystems.Heating_Embedded heatingSystem(
+      FHChars=FHCharsArray,
+      QNom={1000,1000},
+      redeclare IDEAS.Thermal.Components.Production.HP_AirWater heater(
+          modulation_min=30, modulation_start=40)))
     annotation (Placement(transformation(extent={{-38,14},{-18,34}})));
    annotation (experiment(StopTime=86400), __Dymola_experimentSetupOutput);
 end Office;
