@@ -4,7 +4,7 @@ model Connected
 
   Mass mass_a annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
   Mass mass_b(T(start = 400)) annotation (Placement(transformation(extent={{40,-10},{20,10}})));
-  resistor resistor
+  Resistor resistor
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
 equation
   // Energy balance and potential are described by heatport!
