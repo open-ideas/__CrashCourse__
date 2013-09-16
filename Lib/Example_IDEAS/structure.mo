@@ -50,6 +50,7 @@ IDEAS.Buildings.Components.Window south_win(
       extent={{-5.5,-10.5},{5.5,10.5}},
       rotation=90,
       origin={0.5,6.5})));
+
 IDEAS.Buildings.Components.InternalWall wall(
   redeclare IDEAS.Buildings.Data.Insulation.Pur insulationType,
   insulationThickness=0.04,
@@ -68,8 +69,7 @@ IDEAS.Buildings.Components.InternalWall south_floor(
   AWall=74,
   inc=IDEAS.Constants.Floor,
   azi=IDEAS.Constants.South,
-     redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyFloor
-       constructionType)     annotation (Placement(transformation(
+     redeclare Example_IDEAS.IntFloHeaFh constructionType)     annotation (Placement(transformation(
       extent={{-5,-10},{5,10}},
       rotation=90,
       origin={-103,20})));
@@ -79,8 +79,7 @@ IDEAS.Buildings.Components.InternalWall north_floor(
   AWall=74,
   inc=IDEAS.Constants.Floor,
   azi=IDEAS.Constants.South,
-     redeclare IDEAS.Buildings.Validation.Data.Constructions.HeavyFloor
-       constructionType)     annotation (Placement(transformation(
+     redeclare Example_IDEAS.IntFloHeaFh constructionType)     annotation (Placement(transformation(
       extent={{-5,-10},{5,10}},
       rotation=90,
       origin={-103,-40})));
