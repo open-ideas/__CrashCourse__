@@ -2,7 +2,7 @@ within Lib.Example;
 model FixedHeatFlow "Fixes the heat flow in a HeatPort connector"
 
   parameter Modelica.SIunits.HeatFlowRate Q "Heat flowrate";
-  Lib.Connectors.with.HeatPort heatPort
+  Lib.Connectors.With.HeatPort heatPort
     annotation (Placement(transformation(extent={{84,-10},{104,10}})));
 
 equation

@@ -1,5 +1,5 @@
-within Lib.Connectors.without;
-model mass
+within Lib.Connectors.Without;
+model Mass
 
 Modelica.SIunits.Temperature T(start=200) "mass temprature";
 Modelica.SIunits.HeatFlowRate Q_flow "heat exchange";
@@ -23,4 +23,4 @@ C * der(T) = Q_flow;
           extent={{-20,20},{20,-20}},
           lineColor={0,0,255},
           textString="m")}));
-end mass;
+end Mass;

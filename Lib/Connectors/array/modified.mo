@@ -1,13 +1,13 @@
-within Lib.Connectors.array;
-model modified
+within Lib.Connectors.Array;
+model Modified
                // change the default value of each resistance and each masses
 
 parameter Integer n=4;
 parameter Real[n] cvalues={600,1000,400,600}; // Careful: dangerous because length of array dynamic.
 parameter Real[n] Tstarts={500,350,600,200};
 
-  with.mass[n] mass(c=cvalues, T(start=Tstarts))   annotation (Placement(transformation(extent={{-20,-10},{0,10}})));
-  with.resistor[n-1] resistor
+  With.Mass[n] mass(c=cvalues, T(start=Tstarts))   annotation (Placement(transformation(extent={{-20,-10},{0,10}})));
+  With.Resistor[n-1] resistor
     annotation (Placement(transformation(extent={{2,-10},{22,10}})));
 
 equation
@@ -26,4 +26,4 @@ end for;
             -100},{100,100}}), graphics),
         experiment(StopTime=5000),
         __Dymola_experimentSetupOutput);
-end modified;
+end Modified;

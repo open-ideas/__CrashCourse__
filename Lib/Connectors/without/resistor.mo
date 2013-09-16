@@ -1,5 +1,5 @@
-within Lib.Connectors.without;
-model resistor
+within Lib.Connectors.Without;
+model Resistor
 
 Modelica.SIunits.Temperature T_a "Left-side resistor temperature";
 Modelica.SIunits.Temperature T_b "Right-side resistor temperature";
@@ -19,4 +19,4 @@ Q_flow_a + Q_flow_b = 0;
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
             {100,100}}), graphics={Rectangle(extent={{-80,20},{80,-20}},
             lineColor={0,0,255})}));
-end resistor;
+end Resistor;

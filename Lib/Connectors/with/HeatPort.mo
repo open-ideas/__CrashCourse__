@@ -1,4 +1,4 @@
-within Lib.Connectors.with;
+within Lib.Connectors.With;
 connector HeatPort
 Modelica.SIunits.Temperature T "potential";
 flow Modelica.SIunits.HeatFlowRate Q_flow "flow variable";

@@ -1,22 +1,22 @@
-within Lib.Connectors.array;
-model connected
+within Lib.Connectors.Array;
+model Connected
 
-  with.mass mass annotation (Placement(transformation(extent={{-70,30},{-50,50}})));
-  with.mass mass1 annotation (Placement(transformation(
+  With.Mass mass annotation (Placement(transformation(extent={{-70,30},{-50,50}})));
+  With.Mass mass1 annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-20,30})));
-  with.mass mass2 annotation (Placement(transformation(
+  With.Mass mass2 annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={20,30})));
-  with.mass mass3
+  With.Mass mass3
     annotation (Placement(transformation(extent={{70,30},{50,50}})));
-  with.resistor resistor
+  With.Resistor resistor
     annotation (Placement(transformation(extent={{-50,30},{-30,50}})));
-  with.resistor resistor1
+  With.Resistor resistor1
     annotation (Placement(transformation(extent={{30,30},{50,50}})));
-  with.resistor resistor2
+  With.Resistor resistor2
     annotation (Placement(transformation(extent={{-10,30},{10,50}})));
 equation
   connect(mass.heatPort, resistor.heatPort_a) annotation (Line(
@@ -47,4 +47,4 @@ equation
             -100},{100,100}}), graphics),
         experiment(StopTime=5000),
         __Dymola_experimentSetupOutput);
-end connected;
+end Connected;
