@@ -1,8 +1,10 @@
-within CrashCourse.Connectors.array;
+within Lib.Connectors.array;
 model PrescribedTemp
+                     // prescribed temperature
 
-  input Real T;
+  input Real T "input!";
 
+  // convention: heatPort_b = output
     Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_b heatPort annotation (extent=[90,-10; 110,10]);
 equation
   heatPort.T=T;

@@ -1,4 +1,4 @@
-within CrashCourse.Connectors.with;
+within Lib.Connectors.with;
 model mass
 
 Modelica.SIunits.Temperature T(start=200) "mass temprature";
@@ -9,11 +9,12 @@ parameter Modelica.SIunits.SpecificHeatCapacity c = 1600
 final parameter Modelica.SIunits.HeatCapacity C = c*m
     "dangerous without 'final' keyword";
 
-  HeatPort heatPort annotation (Placement(transformation(extent={{52,-10},{72,10}}),
+  HeatPort heatPort "thermal connector" annotation (Placement(transformation(extent={{52,-10},{72,10}}),
         iconTransformation(extent={{52,-10},{72,10}})));
 
 equation
-heatPort.T = T;
+heatPort.T = T; // define the temperature of the connector = to temperature of the mass
+// capacity equation
 C * der(T) = heatPort.Q_flow;
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
             {100,100}}), graphics={Polygon(
