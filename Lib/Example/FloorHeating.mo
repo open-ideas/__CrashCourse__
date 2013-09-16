@@ -13,14 +13,14 @@ model FloorHeating "Model with Pipe connected to layer, Pump and Boiler"
     annotation (Placement(transformation(extent={{42,26},{62,46}})));
   FluidCircuitMerger fluidCircuitMerger
     annotation (Placement(transformation(extent={{26,-14},{36,0}})));
-  Lib.FixedPressure prescribedPressure(p=200000)
+  Lib.Example.FixedPressure prescribedPressure(p=200000)
     annotation (Placement(transformation(extent={{12,52},{32,72}})));
   PipeWithHeatPort boiler(
     dia=0.080,
     T(start=293),
     V_flowNominal=0.001)
     annotation (Placement(transformation(extent={{-22,10},{-42,-10}})));
-  Layer layer(R=0.01,    C=cFloor,
+  Lib.Classes.Layer layer(R=0.01,    C=cFloor,
     redeclare FixedCap c(CNom=80000, T(start=288.15)))
               annotation (Placement(transformation(extent={{-44,58},{-24,78}})));
   OnOffHeatFlow boilerHeatFlow(       onoff=onoff.y, Q=5000)
