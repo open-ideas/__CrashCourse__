@@ -1,4 +1,4 @@
-within CrashCourse_Dymola;
+within Lib.Introduction;
 model Example02b "Solution of a non linear set of equation"
 
   parameter Real a=3;
