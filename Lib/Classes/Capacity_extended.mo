@@ -9,6 +9,6 @@ model Capacity_extended "Another example of extending an existing class"
   Boolean heatLoss(start=false);
 
 algorithm
-  heatLoss :=heatPort.Q_flow < 0;
+  heatLoss := heatPort.Q_flow < 0;
 
 end Capacity_extended;
