@@ -7,8 +7,8 @@ parameter Real[n] Tstarts={500,350,600,200};
   With.Mass[n] mass(c=cvalues, T(start=Tstarts))   annotation (Placement(transformation(extent={{-20,-10},{0,10}})));
   With.Resistor[n-1] resistor
     annotation (Placement(transformation(extent={{2,-10},{22,10}})));
-PrescribedTemp TSet(T=step.y);
-Modelica.Blocks.Sources.Step step(height=50,startTime=3000,offset=300); // use modelica's library! Step input source
+PrescribedTemp TSet(T=sine.y);
+Modelica.Blocks.Sources.Sine sine(amplitude=100,freqHz=0.0001); // use modelica's library! Step input source
 
 equation
 for i in 1:n-1 loop
@@ -22,6 +22,6 @@ connect(mass[i+1].heatPort,resistor[i].heatPort_b) annotation (Line(
       smooth=Smooth.None));
 end for;
 
-connect(TSet.heatPort,resistor[1].heatPort_b);
+connect(TSet.heatPort,resistor[3].heatPort_b);
 
 end Array_TSet;
