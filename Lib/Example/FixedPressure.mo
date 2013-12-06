@@ -7,7 +7,14 @@ model FixedPressure "Fixes the absolute pressure in a hydraulic circuit"
 equation
   flowPort.m_flow=0;
   flowPort.p=p;
-  annotation (Icon(graphics={Text(
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{100,100}}),
+                   graphics={Ellipse(
+          extent={{-100,100},{98,-100}},
+          lineColor={0,0,255},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+                             Text(
           extent={{-16,22},{16,-18}},
           lineColor={0,0,255},
           fillColor={255,128,0},

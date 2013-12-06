@@ -1,5 +1,6 @@
 within Lib.Connectors.Without;
 model Connected
+  "Model of two thermal mass connected to each other by a thermal resistance."
 
   Mass mass_a "object of type mass" annotation (Placement(transformation(extent={{-40,-10},{-20,10}})));
   Mass mass_b(T(start = 400)) "use of modifier" annotation (Placement(transformation(extent={{20,-10},{40,10}})));

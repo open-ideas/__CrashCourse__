@@ -1,7 +1,8 @@
 within Lib.Connectors.Without;
 model Mass
+  "Thermal mass model. The model is unbalanced because it lacks an equation (for T or for Q_flow)"
 
-Modelica.SIunits.Temperature T(start=200) "mass temprature";
+Modelica.SIunits.Temperature T(start=273.15) "mass temperature";
 Modelica.SIunits.HeatFlowRate Q_flow "heat exchange";
 
 parameter Modelica.SIunits.Mass m = 1.5 "mass, in kg";

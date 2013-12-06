@@ -19,6 +19,13 @@ heatPort_a.Q_flow = (heatPort_a.T - heatPort_b.T) / R;
 // conservation of energy
 heatPort_a.Q_flow + heatPort_b.Q_flow = 0;
 
-  annotation (Icon(graphics={Rectangle(extent={{-80,20},{80,-20}}, lineColor={0,
-              0,255})}));
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{100,100}}),
+                   graphics={Rectangle(extent={{-80,20},{80,-20}}, lineColor={0,
+              0,255}), Text(
+          extent={{-92,-30},{98,-72}},
+          lineColor={0,0,255},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid,
+          textString="%name")}));
 end Resistor;

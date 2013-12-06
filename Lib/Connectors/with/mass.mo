@@ -1,7 +1,7 @@
 within Lib.Connectors.With;
 model Mass
 
-Modelica.SIunits.Temperature T(start=200) "mass temprature";
+Modelica.SIunits.Temperature T(start=273.15) "mass temprature";
 
 parameter Modelica.SIunits.Mass m = 1.5 "mass, in kg";
 parameter Modelica.SIunits.SpecificHeatCapacity c = 1600
@@ -25,5 +25,11 @@ C * der(T) = heatPort.Q_flow;
           smooth=Smooth.None), Text(
           extent={{-20,20},{20,-20}},
           lineColor={0,0,255},
-          textString="m")}));
+          textString="m"),
+        Text(
+          extent={{-84,-60},{106,-102}},
+          lineColor={0,0,255},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid,
+          textString="%name")}));
 end Mass;

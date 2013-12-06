@@ -1,5 +1,6 @@
 within Lib.Connectors.Without;
 model Resistor
+  "Thermal resistance model. Model is singular when it is use alone because it lacks two equation (for T_a / T_b or for Q_flow_a Q_flow_b)"
 
 Modelica.SIunits.Temperature T_a "Left-side resistor temperature";
 Modelica.SIunits.Temperature T_b "Right-side resistor temperature";

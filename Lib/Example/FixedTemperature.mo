@@ -7,7 +7,12 @@ model FixedTemperature "Fixes the temperature in a HeatPort"
 
 equation
   heatPort.T=T;
-  annotation (Icon(graphics={Text(
+  annotation (Icon(graphics={Rectangle(
+          extent={{-100,100},{100,-100}},
+          lineColor={0,0,255},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+                             Text(
           extent={{-46,44},{52,-56}},
           lineColor={0,0,255},
           textString="T")}));
