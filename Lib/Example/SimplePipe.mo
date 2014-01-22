@@ -28,9 +28,14 @@ equation
   flowPort_a.p-flowPort_b.p=dp;
   V_flow=flowPort_a.m_flow/rho_water;
 
-  annotation (Diagram(graphics), Icon(graphics={Rectangle(
+  annotation (Diagram(graphics), Icon(coordinateSystem(preserveAspectRatio=
+            false, extent={{-100,-100},{100,100}}),
+                                      graphics={Rectangle(
           extent={{-94,8},{94,-8}},
           lineColor={0,0,255},
           fillColor={0,0,255},
-          fillPattern=FillPattern.Solid)}));
+          fillPattern=FillPattern.Solid), Text(
+          extent={{-100,80},{100,40}},
+          lineColor={0,0,255},
+          textString="%name")}));
 end SimplePipe;

@@ -13,5 +13,8 @@ equation
           extent={{-86,80},{76,-78}},
           lineColor={0,0,255},
           fillColor={170,170,255},
-          fillPattern=FillPattern.Solid)}));
+          fillPattern=FillPattern.Solid), Text(
+          extent={{-100,70},{100,30}},
+          lineColor={0,0,255},
+          textString="%name")}));
 end FlowBoundary;

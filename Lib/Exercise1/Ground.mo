@@ -1,6 +1,6 @@
 within Lib.Exercise1;
 model Ground
-extends OnePin;
+  extends OnePin;
 
 equation
   v = 0;

@@ -1,5 +1,6 @@
 within Lib.Connectors.Array;
 model Array_TSet
+                 // SIMULATE!
 parameter Integer n=4;
 parameter Real[n] cvalues={600,1000,400,600}; // write the modifiers as parameters
 parameter Real[n] Tstarts={500,350,600,200};

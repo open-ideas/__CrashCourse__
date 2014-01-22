@@ -13,5 +13,8 @@ equation
           extent={{-86,80},{76,-78}},
           lineColor={0,0,255},
           fillColor={170,170,255},
-          fillPattern=FillPattern.Solid)}));
+          fillPattern=FillPattern.Solid), Text(
+          extent={{-102,64},{98,24}},
+          lineColor={0,0,255},
+          textString="%name")}));
 end FlowBoundary_OnlyPressure;

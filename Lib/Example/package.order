@@ -4,7 +4,6 @@ SimplePipe
 SimplePump
 FixedHeatFlow
 FixedPressure
-FluidCircuitMerger
 PipePump
 PipeWithHeatPort
 FlowBoundary

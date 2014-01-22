@@ -19,5 +19,9 @@ equation
           lineThickness=0.5,
           fillColor={255,128,0},
           fillPattern=FillPattern.Solid,
-          textString="Q")}));
+          textString="Q"),
+        Text(
+          extent={{-100,90},{100,50}},
+          lineColor={0,0,255},
+          textString="%name")}));
 end FixedHeatFlow;

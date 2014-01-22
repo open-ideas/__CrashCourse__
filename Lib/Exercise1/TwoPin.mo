@@ -11,6 +11,7 @@ partial model TwoPin
 
 equation
   v = pin_a.v - pin_b.v;
-  0 = pin_a.i + pin_b.i;
   i = pin_a.i;
+  pin_a.i + pin_b.i = 0;
+
 end TwoPin;

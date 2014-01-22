@@ -36,5 +36,8 @@ equation
           extent={{-94,8},{94,-8}},
           lineColor={0,0,255},
           fillColor={0,0,255},
-          fillPattern=FillPattern.Solid)}));
+          fillPattern=FillPattern.Solid), Text(
+          extent={{-98,90},{102,50}},
+          lineColor={0,0,255},
+          textString="%name")}));
 end PipeWithHeatPort;

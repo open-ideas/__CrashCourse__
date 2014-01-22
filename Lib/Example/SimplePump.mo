@@ -13,5 +13,9 @@ equation
           lineColor={0,0,255},
           lineThickness=0.5,
           smooth=Smooth.None,
-          fillPattern=FillPattern.Solid)}));
+          fillPattern=FillPattern.Solid),
+        Text(
+          extent={{-100,96},{100,56}},
+          lineColor={0,0,255},
+          textString="%name")}));
 end SimplePump;
