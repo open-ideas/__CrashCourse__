@@ -1,6 +1,4 @@
-crashcourse
-===========
+Crash course
+============
 
-This repository contains the document for the Modelica and IDEAS.mo introductionary crash course at KU Leuven.
-
-The directory Lib contains the Modelica files, Code the Python scripts and Slides the presentations required for the crash course. 
+This repository contains basic documentation for **Modelica**, the **Modelica Standard Library** and **IDEAS** used in introductionary crash courses at KU Leuven. The directory Lib contains the Modelica files, Python scripts and powerpoint slides required for the course. 
