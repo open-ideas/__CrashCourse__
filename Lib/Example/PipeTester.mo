@@ -9,8 +9,7 @@ model PipeTester "Xtremely basic pipe tester"
     annotation (Placement(transformation(extent={{10,20},{30,40}})));
   Lib.Classes.Layer layer
     annotation (Placement(transformation(extent={{-62,54},{-42,74}})));
-  Connectors.Array.PrescribedTemp
-                 prescribedTemp
+  ThermalMasses.Array.PrescribedTemp prescribedTemp
     annotation (Placement(transformation(extent={{-100,54},{-80,74}})));
 equation
   connect(flowBoundary.flowPort, simplePipe.flowPort_a) annotation (Line(
