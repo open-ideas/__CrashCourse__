@@ -1,0 +1,34 @@
+Attendance Crash Course Modelica
+--------------------------------
+
+Kristof Vandamme:														OK		OK
+Wouter Mistiaen															NO
+Paul Lacko																OK
+Joris Coddé
+Jelle.Laverge@UGent.be:													OK
+lien.debacker@ugent.be
+peterj.devlieger@ugent.be												OK		OK
+elisa.vankenhove@ugent.be
+Filip Corten
+Seppe Delmeiren															OK
+Ine Huybreghs
+Gertjan Van den Bossche <gertjan.vandenbossche@student.kuleuven.be>; 
+Marijn Verstappen <marijn.verstappen@student.kuleuven.be>				OK
+Arnout Aertgeerts (arnoutaertgeerts@gmail.com)
+robbe salenbien (robbe.salenbien@vito.be)
+Geert.Bauwens@bwk.kuleuven.be											OK
+Wouter.VanDeWalle@bwk.kuleuven.be										OK
+gertjan.vandenbossche@student.kuleuven.be								OK		OK
+b.vanderh@hotmail.com													OK
+jad.alkoussa@vito.be													OK
+wout parijs																OK
+arnoutaertgeerts@gmail.com												OK
+
+Cc: Roel De Coninck
+Dirk Saelens
+Lieve Helsen
+Ruben Baetens
+Christina Protopapadaki
+Filip Jorissen
+Mats Vande Cavey
+Dieter Patteeuw
