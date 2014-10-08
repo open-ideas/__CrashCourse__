@@ -1,31 +1,7 @@
 within Lib.Example_IDEAS;
 model Structure "Building envelope model"
-  extends IDEAS.Interfaces.BaseClasses.Structure( nZones=2);
+  extends IDEAS.Interfaces.BaseClasses.Structure( final nZones=2, final nEmb = 2);
 
-  IDEAS.Fluid.Sources.FixedBoundary bou(nPorts=1, redeclare package Medium =
-        IDEAS.Media.Air) annotation (Placement(transformation(
-        extent={{-5,-5},{5,5}},
-        rotation=-90,
-        origin={79,-17})));
-
-  IDEAS.Fluid.Sources.MassFlowSource_T boundary(nPorts=1, redeclare package
-      Medium = IDEAS.Media.Air) annotation (Placement(transformation(
-        extent={{-6,-6},{6,6}},
-        rotation=-90,
-        origin={62,-16})));
-
-  IDEAS.Fluid.Sources.FixedBoundary bou1(
-                                        nPorts=1, redeclare package Medium =
-        IDEAS.Media.Air) annotation (Placement(transformation(
-        extent={{-5,-5},{5,5}},
-        rotation=-90,
-        origin={79,69})));
-  IDEAS.Fluid.Sources.MassFlowSource_T boundary1(
-                                                nPorts=1, redeclare package
-      Medium = IDEAS.Media.Air) annotation (Placement(transformation(
-        extent={{-6,-6},{6,6}},
-        rotation=-90,
-        origin={62,70})));
 public
 IDEAS.Buildings.Components.Zone north(                  V=39.2, nSurf=6)
     "north zone of office area"
@@ -222,30 +198,14 @@ equation
       points={{80,-48},{116,-48},{116,-15},{150,-15}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(boundary.ports[1], south.flowPort_Out) annotation (Line(
-      points={{62,-22},{62,-26},{68,-26},{68,-32}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(bou.ports[1], south.flowPort_In) annotation (Line(
-      points={{79,-22},{79,-26},{72,-26},{72,-32}},
-      color={0,127,255},
-      smooth=Smooth.None));
 
   connect(north_floor.port_emb, heatPortEmb[1]) annotation (Line(
-      points={{-59,26},{-50,26},{-50,60},{150,60}},
+      points={{-59,26},{-50,26},{-50,55},{150,55}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(south_floor.port_emb, heatPortEmb[2]) annotation (Line(
-      points={{-59,-54},{-50,-54},{-50,60},{150,60}},
+      points={{-59,-54},{-50,-54},{-50,65},{150,65}},
       color={191,0,0},
-      smooth=Smooth.None));
-  connect(bou1.ports[1], north.flowPort_In) annotation (Line(
-      points={{79,64},{76,64},{76,52},{72,52},{72,48}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(boundary1.ports[1], north.flowPort_Out) annotation (Line(
-      points={{62,64},{62,52},{68,52},{68,48}},
-      color={0,127,255},
       smooth=Smooth.None));
   connect(pulse.y, south_win.Ctrl) annotation (Line(
       points={{21,-80},{32,-80},{32,-58.8},{21,-58.8}},
@@ -260,6 +220,22 @@ equation
       points={{-113,-51},{-113,-39.6667},{60,-39.6667}},
       color={255,204,51},
       thickness=0.5,
+      smooth=Smooth.None));
+  connect(north.flowPort_Out, flowPort_Out[1]) annotation (Line(
+      points={{68,48},{68,72},{-20,72},{-20,95}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(north.flowPort_In, flowPort_In[1]) annotation (Line(
+      points={{72,48},{72,78},{20,78},{20,95}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(south.flowPort_Out, flowPort_Out[2]) annotation (Line(
+      points={{68,-32},{68,20},{30,20},{30,72},{-20,72},{-20,105}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(south.flowPort_In, flowPort_In[2]) annotation (Line(
+      points={{72,-32},{72,22},{36,22},{36,78},{20,78},{20,105}},
+      color={0,0,0},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-150,
             -100},{150,100}}), graphics));
