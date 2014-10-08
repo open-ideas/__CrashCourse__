@@ -68,9 +68,10 @@ IDEAS.Buildings.Components.InternalWall south_floor(
   inc=IDEAS.Constants.Floor,
   azi=IDEAS.Constants.South,
     AWall=11.88,
-    redeclare Lib.Example_IDEAS.Data.Constructions.IntFloor constructionType,
     redeclare IDEAS.Buildings.Data.Insulation.none insulationType,
-    insulationThickness=0) "Floor as well as roof of the south zone"
+    insulationThickness=0,
+    redeclare Lib.Example_IDEAS.Data.Constructions.IntFloorHeaFh
+      constructionType) "Floor as well as roof of the south zone"
                                                                annotation (Placement(transformation(
       extent={{5,-10},{-5,10}},
       rotation=90,
@@ -79,9 +80,10 @@ IDEAS.Buildings.Components.InternalWall north_floor(
   inc=IDEAS.Constants.Floor,
   azi=IDEAS.Constants.South,
     AWall=11.88,
-    redeclare Lib.Example_IDEAS.Data.Constructions.IntFloor constructionType,
     redeclare IDEAS.Buildings.Data.Insulation.none insulationType,
-    insulationThickness=0) "Floor as well as roof of the north zone"
+    insulationThickness=0,
+    redeclare Lib.Example_IDEAS.Data.Constructions.IntFloorHeaFh
+      constructionType) "Floor as well as roof of the north zone"
                                                                annotation (Placement(transformation(
       extent={{5,-10},{-5,10}},
       rotation=90,
@@ -114,8 +116,6 @@ IDEAS.Buildings.Components.InternalWall north_floor(
         extent={{-5,-10},{5,10}},
         rotation=90,
         origin={-109,-54})));
-
-        //shading and schedule to be discussed
 
 equation
   connect(north_win.propsBus_a, north.propsBus[1]) annotation (Line(
@@ -194,16 +194,12 @@ equation
       smooth=Smooth.None));
 
   connect(north_floor.port_emb, heatPortEmb[1]) annotation (Line(
-      points={{-59,26},{-50,26},{-50,60},{150,60}},
+      points={{-59,26},{-50,26},{-50,55},{150,55}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(south_floor.port_emb, heatPortEmb[2]) annotation (Line(
-      points={{-59,-54},{-50,-54},{-50,60},{150,60}},
+      points={{-59,-54},{-50,-54},{-50,65},{150,65}},
       color={191,0,0},
-      smooth=Smooth.None));
-  connect(pulse.y, south_win.Ctrl) annotation (Line(
-      points={{21,-80},{32,-80},{32,-58.8},{21,-58.8}},
-      color={0,0,127},
       smooth=Smooth.None));
   connect(north_common.propsBus_a, north.propsBus[6]) annotation (Line(
       points={{-113,31},{-113,40.3333},{60,40.3333}},

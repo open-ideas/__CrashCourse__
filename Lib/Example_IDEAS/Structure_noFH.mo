@@ -48,7 +48,7 @@ IDEAS.Buildings.Components.Window south_win(
      azi=IDEAS.Constants.South,
     redeclare Lib.Example_IDEAS.Data.Materials.Glazing glazing,
     redeclare Lib.Example_IDEAS.Data.Materials.Frame fraType,
-    redeclare IDEAS.Buildings.Components.Shading.Screen shaType(controled=true))
+    redeclare IDEAS.Buildings.Components.Shading.None shaType)
     "Window of the south zone"                                              annotation (Placement(transformation(
       extent={{-5.5,-10.5},{5.5,10.5}},
       rotation=90,
@@ -68,9 +68,10 @@ IDEAS.Buildings.Components.InternalWall south_floor(
   inc=IDEAS.Constants.Floor,
   azi=IDEAS.Constants.South,
     AWall=11.88,
-    redeclare Lib.Example_IDEAS.Data.Constructions.IntFloor constructionType,
     redeclare IDEAS.Buildings.Data.Insulation.none insulationType,
-    insulationThickness=0) "Floor as well as roof of the south zone"
+    insulationThickness=0,
+    redeclare Lib.Example_IDEAS.Data.Constructions.IntFloorHeaFh
+      constructionType) "Floor as well as roof of the south zone"
                                                                annotation (Placement(transformation(
       extent={{5,-10},{-5,10}},
       rotation=90,
@@ -79,9 +80,10 @@ IDEAS.Buildings.Components.InternalWall north_floor(
   inc=IDEAS.Constants.Floor,
   azi=IDEAS.Constants.South,
     AWall=11.88,
-    redeclare Lib.Example_IDEAS.Data.Constructions.IntFloor constructionType,
     redeclare IDEAS.Buildings.Data.Insulation.none insulationType,
-    insulationThickness=0) "Floor as well as roof of the north zone"
+    insulationThickness=0,
+    redeclare Lib.Example_IDEAS.Data.Constructions.IntFloorHeaFh
+      constructionType) "Floor as well as roof of the north zone"
                                                                annotation (Placement(transformation(
       extent={{5,-10},{-5,10}},
       rotation=90,
@@ -116,12 +118,6 @@ IDEAS.Buildings.Components.InternalWall north_floor(
         origin={-109,-56})));
 
         //shading and schedule to be discussed
-  Modelica.Blocks.Sources.Pulse pulse(
-    width=2/24,
-    period=86400,
-    startTime=13*60*60)
-    "Example schedule of shading control (to be fixed, especially startTime)"
-    annotation (Placement(transformation(extent={{0,-90},{20,-70}})));
 
 equation
   connect(north_win.propsBus_a, north.propsBus[1]) annotation (Line(
@@ -199,10 +195,6 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
 
-  connect(pulse.y, south_win.Ctrl) annotation (Line(
-      points={{21,-80},{32,-80},{32,-58.8},{21,-58.8}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(north_common.propsBus_a, north.propsBus[6]) annotation (Line(
       points={{-113,33},{-113,40.3333},{60,40.3333}},
       color={255,204,51},

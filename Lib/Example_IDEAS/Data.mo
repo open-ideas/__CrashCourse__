@@ -86,7 +86,7 @@ package Data
              Data.Materials.Plaster(d=0.02)});
     end IntWall;
 
-    model IntFloorHeaFh "Int. concrete floor, insulated for floor heating"
+    record IntFloorHeaFh "Int. concrete floor, insulated for floor heating"
 
       extends IDEAS.Buildings.Data.Interfaces.Construction(
         nLay=5, locGain=2,

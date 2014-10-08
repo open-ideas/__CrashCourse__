@@ -30,13 +30,13 @@ equation
   Q[1] = 0;
 
   if noEvent(t <= 7 or t >= 23) then
-    heatPortCon.Q_flow = -AFloor*QDay[3]*0.5;
+    heatPortCon.Q_flow = -AZones*QDay[3]*0.5;
     TSet = ones(nZones)*(18 + 273.15);
   elseif noEvent(t > 7 and t <= 17) then
-    heatPortCon.Q_flow = -AFloor*QDay[1]*0.5;
+    heatPortCon.Q_flow = -AZones*QDay[1]*0.5;
     TSet = ones(nZones)*(16 + 273.15);
   else
-    heatPortCon.Q_flow = -AFloor*QDay[2]*0.5;
+    heatPortCon.Q_flow = -AZones*QDay[2]*0.5;
     TSet = ones(nZones)*(21 + 273.15);
   end if;
 
