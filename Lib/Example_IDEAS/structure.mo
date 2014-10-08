@@ -1,6 +1,6 @@
 within Lib.Example_IDEAS;
 model Structure "Building envelope model"
-  extends IDEAS.Interfaces.BaseClasses.Structure( nZones=2);
+  extends IDEAS.Interfaces.BaseClasses.Structure( final nZones=2, final nEmb = 2);
 
 public
 IDEAS.Buildings.Components.Zone north(                  V=39.2, nSurf=6)
@@ -200,6 +200,10 @@ equation
   connect(south_floor.port_emb, heatPortEmb[2]) annotation (Line(
       points={{-59,-54},{-50,-54},{-50,60},{150,60}},
       color={191,0,0},
+      smooth=Smooth.None));
+  connect(pulse.y, south_win.Ctrl) annotation (Line(
+      points={{21,-80},{32,-80},{32,-58.8},{21,-58.8}},
+      color={0,0,127},
       smooth=Smooth.None));
   connect(north_common.propsBus_a, north.propsBus[6]) annotation (Line(
       points={{-113,31},{-113,40.3333},{60,40.3333}},

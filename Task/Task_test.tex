@@ -1,0 +1,748 @@
+% Documentklasse
+\documentclass[a4paper,oneside,11pt]{report}
+
+
+% Packages laden
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=2cm]{geometry}		% paginagrootte
+%\usepackage{a4wide}
+\usepackage{parskip}									% andere regels voor nieuwe paragraaf: witregel + niet inspringen
+
+\usepackage[english]{babel}						%	spelling en woordafbreking (Engles)
+\usepackage[latin1]{inputenc}					% invoer van speciale tekens (bvb. Umlaut)
+\usepackage[T1]{fontenc}							% weergave van speciale tekens (bvb. Umlaut)
+\usepackage{lmodern}									% betere weergave van speciale tekens (bvb. Umlaut)
+\usepackage{dsfont}	
+\usepackage{amsfonts,amsthm, tabularx}					% wiskundige symbolen and table of equations
+%\usepackage[fleqn]{amsmath}
+
+\usepackage{graphicx,subfigure}				% figuren
+\usepackage{float}										% plaatsen van figuren en tabellen
+\usepackage[format=plain,
+						indent=1cm]{caption}			% personaliseren van onderschriften
+
+\usepackage{eurosym}									% sign of euro
+
+% Instellingen voor document
+\graphicspath{{Figuren/}}             % bestandslocatie van in te voegen figuren
+\renewcommand{\arraystretch}{1.1}			% tabelrijen iets hoger maken
+
+\usepackage[squaren,Gray]{SIunits}
+\usepackage{amsmath,amsfonts,amsthm,mathrsfs,MnSymbol}	% wiskundige symbolen
+\renewcommand*\thesection{\arabic{section}}
+\DeclareMathOperator*{\argmin}{\arg\!\min}
+\usepackage{pifont}							
+
+\setcounter{secnumdepth}{3}		% Enable subsubsection numbering
+\setcounter{tocdepth}{3}		% Include subsubsection in table of content
+
+\usepackage{color}				% Load the color package: \color{declared-color}{text}. If also background:
+								% \colorbox{declared-color1}{\color{declared-color2}text}
+
+
+%%%%%%%%%%
+%% Body %%
+%%%%%%%%%%
+\begin{document}
+
+\title{Report on borefield modelling}
+\date{October 2013}
+\author{Damien Picard\\ KU Leuven}
+        
+\maketitle
+
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{General considerations on heat diffusion} \label{chap:heat}
+
+\section{Heat equation} \label{sec:heat_heatEqu}
+
+\begin{equation} \label{eq:heat_Fou}
+	q_{cond}^{"} = -k \ \nabla T
+\end{equation}
+
+\begin{equation} \label{eq:heat_conv}
+	q_{conv}^{"} = h ( T_s - T_\infty )
+\end{equation}
+
+\begin{equation} \label{eq:heat_rad}
+	q_{rad}^{"} = \epsilon \sigma ( T_s^4 - T_{sur}^4 )
+\end{equation}
+
+For constant physical properties, the energy equation describing the heat conduction within a solid body consists of a linear second-order partial differential equation.
+
+\begin{equation} \label{eq:heat_heatDif}
+	\left[ \frac{1}{\alpha} \frac{\partial}{\partial t} - \nabla^2 \right] T = q^{'''} \ \ \ \Leftrightarrow \ \ \ \frac{1}{\alpha} \frac{\partial T}{\partial t} = \nabla^2 T + q^{'''}  \ \ \ \Leftrightarrow \ \ \ \rho c \frac{\partial T}{\partial t} = - k \nabla q + q^{'''}
+\end{equation}
+
+If the thermal conductivity is temperature dependent, eq. \ref{eq:heat_heatDif} becomes non-linear.
+
+..
+
+Refer to books for analytical solution
+
+in progress... : check oefz ruben en WO
+
+\section{Superposition in space and time: principle and limitations}  \label{sec:heat_sup}
+
+An important feature of the heat diffusion equation (eq. \ref{eq:heat_heatDif}) with constant physical properties, is its linearity. If the boundary conditions are linear too, the final solution of the equation can be constructed by using the superposition method. This means that the complex problem can be simplified into the superposition of a number of much simpler problems. This property is used to solve numerous heat diffusion problems, as shown for exemple in Weigand 2004 \cite{wei04}.
+
+
+In the following paragraph, the superposition principle will be illustrated in the time and in the space for a single borehole and for a borefield, respectively.
+
+Let us approximate a borehole by a finite line-source with power $q(t)$ per unit length. Let us assume that the ground has an homogeneous composition, that its physical properties are constant, that the heat transfer towards the surface is negligible and that the temperature gradient of the ground at time $t=0$ is zero. For these boundary conditions eq. \ref{eq:heat_heatDif} can be solved analytically for $q(t) = a \ if \ \ t \geq 0 \ , q(t) = 0 \ if \ \ t < 0$ with $a$ a constant. This corresponds to the step-response of the borehole. Because both eq. \ref{eq:heat_heatDif} and the boundary conditions are linear, the solution for $q(t)$ stepwise constant in the time can be found as the superposition of the time-shifted and scaled step-response of the borehole. This superposition in the time is illustrated in fig. \ref{fig:heat_sup}.
+
+\begin{figure}[hbtp] 
+	\centering
+	\includegraphics[width=0.8 \textwidth]{Image/supGroRes.PNG}
+	\caption{ Superposition principle in the time for a single borehole. Left: load input. Center: Decomposition of the load into loads of infinite duration. Right: temperature response of the borehole. The bolt line is the superposition of the induvidual time-shifted and scaled step-responses.}
+	\label{fig:heat_sup}
+\end{figure}
+
+As an extension of the previous example, let us consider a borefield composed of $N$ boreholes randomly distributed in a limited ground area and with the same boundary conditions as previously. If each borehole is approximated by a finite line-source with power $q_i(t)$ and $q_j(t)$ is independent of $q_i(t) \  \forall i \neq j$, the system and its boundary conditions are still linear. The line-sources being infinitely thin and flux driven, they do not hinder the initial boundary conditions. The spatial superposition holds and the global temperature distribution of the ground can therefore be described as the superposition (i.e. the sum) of the temperature distribution of each borehole. Note, however, that in reality \textit{(i)} a borehole is a convective-conductive system and not flux driven. It depends therefore on the ground temperature and so on the neighbouring boreholes; \textit{(ii)} the individual $q_i(t)$ are not known but only the sum of them which is equal to the extracted / injected heat by the heat pump; \textit{(iii)} each borehole has a finite thickness and it is composed of a different material as the ground. It will therefore interfere with the heat flux and so interfere with the initial boundary conditions. In general, the closer the boreholes are from each other, the less accurate the line-source approximation and its superposition method are. This is nicely illustrated in Malayappan 2012 \cite{mal12}.
+
+\section{The resistive-capacitive approximation method} \label{sec:heat_rc}
+The general heat diffusion equation (eq. \ref{eq:heat_heatDif}) is a complex differential equation which can only be solved analytical for some specific boundary conditions. In some cases, it can be simplified or approximated. Different approximation models and analytical solutions can be found in heat transfer books (e.g. Incropera et al. 2006 \cite{Inc06}, Carslaw and Jaeger 1992 \cite{jae59}, ... ).
+
+This section introduces the lumped capacitance model and describes the resistance-capacitance network approximation.
+
+	\subsection{Lumped capacitance method} \label{ssec:heat_lump}
+The lumped capacitance method is an approximation used for transient conduction problem where a solid undergoes a sudden change of its thermal environment. It gives accurate results if the temperature gradient within the solid is negligible, i.g. if its Biot number ($Bi$) is smaller that 0.1 (see fig. \ref{fig:heat_biot}). $Bi$ is a dimensionless number corresponding to the ratio between the convection coefficient $h$ at the surface of the solid time the characteristic length $L_c$, and the conduction coefficient $k$ (eq. \ref{eq:heat_Biot}).
+
+\begin{equation} \label{eq:heat_Biot}
+	Bi \equiv \frac{h L_c}{ k }
+\end{equation}
+
+\begin{figure}[hbtp] 
+	\centering
+	\includegraphics[width=0.7 \textwidth]{Image/biot.PNG}
+	\caption{ Transient temperature distributions for different Biot numbers in a plane wall symmetrically cooled by convection (Incropera et al., p260, \cite{Inc06}) }
+	\label{fig:heat_biot}
+\end{figure}
+
+By neglecting the temperature gradient in the solid, Fourier's law is not any more respected and the heat diffusion equation should therefore not be used but instead, the conservation of energy. This states that the internal energy change of the solid should equal the heat transfer from the thermal environment to the solid (eq. \ref{eq:heat_eneEq}).
+\begin{equation} \label{eq:heat_eneEq}
+	\rho V c \frac{dT}{dt} = - h A_s (T - T_\infty) \ \ ,
+\end{equation}
+with $\rho, V, c, T$ and $A_s$ the density, the volume, the heat capacity, the temperature and the surface of the solid, $h$ the convection coefficient at the surface of the solid and $T_\infty$ the temperature of the fluid (thermal environment) respectively.
+
+For constant $T_\infty$ and for a solid temperature $T_i$ at time $t=0$, the evolution of the solids temperature in the time is given by (solution of eq. \ref{eq:heat_eneEq}):
+\begin{equation} \label{eq:heat_eneSol}
+	\frac{T - T_\infty}{T_i - T_\infty} = \exp\left[ - \left( \frac{h A_s}{\rho V c} \right) t \right] = \exp( - Bi * Fo) \ \ ,
+\end{equation}
+with $Fo$ the Fourier number ($Fo = \alpha t / L_c^2$).
+
+Notice that the time constant of the exponent (called \textit{thermal time constant}, $\tau_t$) corresponds to the product of the convective resistance $R_t$ and the thermal capacity $C_t$ of the solid (eq. \ref{eq:heat_time}).
+\begin{equation} \label{eq:heat_time}
+	\tau_t = \left( \frac{1}{h A_s} \right) ( \rho V c ) = R_t C_t
+\end{equation}
+
+The lumped capacitance method can also be used for more general cases where the thermal process is composed of conduction, convection, radiation, surface heat flux and intern heat generation. More information can be found in, e.g., Incropera 2006 \cite{Inc06}, p256-272.
+
+	\subsection{Resistance-capacitance network} \label{ssec:heat_net}
+	
+The lumped capacity approach can also be described as a volume discretization of the heat equation. Let us consider a solid with volume $V_1$ and $N$ surfaces $A_i$ in contact with a fluid and with an internal heat production $q'''(x,y,z)$. The integration of eq. \ref{eq:heat_heatDif} is then
+\begin{equation} \label{eq:heat_heatDifInt}
+	\frac{\partial }{\partial t} \int_{V_1} \rho c T dV = \int_{V_1} - k \nabla q dV + \int_{V_1} q^{'''} dV \ \ .
+\end{equation}
+The lumped capacity model corresponds to the approximation of the left-hand-side term and the second right-hand-side term by their volume average value (resp. $\bar{T}$ and $\bar{q}^{'''}$) and the approximation of the integral of the Fourier fluxes by the surface heat fluxes ($Q_i$) (eq. \ref{eq:heat_heatDifInt2}).
+\begin{equation} \label{eq:heat_heatDifInt2}
+	V_1 \rho c \frac{d\bar{T}}{dt} = \sum_{i}^{N} Q_i + \bar{q}^{'''} V_1 \ \ .
+\end{equation}
+
+Eq. \ref{eq:heat_heatDifInt2} is only valid for negligible temperature gradient in the solid, which means
+\begin{equation} \label{eq:heat_RC_con}
+	Bi \leq 0.1 \ \ \ \& \ \ \ Fo \geq \frac{1}{Bi} \ \ .
+\end{equation}
+
+Different lumped capacitance model can also be combined into a network (called \textit{RC-network}), as long as eq. \ref{eq:heat_RC_con} holds. Notice that the resistance values are determined by the high convection resistances \textit{between} the different volumes and not the conduction resistances \textit{of} the volume which are negligible.
+
+
+Resistance-capacitance models are used extensively to described thermal processes in buildings. The generally high inertia of buildings (high Fo-number) and the generally low Bi-number (convective resistance of, e.g. air along a wall, $\gg$  conduction resistance, e.g. conduction through wall) ensure relatively good results for this method. RC-models are, however, only rough approximation of the reality, espacially when use for discretization. Special care should therefore be paid when using such models. Experimental or numerical validation and parameter fitting are often necessary. 
+
+A nice example of using RC-models as discretization model is the approximation of the radial heat transfer in the ground around a single borehole. Assume a single borehole in a homogeneous ground with no temperature gradient at time $t=0$ and let us apply a heat flux step input. The solution of this cylindrical heat diffusion problem is given by eq. \ref{eq:bf_cylSouSol}. The heat diffusion can also be approximated by a RC-netwerk which discretized the ground, as employed for example by Eskilson 1987 \cite{esk87}. Figure \ref{fig:heat_rcErr} shows the evolution of the error between the analytical solution and the RC-network approximation for different number of capacities with an exponential grid. For this situation ($k = 3.25 $W/mK, $\rho = 1920$ kg/m3 and $c = 1550$ J/kgK) it is clear that a minimum of eight capacities is required for an accurate approximation.
+
+\begin{figure}[hbtp] 
+	\centering
+	\includegraphics[width=1 \textwidth]{Image/RC_disErr.PNG}
+	\caption{ Left: RC-network. Right: Error on the wall temperature of the borehole between the RC-model and the analytical solution. ($k =$=3.25 W/mK, $\rho =$ 1920 kg/m3 and $c =$ 1550 J/kgK).}
+	\label{fig:heat_rcErr}
+\end{figure}
+
+	\subsection{$\Delta$-Y and Y-$\Delta$ transformation} \label{ssec:heat_delY}
+The $\Delta$-Y transformation is a mathematical technique to simplify the analysis of RC networks. It establishes equivalence for network with three terminals (fig \ref{fig:heat_deltaY}, eq \ref{eq:heat_deltaY1}-\ref{eq:heat_deltaY3}).
+
+\begin{figure}[hbtp] 
+	\centering
+	\includegraphics[width=0.5 \textwidth]{Image/deltaY.PNG}
+	\caption{ Left: $\Delta$ circuit. Right: $\Gamma$ circuit }
+	\label{fig:heat_deltaY}
+\end{figure}
+
+\begin{align} 
+	R_1 &= \frac{R_b R_c}{R_a + R_b + R_c} & R_a &= \frac{ R_1 R_2 + R_2 R_3 + R_3 R_1}{R_1} \label{eq:heat_deltaY1}\\
+	R_2 &= \frac{R_a R_c}{R_a + R_b + R_c} & R_b &= \frac{ R_1 R_2 + R_2 R_3 + R_3 R_1}{R_2} \label{eq:heat_deltaY2}\\
+	R_3 &= \frac{R_a R_b}{R_a + R_b + R_c} & R_c &= \frac{ R_1 R_2 + R_2 R_3 + R_3 R_1}{R_3} \label{eq:heat_deltaY3}
+\end{align}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Vertical ground loop heat exchangers system} \label{chap:GLHE}
+
+
+\section{General considerations} \label{sec:bf_con}
+
+A detailed thermal analysis of heat extraction boreholes has been done by Eskilson \cite{esk87} and Hellstr\"om \cite{hel91}. They distinguished five most important parameters for the performance of a GLHE. These parameters are (1) the soil/rock thermal conductivity, (2) the borehole resistance, (3) the undisturbed earth temperature, (4) the heat extraction (rejection) rates, and (5) the mass flow rate of the heat carrier fluid.
+
+The soil/rock thermal conductivity varies typically from 0.5 to 3.8 W/(mK) for soils and 1.0 to 6.9 W/(mK) for rocks (Chiasson \cite{chi07}) and influences therefore greatly the performance of the GLHE which is proportional to it.
+
+Before diffusing in the ground, the heat flux has to go through the effective thermal resistance of the borehole itself ($R_b^*$). This is composed of the thermal resistance of the fluid ($R_{conv}$), of the pipes ($R_p$) and finally of the borehole filling material ($R_f$). $R_b^*$ depends on several design variables such as the composition and flow rate of the heat carrier fluid, the borehole diameter, the grout material, the pipes material and the arrangement of the flow channels. $R_b^*$ should be minimized to improve the heat transfer between the heat carrier fluid and the Earth and so minimize the necessary GLHE length which reduces the cost.
+
+The most common channels arrangements are the so-called 1-U-shaped pipe and 2U-shaped pipe and GLHE with 1- or 2-U-type heat exchanger are typically drilled to depths ranging from 15.0 to 125 m. The borehole diameter varies from 76.0 mm to 178 mm and the pipes diameter from 19.0 mm to 38.0 mm. The grout material has typically a heat conductivity ranging between 0.69 W/(mK) (for bentonite based grouts) to 3.29 W/(mK) (for improved bentonite grout) and the pipe material has a heat conductivity around 0.40 W/(mK) (Chiasson \cite{chi07}). The mass flow rate is in most cases kept turbulent so that $R_{conv}$ stays under 0.01 mK/W. Depending on the filling material, $R_{conv}$ and $R_p$  can have a non-negligible importance.
+
+A third important parameter is the undisturbed ground temperature. The efficiency of the connected heat pump is indeed inversely proportional to the temperature difference between the source (here the ground) and the sink (the building). The ground source temperature is typically equal to the yearly average temperature which is, for Belgium, around $10 \mathrm{\degree C}$. This temperature increases with approximately 1K per 100m depth.
+
+Another important parameter is the heat extraction (rejection) rate to the ground. The heat diffusion process is a slow process. For the same amount of energy, a higher extraction (rejection) rate will cause a higher temperature difference. Typical extraction rates ranges from 20 W/m to 70 W/m.
+
+Eskilson furthermore identifies other parameters of negligible importance \cite{esk87}. These are:
+\begin{itemize}
+	\item Deviation from average thermal conductivity due to stratified ground
+	\item Temperature variations at the ground surface
+	\item Effect of ground water flow if the Darcy velocity is small enough or following criterion muss hold:
+\end{itemize}
+\begin{equation} \label{eq:bf_darcy}
+	\frac{H \rho_w c_{p,w} q_w}{2 k} < 1
+\end{equation}
+where H is the borehole depth, $\rho_w$, $c_{p,w}$, $q_w$ are respectively the ground water density,  the ground water heat capacity and the Darcy velocity and $k$ is the ground thermal conductivity.
+\begin{itemize}
+	\item Transient thermal effect in the boreholes and heat carrier fluid for time above:
+\end{itemize}
+\begin{equation} \label{eq:bf_traTim}
+	t_b = \frac{5 r_b^2}{\alpha}
+\end{equation}
+where $r_b$ is the borehole radius and $\alpha$ the soil/rock thermal conductivity.
+
+\section{Modelling: a review} \label{sec:bf_mod}
+
+Heat diffusion process are described by a parabolic partial differential equation called the heat equation (eq.\ref{eq:heat_heatDif}). This equation is only solvable analytically for specific boundary conditions which never occur in the nature. Real cases are solved by taking analytical solutions as approximation or using finite volume techniques. 
+
+The modelling of GLHE systems for the case of no ground water flow and low content of water in the ground can be approximated as a pure conduction problem. The problem shows some inherent complexity. 
+
+Firstly the medium is non-homogeneous. The GLHE is composed of pipes, grout, sometimes an iron casting and of in-homogeneous ground. Secondly, the geometry of the system is rather complex. The heat is injected/extracted from the heat carrier fluid running in the pipes. The position of the pipes strongly influences the heat diffusion (coaxial pipes, U-tubes pipes, shank spacing, ...) as well as the relative position of the set of boreholes. Finally a wide range of time scale is present in the system. The temperature of the heat carrier fluid and of the grout might vary in the ranges of minutes whereas the surrounding ground temperature will rather change with seasons (due to the different load profile) and with years (due to the unbalance of the system, e.g. the amount extracted energy differs to the amount of injected energy).
+
+One of the key concepts of borehole system modelling are the so-called borehole resistance ($R_b$) and the grout-to-grout resistance ($R_a$) defined by Hellstr\"om in 1991 \cite{hel91}. A literature review on the calculation of these resistances is given in section \ref{ssec:bf_R}. $R_b$ depends on the convective and conductive resistance of the heat carrier fluid and the pipe respectively ($R_p$, see section \ref{ssec:bf_R}). In general, borefield models can be divided into two group, i.e the long-term response model (LTR) which describes the heat transfer from the borehole to the surrounding ground (section \ref{ssec:bf_LTR}), and the short-term response (STR) model which accurately describes the heat transfer into the grout and the surrounding group for a maximum time of about 200 hours (section \ref{ssec:bf_STR}).
+
+... FIX ME: begin ...
+
+The mathematical models describing the heat transfer within a GLHE can be classified into four categaries: (1) the analytical solutions, (2) the numerical models, (3) the resistive-capacitive models and other approximation methods and finally (4) the response factor models. Each of these approaches are described in the next sections.
+
+... FIX ME: end ...
+
+
+\subsection{Pipe resistance, borehole resistance and grout-to-grout resistance} \label{ssec:bf_R}
+
+
+The heat transfer between the heat carrier fluid and the borehole wall depends on the geometrical configuration (shank spacing, arrangement of flow channels, size and shape of channels, ...), on the thermal properties of the material affected by the thermal process, and on the mass flow rate. In steady state, the heat transfer can be approximated as a network of thermal resistances associated with these different parts, as described by Hellstr\"om (1987) \cite{hel91} (fig. \ref{fig:bf_helDel}). The section firstly describes the pipe resistance. Secondly the concept of fluid-to-ground resistance ($R_b$) and of grout-to-grout resistance ($R_a$) as defined and calculated by Hellstr\"om are explained. Some other well known techniques are also shortly mentioned and the main conclusions of Lamarche's excellent review paper on methods to evaluate $R_b$ and $R_a$ (\cite{lam10}) are summarized.
+
+\begin{figure}[hbtp] 
+	\centering
+	\includegraphics[width=0.8 \textwidth]{Image/hellstrom_delta.PNG}
+	\caption{Borehole thermal resistance network, Hellstr\"om (1987) p78 \cite{hel91}.}
+	\label{fig:bf_helDel}
+\end{figure}
+
+\subsubsection{Pipe resistance} \label{sssec:bf_Rp} 
+
+GLHE are convective system. The injected / extracted heat is carried by the heat carrier fluid and exchanged with the ground through the borehole. The resistance from the fluid to the grout is called the pipe resistance ($R_p$). $R_p$ is the sum of the convective resistance $R_{conv}$ from the fluid to the pipe inner wall and the conductive resistance $R_{cond}$ from the pipe inner- to the pipe outer-wall.
+
+$R_{conv}$ depends on several factor such as the properties of the heat carrier fluid, the pipe shape and the mass flow rate. For the majority of the cases, GLHE regime are maintained turbulent to ensure a good heat transfer, and the heat carrier fluid temperature is kept far enough from its freezing of evaporation point. Within this boundary, a robust and accurate correlation for the convection coefficient is given by the well-known Dittus-Boelter smooth pipe correlation for a cylindrical pipe (eq.\ref{eq:bf_Dit}). For circular-tube annulus, the correlation of Petuhkov and Roizen should be used (eq. \ref{eq:bf_Pet}). For a more detailed study, we refer to the work of Hellstr\"om \cite{hel91}. 
+\begin{equation} \label{eq:bf_Dit}
+	\text{Nu} = 0.023 \mathrm{Re}^{0.8} \mathrm{Pr}^n
+\end{equation}
+where $n=0.4$ for heating and $0.3$ for cooling (or a mean value of $0.35$ can be used). $Re$ is the Reynolds number, $Pr$ is the Prandlt number, $k_f$ is the thermal conductivity of the liquid and $D_{in}$ is the diameter of the cylindrical tube.
+
+\begin{align} \label{eq:bf_Pet}
+\text{Nu}_{ii} &= \xi \text{Nu}_{pipe} 0.86 \left(\frac{r_i}{r_o}\right)^{(-0.16)} \ \ \ \ \ \ \text{for} \ \ 0.07 \leq \frac{r_i}{r_o} \leq 1 \\
+\text{Nu}_{ii} &= \xi \text{Nu}_{pipe} [1-0.14 \left(\frac{r_i}{r_o}\right)^{(0.6)}  \ \ \ \text{for}  \ \ 0 \leq \frac{r_i}{r_o} \leq 1
+\end{align}
+where
+\begin{equation*}
+  \xi = \begin{cases}
+    1 + 7.5 \left( \frac{(r_i/r_o)^{-1} - 5}{\text{Re}} \right)^{0.6} & \frac{r_i}{r_o} < 0.2 \\
+    1 & \text{otherwise}.
+  \end{cases},
+\end{equation*}
+\begin{equation*}
+  \text{Nu}_{pipe} = \frac{ (f/2) (\text{Re} - 1000) \text{Pr} }{1 + 12.7 (f/2)^{1/2}(Pr^{2/3} - 1)} \ \ \ \ \text{(Re} > 2300, \text{Gnielinski}),
+\end{equation*}
+\begin{equation*}
+  f = [ 1.58 \ln( \text{Re} ) - 3.28 ]^{-2} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \text{(Fanning friction factor).}
+\end{equation*}
+
+The steady-state thermal resistance of the pipe can be easily computed using the well-known resistance for cylindrical layers.
+
+The total pipe resistance can now be computed as followed:
+\begin{equation} \label{eq:bf_Rp}
+	R_{p} = \frac{1}{\text{Nu} \pi k_{f} } + \frac{ \ln \left( \frac{d_a}{d_i} \right) }{2 \pi k_{p} }
+\end{equation}
+with $k_p$ the thermal conductivity of the pipe and $d_a, d_i$ the outer and inner pipe diameter.
+
+
+\subsubsection{Borehole and grout-to-grout resistance} \label{sssec:bf_RbRa}
+
+Hellstr\"om defines the fluid-to-ground resistance ($R_b$) as the resistance from the fluid in the pipes (with each pipe an equal fluid temperature) to the borehole wall with uniform equivalent temperature. A mathematical transformation is used to calculate the equivalent temperature in the case where the wall temperature is not uniform. The resistance is calculated using either a line-source approximation for the pipes or a more complex, but more accurate method, called \textit{multipole} and developed by Claesson and Bennet (1987) \cite{hel91}. For the case of a symmetrical single U-type system, $R_b$ is given by following equation:
+
+\begin{multline}  \label{eq:bf_Rb_mp}
+	R_b = \frac{R_1^\Delta}{2} = \frac{1}{4 \pi \lambda_b} \left[ \beta + \ln\left(\frac{r_b}{r_p}\right) + \ln\left(\frac{r_b}{2D}\right) + \sigma \ln\left(\frac{r_b^4}{r_b^4-D^4}\right) \right] - 
+	\\
+	\frac{1}{4 \pi \lambda_b} \frac{ 
+			\frac{r_p^2}{4 D^2} \left[ 1 - \sigma \frac{4 D^4}{r_b^4 - D^4} \right]^2
+			}
+			{ 	\left\{
+			\frac{1 + \beta}{1 - \beta} + \frac{r_p^2}{4 D^2} \left[ 1 + \sigma \frac{16 D^4 r_b^4}{(r_b^4 - D^4)^2} \right] 	  				\right\}
+			}
+\end{multline}
+
+with
+\begin{align*}
+	\sigma = \frac{\lambda_b - \lambda}{\lambda_b + \lambda} \ \ , \\
+	\beta = 2 \pi \lambda_b R_p \ \ ,
+\end{align*}
+
+where $\lambda_b$ and $\lambda$ are the conductivity of the filling material and of the ground respectively, $r_p$ and $r_b$ are the pipe and the borehole radius, $D$ is the shank spacing (center of borehole to center of pipe), $R_p$ is resistance from the fluid to the outside wall of the pipe (see section \ref{sssec:bf_Rp})  and $R_1^\Delta = R_2^\Delta$ from fig.\ref{fig:bf_helDel}.
+
+
+The first term of eq.\ref{eq:bf_Rb_mp} comes from the line-source approximation and the second term is the correction of the multipode method. An extension of eq.\ref{eq:bf_Rb_mp} for double U-tube and triple U-tube is also calculated by Hellstr|"om (see Chiasson p30 \cite{chi07}).
+
+A second important resistance is the grout-to-grout resistance ($R_a$) which represents the thermal interaction between the different grout parts of the borehole. $R_a$ is also calculated using the multipole method (eq. \ref{eq:bf_Ra_mp}).
+
+\begin{multline} \label{eq:bf_Ra_mp}
+	R_a = \frac{1}{\pi \lambda_b} \left[ 
+				\beta + \ln\left( \frac{2D}{r_p} \right) + \sigma \ln\left( \frac{r_b^2 + D^2}{r_b^2 - D^2} \right) 
+								 \right] - \\
+		\frac{1}{\pi \lambda_b} \left\{ 
+				\frac{
+					\frac{r_p^2}{4D^2} \left[ 1 + \sigma \frac{4 r_b^4 D^2}{r_b^4 - D^4} - \xi \frac{2 D^2}{r_c^2} \right]^2}
+					{ 
+					\left[ \frac{1 + \beta}{1 - \beta} - \frac{r_p^2}{4 D^2} + 
+							\sigma \frac{2 r_p^2 r_b^2 (r_b^4 + D^4)}{(r_b^4 - D^4)^2} 
+							- \xi \frac{r_p^2}{r_c^2} 
+					\right] 
+					} + 
+					\xi \frac{D^2}{r_c^2}  
+								\right\}
+\end{multline}
+
+with
+\begin{equation} \label{eq:bf_xi}
+	\xi = 2 r_c^2 \frac{1-\sigma^2}{r_c^2 - \sigma r_p^2}  \  \ ,
+\end{equation}
+
+where $r_c$ is the radius at which the temperature is uniform in the ground. The $\xi$ terms of eq. \ref{eq:bf_xi} are usually neglected.
+
+$R_{12}^\Delta$ (see fig. \ref{fig:bf_helDel}) can be calculated as followed:
+\begin{equation} \label{eq:bf_RDelta}
+	R_{12}^\Delta = \frac{2 R_1^\Delta R_a}{2 R_1^\Delta - R_a} \ \ .
+\end{equation}
+	
+The thermal resistances of eq. \ref{eq:bf_Rb_mp} and eq. \ref{eq:bf_Ra_mp} are derived for the local heat transfer in the borehole at a given depth. Hellstr\"om generalizes the results to the so-called \textit{effective} borehole resistance $R_b^*$ which includes the effect of the varying fluid temperature along the flow channels and the heat exchange between them. $R_b^*$ can be calculated for the case of uniform (along the borehole) (eq. \ref{eq:bf_RbEff_uniT}) borehole wall temperature or uniform heat flux (along the borehole) (eq. \ref{eq:bf_RbEff_uniQ}).
+
+\begin{align}
+	\text{For uniform $T_b(t)$} & \rightarrow \ \ \ R_b^* = R_b \eta \coth(\eta) \ \ \ \text{with} \ \ \ \eta = \frac{H}{C_f V_f}\frac{1}{2 R_b}\sqrt{1 + 4 \frac{R_b}{R_{12}^\Delta}} \label{eq:bf_RbEff_uniT} \\
+	\text{For uniform $q_b(t)$} & \rightarrow \ \ \ R_b^* = R_b + \frac{1}{3}\frac{1}{R_a} \left(\frac{H}{C_f V_f} \right)^2  \label{eq:bf_RbEff_uniQ}
+\end{align}
+
+where $C_f$ and $C_f$ are the volumetric heat capacity and the volume flow of the fluid, respectively. Notice that for $\eta \leq 0.4$, $R_b^* \approx R_b$.
+
+Authors, such as Yavuzturk et al (1999), have developed numerical models using a special grid together with a finite volume method to calculate the temperature distribution within the borehole (Fig.\ref{fig:bf_meshYav}) and $R_b$. Other authors, such as Paul(1997), used instead an analytical solution together with experimentally based shaped factor depending on the U-type shank spacing:
+\begin{equation} \label{eq:bf_RbYav}
+	R_b' = R_p + \frac{1}{k_b \beta_0 (D_b / D_{out} )^{\beta_1} }
+\end{equation}
+where $k_b$ is the thermal conductivity of the borehole grouting material, $D_{out}$ and $D_b$, the outside diameter of the U-tube pipe and the borehole diameter, respectively, and $\beta_0, \beta_1$ the shape factor coefficients determined by Paul (1996) based on U-tube shank spacing (Fig. \ref{fig:bf_shaCoe}) \cite{chi07}. 
+
+Finally, authors such as Shonder and Beck (1999) or Gu and O'Neal (1998), simplified the problem by replacing the effective pipe with an equivalent diameter pipe (fig.\ref{fig:bf_equPipeGu}) \cite{chi07}.
+\begin{figure}[hbtp]  
+\centering
+\includegraphics[scale=0.5]{Image/meshYav.PNG}
+\caption{Polar grid used by Yavuzturk et al. (Chiasson 2007 p18 \cite{chi07})}
+\label{fig:bf_meshYav}
+\end{figure}
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=0.6 \textwidth]{Image/shaCoe.PNG}
+\caption{Shape factor coefficients for determining steady-state grout resistance with various U-tube shank spacings (Chiasson 2007 p31 \cite{chi07})}
+\label{fig:bf_shaCoe}
+\end{figure}
+
+\begin{figure}[hbtp] 
+\centering
+\includegraphics[width=0.5 \textwidth]{Image/equPipeGu.PNG}
+\caption{Equivalent diameters after GU an O'Neal (1998) for approximating the geometry of a U-tube (Chiasson 2007 p32 \cite{chi07})}
+\label{fig:bf_equPipeGu}
+\end{figure}
+
+In the past 20 years, several authors have proposed different method to evaluate $R_b$ and $R_a$ experimentally. Lamarche et al. wrote an excellent review paper about these methods in 2010 from which we can conclude the following:
+\begin{enumerate}
+\item The most accurate method to calculate $R_b$ is the multipole method, proposed by Bennet et al. and described by Hellstr\"om \cite{ben87, hel91}. This method is very accurate except in the case of a highly conductive steel casting. In this case the method of Sharqawy et al. \cite{sha09} should be preferred due to the flattening of the temperature profile along the borehole wall.
+\item The most accurate method to calculate $R_a$ is also the multipole method. None of the method are accurate in the case where the thermal conductivity of the grout and of the ground are similar or when the two legs of the U-tube pipe are very close to each other. Luckily these two scenario are unusual.
+\item The correction factor to extrapolate the 2D expression to 3D (eq.\ref{eq:bf_RbEff_uniQ} and \ref{eq:bf_RbEff_uniT}) increase the accuracy.
+\end{enumerate}
+
+
+\subsection{Long term response model} \label{ssec:bf_LTR}
+
+The LTR models are aimed to describe the heat transfer from the boreholes wall to the surrounding ground, taking the thermal interactions of the different boreholes into account. Good review on LTR can be found in Chiasson 2007 \cite{chi07} and Javed 2009 \cite{jav09} who describe the state of art or Bertagnolio et al. 2012 \cite{bert12} who compare the results of the different models. The models are categorized into analytical, numerical and step-response models. This section gives a short summary of these reviews. 
+
+\subsubsection*{Analytical models} \label{sssec:bf_LTR_ana}
+Analytical models in the literature are variations of one of the following models, e.g. the Kelvin Line Source Model, the Cylindrical Source Model and the Point Source Model which are all solution of the partial differential heat diffusion equation (eq.\ref{eq:heat_heatDif}). The Kelvin Line Source Model has been developed by Kelvin as a solution of eq.\ref{eq:heat_heatDif} for an imaginary vertical line source in a semi-infinite solid medium initially at an uniform temperature. Hellstr\"om and Spitler approximated this solution by \ref{eq:bf_linSouApp} \cite{chi07}:
+\begin{equation} \label{eq:bf_linSouApp}
+	\Delta T = \frac{q'}{4 \pi k} \ln \left( \frac{ 4 \alpha t}{ r^2} \right)
+\end{equation}
+where $\Delta T$ is the temperature change in the ground at a radial distance $r$, $q'$ is the heat transfer per length of line source and k is the thermal conductivity of the medium. The line source method is, however, only valid if $ \alpha t / r^2 > 1 $ and for $r \geq r_b$ because the line source doesn't take the transient behaviour of the borehole into account.
+
+A more appropriate solution is the Cylindrical Source Model which take the cylindrical shape of the borehole into account. The cylindrical solution is given by:
+\begin{equation} \label{eq:bf_cylSouSol}
+	\Delta T = \frac{q'}{k} G\left( \mathrm{Fo}, \frac{r}{r_0} \right)
+\end{equation}
+where $r_0$ is the radius of the cylindrical source, and $\mathrm{Fo}$ is the dimensionless Fourier number given by:
+\begin{equation} \label{eq:bf_fouNb}
+	\mathrm{Fo} = \frac{\alpha t}{r^2}
+\end{equation}
+where $q'$, $r$ and $\alpha$ are defined as above. The $G(\mathrm{Fo},\frac{r}{r_0})$ is a complex function and it has been approximated with a polynomial fit by Bernier in 2001 \cite{chi07} at the borehole wall as a function of Fo, for $1.0E-1<\mathrm{Fo}<1.0E+6$:
+\begin{equation} \label{eq:bf_GApp}
+	G(\mathrm{Fo},1) = 10^{\left[ -0.89129+0.36081 \log \mathrm{Fo} - 0.05508 \log^2 \mathrm{Fo} + 0.00359617 \log^3 \mathrm{Fo} \right]}
+\end{equation}
+
+The above mentioned methods disregard the end effect of the heat source which causes a serious deviation for long-term simulation (see Bertagnolio \cite{bert12}). Analytical finite line-source (cylindrical-source) models have been developed by Javed \cite{jav12} (see section \ref{ssec:bf_mod_des}), Lamarche et al. \cite{lam07a, lam07b} and Zeng and al. \cite{zen02} to tackle this problem. 
+
+To extend the single borehole model with step input to multiple boreholes system with random (step wise) input, spatial and time superposition is used as explained in section \ref{sec:heat_sup}. Models using the time superposition are called \textit{response factor model} and are described in section \ref{ssec:bf_step}. Javed \cite{jav12} uses both method as extensively explained in section \ref{ssec:bf_mod_des}.
+
+The analytical models are able to give a good approximation of the steady state behavior of the GLHE and can be used for design purpose. As mentioned above, these models are not suited for short time response calculation. They also assume that the heat flux along the borehole is constant and for the case of borefield, that the heat flow is the same for each borehole which is obviously not the case. An average temperature over the depth is used. As shown by Malayappan and Spilter \cite{mal12}, this assumption might lead to significant error for closely packed system simulated for long period of time. Finally they do not take the borehole and heat carrier fluid thermal resistance and capacity into account, neither are they suitable to include the influence of ground water flow or a vertical temperature gradient.
+
+However, these analytical models are easy to implement, computationally efficient and describes correctly the heat diffusion. This method is used for design purpose and to determine $R_b$ from thermal response tests (TRT).
+
+\subsubsection*{Numerical models} \label{sssec:bf_LTR_num}
+
+In order to investigate the accuracy of the analytical models, different kind of numerical models have been built. The first kind of models are used to investigate the long-term behaviour of multiple boreholes systems. A second kind of numerical models have been made to investigated the complex temperature distribution in the boreholes and the interaction between the two legs of the U-pipes and focus on the short-term behaviour of the borehole.
+
+Long-term behaviour of multiple boreholes system have firstly been investigated by Eskilson and Hellstr\"om \cite{esk87, hel91}. Eskilson developed a two-dimensional finite difference model in radial-axial coordinates. A single borehole is approximated by a finite line-source and a variable-size mesh is build around this source, with flux conditions equal to zero. The program calculates the borehole wall temperature evolution for a constant heat flux per unit length of borehole. Multiple borehole systems are investigated by means of superposition. This is converted into the famous dimensionless \textit{g-functions} which give the step response of the borefield for a given borefield geometry and configuration (fig. \ref{fig:bf_gFun}). Hellstr\"om developed the well known Duct Storage Model (DST) using a similar mesh but the steady-flux solution is calculated analytically and superimposed of the numerical solution. The DST model assumes that the boreholes are placed uniformly within a cylindrical storage volume ground. Other improvements have been proposed since then but will not be described in this work. The g-function calculated by these models are used for response factor model (see section \ref{ssec:bf_step}).
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=1 \textwidth]{Image/gFun.PNG}
+\caption{Left: Eskilson's g-functions for different spacing to depth ratio, for a 10x10 borehole field ($r_b/H=0.0005$). Right: Eskilson's g-functions for various borehole field configuration $B/H=0.1$, $r_b/H=0.0005$)(Chiasson 2007 p22-23 \cite{chi07})}
+\label{fig:bf_gFun}
+\end{figure}
+
+This approach is, however, only valid for time above $5 r_b^2 / \alpha$ with $r_b$ the borehole radius and $\alpha$ the diffusion coefficient of the ground. The g-functions have been extended to short time step by various authors (see section \ref{ssec:bf_STR}). A second draw back is the need of pre-computing the g-function which might be very time consuming.
+
+\subsection{Short term response model} \label{ssec:bf_STR}
+
+\subsubsection*{Analytical models} \label{sssec:bf_STR_ana}
+
+The analytical models have been extended by several authors too increase their short-term accuracy. Lamarche and Beauchamp gave an excellent literature study on STRM in 2007 \cite{lam07a, lam07b}. Javed and Claesson brought a new contribution in 2011 \cite{jav12}. For more details, we refer to their work.
+
+These authors also proposed in the same articles a new analytical model taking the transient behaviour of the grout into account. Based on an equivalent pipe diameter, they give the solution of the heat diffusion equation for constant heat flow and for convective heat transfer. They also improved the computation efficiency of the analytical solutions.
+
+Javed and Claesson argue that the previous model does not take the heat capacity of the heat carrier fluid into account. They proposed in 2011 a new approach, solving the STR of the borehole in the Laplace domain and using an equivalent diameter.
+
+\subsubsection*{Numerical models} \label{sssec:bf_STR_num}
+
+Eskilson g-functions do not take the borehole resistance into account and are therefore, as mentioned above, only valid for $ \alpha t / r_b^2 > 1 $. Depending on the ground diffusivity, the time resolution can be hours or even days, which lead for significant simulation error.
+
+Eskilson LTS have therefore been extended by Yavuzturk and Spitler (1999) to time scales of an hour or less. These authors simply added the steady-state borehole resistance $R_b$ to the g-function to take the thermal resistance of the grout, the pipes and the fluid convection into account:
+\begin{equation} \label{eq:bf_adaGfun}
+	g \left( \frac{t}{t_s}, \frac{r_b}{H}, \frac{B}{H}, \mathrm{borefield \ pattern} \right) = \frac{2 \pi k}{q'} (T_b - R_b' q' - T_g)
+\end{equation}
+where $R_b'$ is defined by eq.\ref{eq:bf_RbEff_uniQ}. This adapted g-function has been implemented in TRNSYS with label \textit{Type 136}.
+
+Chiasson remarked in his thesis  \cite{chi07} that the adapted g-function actually depends on $R_b$ and are therefore only valid for the borehole configuration they have been calculated for. Using eq.\ref{eq:bf_adaGfun} for other borehole configurations would result in some error at short time (when $R'_b q'$ is not negligible compared to the g-function). Furthermore, the steady-state borehole resistance $R_b$ does not take the transient behaviour of the borehole into account which might lead to unacceptable errors for highly transient systems such as hybrid GLHE. Chiasson developed therefore a finite element model of a borehole heat exchanger where the fully transient borehole thermal response can be modelled and coupled to the g-function eq.\ref{eq:bf_adaGfun}. Chiasson replaced the \textit{Type 136} of TRNSYS by two models: \textit{Type 138} (for the a detailed model of a grouted borehole with a single U-tube) and \textit{Type 134} (for the thermal response of the ground).
+
+
+\subsubsection*{Resistive-capacitive models}
+
+The proposed analytical models are either simple and disregard the transient effects of heat and mass transfer in the borehole itself, or mathematical complex. Numerical models can takes all these effects into account but are numerically heavy. Both method might be cumbersome to use in a simulation environment where computational time and modelling simplicity are crucial. 
+
+Bauer et al. proposes to combine the advantages of both methods by approximating the heat transfer in the borehole by a resistive-capacitance model with some correction factors \cite{bau10}. These authors propose to extend the resistance triangle of Hellstr\"om (see section \ref{ssec:bf_R}) by adding capacities to it. For the case of single U-tube type, they also proposed a empirical formula to approximate the multipole method of Bennet et al. using heat conduction shape coefficient and corrections terms depending on the shank spacing divided by the borehole diameter. The correction terms are found from an extensive set of simulations. The method is developed for coaxial, single U-tube and double U-tube types of borehole (fig. \ref{fig:bf_bauerRC}). The position of the capacities is calculated to be at the area center of the borehole with an equivalent single pipe (for more detail, see Bauer 2010 \cite{bau10}). The equation for the single U-tube pipe are summarized in table \ref{tab:bf_bauRC}. Notice that the equations can give negative resistance value. These are necessary to correctly model the thermal short circuit between the pipes. As mentioned by Bauer et al., this does not contradict the second law of thermodynamic as long as the overall grout thermal resistance remain positive (eq.\ref{eq:bf_bauTest}). If eq.\ref{eq:bf_bauTest} is not met, the value of $x$ should be reduced until it is met.
+
+	\begin{figure}[hbtp] 
+		\centering
+		\includegraphics[width=0.7 \textwidth]{Image/bauerRC.PNG}
+		\caption{RCM for coaxial, single U-tube and double U-tube GLHE and corresponding horizontal cross sections. $T_i$ fluid temperature, $T_gi$ grout temperature, $T_b$ borehole wall temperature, $C_{gi}$ thermal capacities, $R_{ii}$ thermal resistances (Bauer et al. 2010, p314 \cite{bau10}).}
+		\label{fig:bf_bauerRC}
+	\end{figure}
+
+\begin{equation} \label{eq:bf_bauTest}
+\text{For single U-tube BHE} \ \ \  \rightarrow \ \ \ \left( \frac{1}{R_{gg}^{1U}} + \frac{1}{2 R_{gb}^{1U}}  \right)^{-1} > 0
+\end{equation}
+
+{\setlength{\extrarowheight}{16pt}
+\begin{table}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\multicolumn{2}{|c|}{Thermal resistance between: } \\
+\hline  \hline
+Outer wall and one tube & $
+R_g^{1U} =  \frac{ \operatorname{arcosh} \left[ \frac{ d_b^2 + d_a^2 - s^2}{2 d_b d_a} \right] }{ 2 \pi \lambda_{grout} } \times ( 1.601 - 0.888 \frac{s}{d_b}) 
+$ \\ 
+\hline 
+The two pipe outer walls & $ 
+R_{ar}^{1U} = \frac{ \operatorname{arcosh} \left[ \frac{ 2 s^2 - d_a^2 }{ d_a^2 } \right] }{ 2 \pi \lambda_{grout} } 
+$ \\ 
+\hline \hline 
+Grout zone and borehole wall & $
+R_{gb}^{1U} = ( 1 - x^{1U} ) R_{g}^{1U}
+$ \\ 
+\hline 
+The two grout zones & $
+R_{gg}^{1U} = \frac{ 2 R_{gb}^{1U} ( R_{ar}^{1U} - 2 x^{1U} R_{g}^{1U} ) }{ 2 R_{gb}^{1U} - R_{ar}^{1U} + 2 x^{1U} R_{g}^{1U}}
+$ \\ 
+\hline 
+Fluid in pipe and grout zone & $
+R_{fg}^{1U} = \frac{1}{Nu \pi \lambda_{fluid} } + \frac{ \ln \left( \frac{d_a}{d_i} \right) }{2 \pi \lambda_{pipe} } + x^{1U} R_g^{1U}
+$ \\ 
+\hline  \hline
+Thermal capacities of the ground zone & $
+C_g^{1U} = \rho_{grout} \frac{\pi}{4} \left( \frac{ d_b^2}{2} - d_a^2 \right) c_{p,grout}
+$
+\\
+\hline  \hline
+Relative capacity location & $
+x^{1U} = \frac{ \ln\left( \frac{ \sqrt{ d_b^2 + 2 d_a^2 } }{ 2 d_a } \right) }{ \ln\left( \frac{ d_b }{ 2 d_a } \right) } 
+$
+\\ 
+\hline 
+\end{tabular} 
+\end{center}
+\caption{Thermal resistance, capacities and capacities location of for U-tube BHE.}
+\label{tab:bf_bauRC}
+\end{table}
+\quad
+
+
+\subsection{Step response models and aggregation methods} \label{ssec:bf_step}
+
+As described above, g-functions and most of the analytical models give only a step response solution for the borefield. To modelled arbitrary inputs signal, the inputs need to be divided into a sum of time-shifted step signal and the response should the be superposed (see section \ref{sec:heat_sup}).
+
+For minute-based multi-years simulations for which the step response of each input step should be summed, this approach lead to enormous calculation time. This problem is solved using aggregation methods. A literature study is outside the scope of this dissertation. A good (but already outdated) review paper was written by Bernier et al. in 2004 \cite{ber04}. Bertagnolio and al. tested Bernier's aggregation method and observed no significant loss of accuracy \cite{bert12}. Claessons and Javed also brought a significant contribution \cite{jav12}. The following paragraphs describe the technique of Claessons and Javed. The notation has been adapted to gain clarity.
+
+Let us describe the discrete load input to the borefield by $Q$ and the heat carrier fluid temperature by $T_f$.
+\begin{equation} \label{eq:bf_disLoa}
+  Q_{\nu}^{(n)} := \begin{cases}
+    Q\left[ (n+1-\nu) h \right], & \text{if $\nu \leq n$}.\\
+    0, & \text{otherwise}.
+  \end{cases}
+\end{equation}
+
+\begin{equation} \label{eq:bf_supTste}
+  T_f(n h) - T_f(0) = \sum_{\nu=1}^{\nu_{\text{max}} }\frac{Q_{\nu}^{(n)}}{Q_{\text{step}}} \left[ T_{f,\text{step}}(\nu h) - T_{f,\text{step}}(\nu h - h) \right]
+\end{equation}
+with $\nu_{\text{max}} \geq n$, \textit{h} the discrete time-step, \textit{Q} the discrete load and $T_{f,\text{step}}$ the response function from the STS and LTS solution with step load $Q_{\text{step}}$. Notice that the model assumes an uniform temperature at time 0.
+
+The idea behind this aggregation is the following: the heat carrier fluid temperature difference of the boreholes system (from an initial steady state) at $t=nh$ depends of the $nh$ load pulses with have been applied to the boreholes system from $t=0$ to $nh$. The influence of the pulses on the heat carrier fluid temperature decreases, however, the further their are from the observation time $nh$. The transient behaviour of the boreholes has indeed been by that time smooth out and the pulses energy is only relevant for the increase of the soil/rock temperature they caused. An accurate profile of the load, far away from the observation time, is therefore not necessary (only the net energy content will have an influence on the borehole system). In the contrary, the load profile at times close to the observation time is important because they still influence the transient behaviour of the boreholes.
+
+Claesson and Javed proposed an aggregation algorithm grouping (i.e. taking the average of) the load pulses and their coefficients into cells of exponentially increasing size. The cells are themselves grouped in levels $q$. Each level has a given number of cells $p_{\text{max}}$ and each cell of a same level contains the same amount of load pulses $R_q$. Javed and Claesson propose to double the size of the cells at each level, to have the same number of cells in each level and finally to choose this number of cell per level according to the accuracy which is desired (a higher number of cells per level gives a more detailed load profile but penalize the computational efficiency). Fig.\ref{fig:bf_agg} illustrates this aggregation technique.
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=0.6 \textwidth]{Image/agg.PNG}
+\caption{Load aggregation for a load composed of 14 pulses. The aggregation is composed of 3 levels $q$, each composed of 2 cells. The cell width double at each level.}
+\label{fig:bf_agg}
+\end{figure}
+
+The temperature difference of the step response between to time step in eq.\ref{eq:bf_supTste} divided by the amplitude of the step load $Q_{\text{step}}$ can be considered as the transient thermal resistance of the borehole for that particular time. Let us define the  thermal resistance $R_{\nu}$ and the dimensionless factor $\kappa_{\nu}$ as:
+\begin{equation} \label{eq:bf_RAndKap}
+  R_{\nu} = \frac{T_{f,\text{step}}(\nu h) - T_{f,\text{step}}(\nu h - h)}{Q_{\text{step}}}, \ \ \ \ 
+  \kappa_{\nu} = \frac{T_{f,\text{step}}(\nu h) - T_{f,\text{step}}(\nu h - h)}{T_{f,\text{step}}(\infty)} = \frac{R_{\nu}}{R_{ss}} \ .
+\end{equation}
+
+Eq.\ref{eq:bf_supTste} can now be rewritten as:
+\begin{equation} \label{eq:bf_supTste2}
+  T_f(n h) - T_f(0) = R_{ss} \sum_{\nu=1}^{\nu_{\text{max}} } Q_{\nu}^{(n)} \kappa_{\nu} \ .
+\end{equation}
+
+As explained above, the aggregation is composed of $q_{\text{max}}$ levels, each composed of $p_{\text{max}}$ cells which have a level-dependent width $R_q$ define as:
+\begin{equation}
+  R_{q} := 2^{q-1} \ \ \ \text{for} \ \ q = 1, ... , q_{\text{max}} \ .
+\end{equation}
+
+The number of pulses covered by the aggregation is then:
+\begin{equation} \label{eq:bf_v_max}
+  \nu_{\text{max}} := \sum_{q=1}^{q_{\text{max}} } R_q \ p_{\text{max}} \ \ \ \ \geq n_{\text{max}} \ .
+\end{equation}
+
+Define $\nu_{q,p}$ as the number of pulses covered from the cell 1 at level 1 till (including) the cell \textit{p} at level \textit{q}:
+\begin{equation} \label{eq:bf_v_qp}
+  \nu_{q,p} := p \ R_q + \sum_{i=1}^{q-1} R_i \ p_{\text{max}} \ .
+\end{equation}
+
+Define the function $\nu(q,p,r)$ numbering each pulse, starting from pulse 1 in cell 1 at level 1:
+\begin{equation} \label{eq:bf_v_qpr}
+  \nu(q,p,r) := \nu_{q,p} - R_q + r \ \ \ \text{for} \ \ q=1, \ldots , q_{\text{max}} \ ; \ \ p=1, \ldots , p_{\text{max}} \ ; \ \ r=1, \ldots , R_q \ .
+\end{equation}
+
+These different definitions are illustrated in Fig.\ref{fig:bf_aggInd} for the load of Fig.\ref{fig:bf_agg}.
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=0.8 \textwidth]{Image/aggInd.PNG}
+\caption{Aggregation}
+\label{fig:bf_aggInd}
+\end{figure}
+
+Using these definitions, eq.\ref{eq:bf_supTste2} can be rewritten as:
+\begin{equation} \label{eq:bf_supTste3}
+  T_f(n h) - T_f(0) = R_{ss} \sum_{q=1}^{ q_{\text{max}} } \sum_{p=1}^{p_{\text{max}}} \sum_{r=1}^{R_q} Q_{\nu(q,p,r)}^{(n)} \kappa_{\nu(q,p,r)}
+\end{equation}
+
+Now we apply the aggregation technique by approximating the last sum of eq.\ref{eq:bf_supTste3} by
+\begin{equation} \label{eq:bf_agg}
+  \sum_{r=1}^{R_q} Q_{\nu(q,p,r)}^{(n)} \kappa_{\nu} \approx \left[ \frac{\sum_{r=1}^{R_q} Q_{\nu}^{(n)}}{R_q} \right] \sum_{r=1}^{R_q} \kappa_{\nu(q,p,r)} := \bar{Q}_{\nu(q,p)}^{(n)} \bar{\kappa}_{\nu(q,p)}
+\end{equation}
+
+Finally the aggregation of eq.\ref{eq:bf_supTste2} gives:
+\begin{equation} \label{eq:bf_supFin}
+\boxed{
+  T_f(n h) - T_f(0) \approx R_{ss} \sum_{q=1}^{ q_{\text{max}} } \sum_{p=1}^{p_{\text{max}}} \bar{Q}_{\nu(q,p)}^{(n)} \bar{\kappa}_{\nu(q,p)} \ .
+}
+\end{equation}
+
+Notice that the left-hand term of eq.\ref{eq:bf_supFin} is only an approximation of its right-hand term due to the approximation made in eq.\ref{eq:bf_agg}.
+
+
+ 		
+\section{Implementation: a new step response model} \label{sec:bf_imp}
+
+From the literature study (see section \ref{sec:bf_mod}) it appears that a lot of models have been proposed with different level of flexibility and accuracy. None of them can, however, meet the following requirements:
+\begin{enumerate}
+	\item model for an arbitrary configuration of boreholes,
+	\item flexibility for the type of borehole (coaxial, U-tube type, double U-tube type),
+	\item short and long term accuracy for minute-based years-long simulations,
+	\item numerically efficient,
+	\item easily implementable in the modelica modeling language.
+\end{enumerate}
+
+In this section, a new model is proposed combining the advantages of the different approaches to achieve the mentioned goals. The new model is an hybrid model which is used to calculate the borefield step response over 30 years with minute-accuracy. The transient heat transfer into the borehole is calculated using a short-term temperature response model (section \ref{ssec:bf_imp_STM}). The transient heat transfer into the surrounding ground and the thermal interaction between the boreholes is calculated using a long-term TRM (section \ref{ssec:bf_imp_LRM}). Both model are then combine into an hybrid model (section \ref{ssec:bf_imp_com}) and the aggregation method of Claesson and Javed is used to speed up the calculations (section \ref{ssec:bf_STR}).
+
+
+\subsection{Short-term temperature response model} \label{ssec:bf_imp_STM}
+The short-term temperature response model consists of the combination of the EWS model of Wetter \cite{wet97}, of the RCM of Bauer and al. (see section \ref{ssec:bf_STR}) and of an discretized ground model following Eskilson's guidelines. The resulting model is able to model a single borehole model, taking the heat carrier fluid capacity and the grout capacity into account and it allows a vertical discretization. Depending on the grout-material, the model should give accurate minute after only 10 to 20 minutes \cite{bau10}.
+
+The resulting model (see fig.\ref{fig:bf_STM}) firstly discretizes the borehole into $n$ horizontal layers over its depth. There is no heat transfer between the layers except through the heat carrier fluid. The heat carrier fluid in the layer is represented by a unique thermal capacity per pipe with a temperature equal to the ideally mixed heat carrier fluid. The heat transfers from the heat carrier fluid to the grout zones, from the grout zones to the borehole wall and between the grout zones, are models using Bauer et al. approach. Finally, the heat transfer from the borehole wall to the surrounding ground is calculated by discretizing the ground with a RCM. The mesh is done according to Eskilson's guidelines \cite{esk87}:
+\begin{align*}
+	\Delta r \ \ \ \  &= \left[ \Delta r_{min}, \Delta r_{min}, \Delta r_{min},\beta \Delta r_{min}, \beta^2 \Delta r_{min}, \cdots \right] \ \ , \\ 
+	\Delta r_{min} &= \min( \sqrt{ \alpha \Delta r t_{min} } , H/5) \ \ ,
+\end{align*}
+with $\alpha$ the diffusion coefficient of the ground, $H$ the depth of the borehole, $\Delta t_{min}$ the minimum resolution time and $\Delta r$ the size of the cell. As illustrated in section \ref{sec:heat_rc}, the discretization is accurate as long as it is fine enough.
+
+	\begin{figure}[hbtp] 
+		\centering
+		\includegraphics[width=0.9 \textwidth]{Image/STM.PNG}
+		\caption{Structure of the short-term model.}
+		\label{fig:bf_STM}
+	\end{figure}
+
+
+\subsection{Long-term temperature response model} \label{ssec:bf_imp_LRM}
+The long-term temperature response of the borefield is calculated using the model of Javed and Claesson \cite{jav12}. This model is the current state-of-arts and it proposes a compact expression to calculate the mean temperature of the boreholes wall (average over the different boreholes and over the length of each borehole). The following section describes the model.
+
+Javed and Claesson solved (eq. \ref{eq:heat_heatDif}) with following assumptions (Jaeger and Carslaw 1959, p261 \cite{jae59}): (1) heat is released at a constant rate per unit length $q_0 \leq \infty$ from time $t=0$ to $t=t$, (2) in an infinite solid, (3) the initial condition are zero.
+\begin{equation} \label{eq:bf_conSouSol}
+	T(r) = \frac{q_0}{8 (\pi \alpha)^{3/2}} \int^t_0 e^{\frac{-r^2}{4 \alpha (t-t')}} \frac{dt'}{(t-t')^{3/2}}
+\end{equation}
+where $r^2 = (x - x')^2 + (y - y')^2 + (z - z')^2$.
+
+They calculate then the temperature distribution around a finite line-source by covoluating eq.\ref{eq:bf_conSouSol} from $z=0$ to the borehole depth $z=H$ and subtracting the mirror of the solution at $z=0$ to ensure that no heat transfer occurs between the ground and the ambient air. Finally, by taking the vertical average and using the help variable $s=1/\sqrt{4 \alpha(t-t')}$, the mean temperature over the borehole length at any radial distance $r$ and time $t$ is given by:
+\begin{equation} \label{eq:bf_finLinSou}
+	\bar{T}(r,t) = \frac{1}{H} \int^H_0 \left\{ \frac{q_0}{4 \pi \lambda} \int^\infty_{1/\sqrt{4 \alpha t}} \left[ e^{-r^2 s^2} \frac{2}{\sqrt{\pi}} \int^H_0 \left( \left[ e^{-s^2 (z-z')^2} - e^{-s^2 (z+z')^2} \right] dz' \right) ds \right] \right\} dz
+\end{equation} 
+where $r$ is the radial distance from the line-source, $\lambda$ is the ground thermal conductivity and $H$ the depth of the borehole.
+
+After several mathematical manipulation, the authors could simplify eq.\ref{eq:bf_finLinSou} to:
+\begin{equation} \label{eq:bf_finLinSou2}
+	\bar{T}(r,t) = \frac{q_0}{4 \pi \lambda} \int^\infty_{1/\sqrt{4 \alpha t}} e^{-r^2 s^2} \frac{\mathrm{I_{ls}}(H s)}{H s^2} ds
+\end{equation} 
+where
+\begin{align} \label{eq:bf_Ils}
+	\mathrm{I_{ls}}(h) 	&= 4 \ \mathrm{ierf}(h) - \mathrm{ierf}(2h) \\
+	\mathrm{ierf}(x)	&= \int^x_0 \mathrm{erf}(u) du = x \ \mathrm{erf}(x) - \frac{1}{\sqrt{\pi}}(1-e^{-x^2})
+\end{align} 
+and \textit{erf} is the error function.
+
+As mentioned in section \ref{sec:heat_sup}, the heat diffusion by conduction in a infinite solid is a linear system. Superposition can therefore by applied on eq.\ref{eq:bf_finLinSou2} to find the solution of a multiple boreholes systems. Let us define:
+\begin{equation} \label{eq:bf_rij}
+  r_{i,j} = \begin{cases} r_b & \mbox{if} \ \ i = i \\
+    \sqrt{(x_i-x_j)^2 + (y_i - y_j)^2} & \mbox{if} \ \ i \neq j   \end{cases}
+\end{equation}
+where $(x_i,y_i)$ are the spatial coordinates of the center of each borehole from a arbitrary reference point.
+
+The overall mean temperature of boreholes wall mean temperature is then given by:
+\begin{equation} \label{eq:bf_meanBhT}
+	\bar{T}_{mbh}(t) = \frac{1}{N} \sum^N_{i=1} \sum^N_{j=1} \bar{T}(r_{i,j} , t)
+\end{equation}
+where $mbh$ stands for multiple borehole and $N$ is the number of borehole in the boreholes field. 
+
+By plugging eq.\ref{eq:bf_finLinSou2} into eq.\ref{eq:bf_meanBhT}, Claesson and Javed found a compact expression for the average temperature at the wall of each borehole for a multipe boreholes system:
+\begin{equation} \label{eq:bf_Tmbh}
+\boxed{
+	\bar{T}_{mbh}(t) = \frac{q_0}{4 \pi \lambda} \int^\infty_{1/\sqrt{4 \alpha t}} \left( \sum^N_{i=1} \sum^N_{j=1}e^{-r_{i,j}^2 s^2} \right) \frac{\mathrm{I_{ls}}(H s)}{H s^2} ds \\
+}
+\end{equation} 
+
+Notice that the equation is only valid for time higher than $t = \frac{5 r_b^2}{\alpha}$ (Eskilson \cite{esk87}).
+
+\subsection{Combination of the STM with LTM} \label{ssec:bf_imp_com}
+The proposed model is based on the step-response approach. The STTRM and the LTTRM need now to be combined into a single TRM. The procedure is described by the following section.
+
+Recall that the STTRM describes accurately the transient heat transfer into each borehole and to the surrounding ground for simulation time under 200 hours. The LTTRM is able to describe the thermal interaction between the boreholes but is only valid from $t > \frac{5 r_b^2}{\alpha}$ which is typically smaller than 200 hours (Javed \cite{jav12}). LTTRM does not describe the borehole resistance itself but the wall temperature. Both temperature response can then be combined by lifting up the LTTRM response to meet the STTRM response at $t=200 h$ and adding so the borehole resistance to the LTTRM response. This is illustrated in fig.\ref{fig:bf_comb}.
+
+	\begin{figure}[hbtp] 
+		\centering
+		\includegraphics[width=0.4 \textwidth]{Image/Combination_STRM_LTRM.PNG}
+		\caption{Combination of the STTRM response with the LTTRM response to create the hybrid model.}
+		\label{fig:bf_comb}
+	\end{figure}
+	
+	
+\subsection{Verification}  \label{ssec:bf_imp_ver}	
+	
+	\subsubsection{STS verification: Sand box experiment} \label{sssec:bf_ver_sts}
+	
+		\textbf{Description of experiment}
+		
+		
+		\textbf{Steady state resistances}
+		
+		From measurement: $R_b$ given by Spilter and $R_b$ given by $T_b$ - T24
+		
+		From Hellstrom: $R_LS$ and $R_MP$: \color{red}{surprising result: different from experiment!? --> to investigate}\color{black}.
+		
+		From Bauer: use delta-Y transformation \color{red} It seems that a correction coefficient is necessary for the empirical value of the resistance. The resistances have been  calculated for constant temperature instead of constant flux: discrepancy of boundary conditions. Investigate if the correction factor could be found from the analytical solution (I don't think it is). \color{black} 
+		
+		\textbf{Capacitances}
+		
+		Capacitances not given by Spitler
+		
+		Description of optimality problem
+		
+		\textbf{Results of validation}
+		
+		Fitting: 
+		
+		
+		1) $k_soi$ seems to be underestimated
+		
+		2) c is a tuning parameters! Optimality problem not very accurate --> 
+		\color{red}{Could be investigated using the more complex state space model of matlab}\color{black}.
+		
+	\subsubsection{LTS verification: numerical and analytical solution} \label{sssec:bf_ver_lts}
+	
+	
+	\subsubsection{Verfication from measurements} \label{sssec:bf_ver_mea}
+	
+\section{Summary} \label{sec:bf_sum}
+
+\bibliographystyle{plain}
+\bibliography{boreholeModel_bib}
+
+\end{document}
