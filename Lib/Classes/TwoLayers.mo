@@ -7,10 +7,10 @@ model TwoLayers
     annotation (extent=[30,-6; 50,14]);
 
   // object of type: Layer. IMPORT: use "redeclare" to specify the type of the variable "c"
-  Layer layer_fix(redeclare FixedCap  c(T(start=500)))
+  Layer layer_fix(redeclare FixedMass  c(T(start=500)))
     annotation (extent=[-24,10; -4,30], Placement(transformation(extent={{-6,32},
             {14,52}})));
-  Layer layer_pcm(redeclare PCMCap   c(T(start=500)))
+  Layer layer_pcm(redeclare PCMMass   c(T(start=500)))
     annotation (extent=[-24,-24; -4,-4], Placement(transformation(extent={{-6,-48},
             {14,-28}})));
   Modelica.Blocks.Sources.Step step(

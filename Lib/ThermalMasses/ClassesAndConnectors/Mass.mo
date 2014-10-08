@@ -1,21 +1,21 @@
 within Lib.ThermalMasses.ClassesAndConnectors;
 model Mass
 
-Modelica.SIunits.Temperature T(start=273.15) "mass temprature";
+  Modelica.SIunits.Temperature T(start=273.15) "mass temprature";
 
-parameter Modelica.SIunits.Mass m = 1.5 "mass, in kg";
-parameter Modelica.SIunits.SpecificHeatCapacity c = 1600
+  parameter Modelica.SIunits.Mass m = 1.5 "mass, in kg";
+  parameter Modelica.SIunits.SpecificHeatCapacity c = 1600
     "specific capacity, J/kgK";
-final parameter Modelica.SIunits.HeatCapacity C = c*m
+  final parameter Modelica.SIunits.HeatCapacity C = c*m
     "dangerous without 'final' keyword";
 
   HeatPort heatPort "thermal connector" annotation (Placement(transformation(extent={{52,-10},{72,10}}),
         iconTransformation(extent={{52,-10},{72,10}})));
 
 equation
-heatPort.T = T; // define the temperature of the connector = to temperature of the mass
-// capacity equation
-C * der(T) = heatPort.Q_flow;
+  heatPort.T = T; // define the temperature of the connector = to temperature of the mass
+  // capacity equation
+  C * der(T) = heatPort.Q_flow;
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
             {100,100}}), graphics={Polygon(
           points={{0,58},{-22,64},{-50,48},{-62,10},{-62,6},{-62,-22},{-62,-26},
