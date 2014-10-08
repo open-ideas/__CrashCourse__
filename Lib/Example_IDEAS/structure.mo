@@ -2,30 +2,6 @@ within Lib.Example_IDEAS;
 model Structure "Building envelope model"
   extends IDEAS.Interfaces.BaseClasses.Structure( nZones=2);
 
-  IDEAS.Fluid.Sources.FixedBoundary bou(nPorts=1, redeclare package Medium =
-        IDEAS.Media.Air) annotation (Placement(transformation(
-        extent={{-5,-5},{5,5}},
-        rotation=-90,
-        origin={79,-17})));
-
-  IDEAS.Fluid.Sources.MassFlowSource_T boundary(nPorts=1, redeclare package
-      Medium = IDEAS.Media.Air) annotation (Placement(transformation(
-        extent={{-6,-6},{6,6}},
-        rotation=-90,
-        origin={62,-16})));
-
-  IDEAS.Fluid.Sources.FixedBoundary bou1(
-                                        nPorts=1, redeclare package Medium =
-        IDEAS.Media.Air) annotation (Placement(transformation(
-        extent={{-5,-5},{5,5}},
-        rotation=-90,
-        origin={79,69})));
-  IDEAS.Fluid.Sources.MassFlowSource_T boundary1(
-                                                nPorts=1, redeclare package
-      Medium = IDEAS.Media.Air) annotation (Placement(transformation(
-        extent={{-6,-6},{6,6}},
-        rotation=-90,
-        origin={62,70})));
 public
 IDEAS.Buildings.Components.Zone north(                  V=39.2, nSurf=6)
     "north zone of office area"
@@ -72,11 +48,11 @@ IDEAS.Buildings.Components.Window south_win(
      azi=IDEAS.Constants.South,
     redeclare Lib.Example_IDEAS.Data.Materials.Glazing glazing,
     redeclare Lib.Example_IDEAS.Data.Materials.Frame fraType,
-    redeclare IDEAS.Buildings.Components.Shading.Screen shaType(controled=true))
+    redeclare IDEAS.Buildings.Components.Shading.None shaType)
     "Window of the south zone"                                              annotation (Placement(transformation(
       extent={{-5.5,-10.5},{5.5,10.5}},
       rotation=90,
-      origin={10.5,-55.5})));
+      origin={10.5,-53.5})));
 IDEAS.Buildings.Components.InternalWall wall(
   azi=IDEAS.Constants.South,
     AWall=8.1,
@@ -87,7 +63,7 @@ IDEAS.Buildings.Components.InternalWall wall(
                              annotation (Placement(transformation(
       extent={{-5,-10},{5,10}},
       rotation=0,
-      origin={39,-18})));
+      origin={37,-20})));
 IDEAS.Buildings.Components.InternalWall south_floor(
   inc=IDEAS.Constants.Floor,
   azi=IDEAS.Constants.South,
@@ -123,7 +99,7 @@ IDEAS.Buildings.Components.InternalWall north_floor(
     annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=90,
-        origin={-109,28})));
+        origin={-109,26})));
   IDEAS.Buildings.Components.BoundaryWall south_common(
     insulationThickness=0,
     redeclare Lib.Example_IDEAS.Data.Constructions.IntWall constructionType,
@@ -137,15 +113,9 @@ IDEAS.Buildings.Components.InternalWall north_floor(
     annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=90,
-        origin={-109,-56})));
+        origin={-109,-54})));
 
         //shading and schedule to be discussed
-  Modelica.Blocks.Sources.Pulse pulse(
-    width=2/24,
-    period=86400,
-    startTime=13*60*60)
-    "Example schedule of shading control (to be fixed, especially startTime)"
-    annotation (Placement(transformation(extent={{0,-90},{20,-70}})));
 
 equation
   connect(north_win.propsBus_a, north.propsBus[1]) annotation (Line(
@@ -169,12 +139,12 @@ equation
       thickness=0.5,
       smooth=Smooth.None));
   connect(wall.propsBus_b, north.propsBus[5]) annotation (Line(
-      points={{34,-14},{28,-14},{28,10},{52,10},{52,41},{60,41}},
+      points={{32,-16},{28,-16},{28,10},{52,10},{52,41},{60,41}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
   connect(south_win.propsBus_a, south.propsBus[1]) annotation (Line(
-      points={{6.3,-50},{6,-50},{6,-36.3333},{60,-36.3333}},
+      points={{6.3,-48},{6,-48},{6,-36.3333},{60,-36.3333}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
@@ -194,7 +164,7 @@ equation
       thickness=0.5,
       smooth=Smooth.None));
   connect(wall.propsBus_a, south.propsBus[5]) annotation (Line(
-      points={{44,-14},{54,-14},{54,-39},{60,-39}},
+      points={{42,-16},{54,-16},{54,-39},{60,-39}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
@@ -222,14 +192,6 @@ equation
       points={{80,-48},{116,-48},{116,-15},{150,-15}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(boundary.ports[1], south.flowPort_Out) annotation (Line(
-      points={{62,-22},{62,-26},{68,-26},{68,-32}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(bou.ports[1], south.flowPort_In) annotation (Line(
-      points={{79,-22},{79,-26},{72,-26},{72,-32}},
-      color={0,127,255},
-      smooth=Smooth.None));
 
   connect(north_floor.port_emb, heatPortEmb[1]) annotation (Line(
       points={{-59,26},{-50,26},{-50,60},{150,60}},
@@ -239,27 +201,31 @@ equation
       points={{-59,-54},{-50,-54},{-50,60},{150,60}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(bou1.ports[1], north.flowPort_In) annotation (Line(
-      points={{79,64},{76,64},{76,52},{72,52},{72,48}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(boundary1.ports[1], north.flowPort_Out) annotation (Line(
-      points={{62,64},{62,52},{68,52},{68,48}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(pulse.y, south_win.Ctrl) annotation (Line(
-      points={{21,-80},{32,-80},{32,-58.8},{21,-58.8}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(north_common.propsBus_a, north.propsBus[6]) annotation (Line(
-      points={{-113,33},{-113,40.3333},{60,40.3333}},
+      points={{-113,31},{-113,40.3333},{60,40.3333}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
   connect(south_common.propsBus_a, south.propsBus[6]) annotation (Line(
-      points={{-113,-51},{-113,-39.6667},{60,-39.6667}},
+      points={{-113,-49},{-113,-39.6667},{60,-39.6667}},
       color={255,204,51},
       thickness=0.5,
+      smooth=Smooth.None));
+  connect(north.flowPort_Out, flowPort_Out[1]) annotation (Line(
+      points={{68,48},{68,76},{-20,76},{-20,95}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(south.flowPort_Out, flowPort_Out[2]) annotation (Line(
+      points={{68,-32},{68,22},{86,22},{86,76},{-20,76},{-20,105}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(north.flowPort_In, flowPort_In[1]) annotation (Line(
+      points={{72,48},{72,82},{20,82},{20,95}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(south.flowPort_In, flowPort_In[2]) annotation (Line(
+      points={{72,-32},{74,-32},{74,22},{86,22},{86,82},{20,82},{20,105}},
+      color={0,0,0},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-150,
             -100},{150,100}}), graphics));

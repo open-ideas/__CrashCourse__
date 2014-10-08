@@ -86,27 +86,16 @@ package Data
              Data.Materials.Plaster(d=0.02)});
     end IntWall;
 
-    record IntFloor "Internal floor "
-      extends IDEAS.Buildings.Data.Interfaces.Construction(nLay=4, mats={
-             Data.Materials.Tile(d=0.01),
-             Data.Materials.Screed(d=0.06),
-             Data.Materials.Concrete(d=0.2),
-             Data.Materials.Plaster(d=0.02)});
-
-      //Be carefull with the heat ports: The 1st material is port_b of the wall/floor component
-
-    end IntFloor;
-
-    model IntFloHeaFh "Int. concrete floor, insulated for floor heating"
+    model IntFloorHeaFh "Int. concrete floor, insulated for floor heating"
 
       extends IDEAS.Buildings.Data.Interfaces.Construction(
         nLay=5, locGain=2,
         mats={Data.Materials.Tile(d=0.01),
-        Data.Materials.Screed(d=0.14),
+        Data.Materials.Screed(d=0.06),
         IDEAS.Buildings.Data.Insulation.Pur(d=0.06),
         Data.Materials.Concrete(d=0.20),
         Data.Materials.Plaster(d=0.02)});
 
-    end IntFloHeaFh;
+    end IntFloorHeaFh;
   end Constructions;
 end Data;
