@@ -17,25 +17,6 @@ package Data
         rho=975,
         epsLw=0.85,
         epsSw=0.65) "Plaster";
-    record Concrete =  IDEAS.Buildings.Data.Interfaces.Material (
-        k=1.7,
-        c=840,
-        rho=2400,
-        epsLw=0.88,
-        epsSw=0.55) "Concrete";
-    record Tile = IDEAS.Buildings.Data.Interfaces.Material (
-        d=0.01,
-        k=1.4,
-        c=840,
-        rho=2100,
-        epsLw=0.88,
-        epsSw=0.55) "Tiles for floor finishing";
-    record Screed = IDEAS.Buildings.Data.Interfaces.Material (
-        k=0.6,
-        c=860,
-        rho=1100,
-        epsLw=0.88,
-        epsSw=0.55) "Light cast concrete";
 
     record MineralWool = IDEAS.Buildings.Data.Interfaces.Insulation (
       k=0.036,
@@ -86,16 +67,5 @@ package Data
              Data.Materials.Plaster(d=0.02)});
     end IntWall;
 
-    record IntFloorHeaFh "Int. concrete floor, insulated for floor heating"
-
-      extends IDEAS.Buildings.Data.Interfaces.Construction(
-        nLay=5, locGain=2,
-        mats={Data.Materials.Tile(d=0.01),
-        Data.Materials.Screed(d=0.06),
-        IDEAS.Buildings.Data.Insulation.Pur(d=0.06),
-        Data.Materials.Concrete(d=0.20),
-        Data.Materials.Plaster(d=0.02)});
-
-    end IntFloorHeaFh;
   end Constructions;
 end Data;
