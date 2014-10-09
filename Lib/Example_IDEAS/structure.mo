@@ -48,11 +48,11 @@ IDEAS.Buildings.Components.Window south_win(
      azi=IDEAS.Constants.South,
     redeclare Lib.Example_IDEAS.Data.Materials.Glazing glazing,
     redeclare Lib.Example_IDEAS.Data.Materials.Frame fraType,
-    redeclare IDEAS.Buildings.Components.Shading.Screen shaType(controled=true))
+    redeclare IDEAS.Buildings.Components.Shading.None shaType)
     "Window of the south zone"                                              annotation (Placement(transformation(
       extent={{-5.5,-10.5},{5.5,10.5}},
       rotation=90,
-      origin={10.5,-55.5})));
+      origin={10.5,-53.5})));
 IDEAS.Buildings.Components.InternalWall wall(
   azi=IDEAS.Constants.South,
     AWall=8.1,
@@ -63,14 +63,15 @@ IDEAS.Buildings.Components.InternalWall wall(
                              annotation (Placement(transformation(
       extent={{-5,-10},{5,10}},
       rotation=0,
-      origin={39,-18})));
+      origin={37,-20})));
 IDEAS.Buildings.Components.InternalWall south_floor(
   inc=IDEAS.Constants.Floor,
   azi=IDEAS.Constants.South,
     AWall=11.88,
-    redeclare Lib.Example_IDEAS.Data.Constructions.IntFloor constructionType,
     redeclare IDEAS.Buildings.Data.Insulation.none insulationType,
-    insulationThickness=0) "Floor as well as roof of the south zone"
+    insulationThickness=0,
+    redeclare Lib.Example_IDEAS.Data.Constructions.IntFloorHeaFh
+      constructionType) "Floor as well as roof of the south zone"
                                                                annotation (Placement(transformation(
       extent={{5,-10},{-5,10}},
       rotation=90,
@@ -79,9 +80,10 @@ IDEAS.Buildings.Components.InternalWall north_floor(
   inc=IDEAS.Constants.Floor,
   azi=IDEAS.Constants.South,
     AWall=11.88,
-    redeclare Lib.Example_IDEAS.Data.Constructions.IntFloor constructionType,
     redeclare IDEAS.Buildings.Data.Insulation.none insulationType,
-    insulationThickness=0) "Floor as well as roof of the north zone"
+    insulationThickness=0,
+    redeclare Lib.Example_IDEAS.Data.Constructions.IntFloorHeaFh
+      constructionType) "Floor as well as roof of the north zone"
                                                                annotation (Placement(transformation(
       extent={{5,-10},{-5,10}},
       rotation=90,
@@ -99,7 +101,7 @@ IDEAS.Buildings.Components.InternalWall north_floor(
     annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=90,
-        origin={-109,28})));
+        origin={-109,26})));
   IDEAS.Buildings.Components.BoundaryWall south_common(
     insulationThickness=0,
     redeclare Lib.Example_IDEAS.Data.Constructions.IntWall constructionType,
@@ -113,15 +115,7 @@ IDEAS.Buildings.Components.InternalWall north_floor(
     annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=90,
-        origin={-109,-56})));
-
-        //shading and schedule to be discussed
-  Modelica.Blocks.Sources.Pulse pulse(
-    width=2/24,
-    period=86400,
-    startTime=13*60*60)
-    "Example schedule of shading control (to be fixed, especially startTime)"
-    annotation (Placement(transformation(extent={{0,-90},{20,-70}})));
+        origin={-109,-54})));
 
 equation
   connect(north_win.propsBus_a, north.propsBus[1]) annotation (Line(
@@ -145,12 +139,12 @@ equation
       thickness=0.5,
       smooth=Smooth.None));
   connect(wall.propsBus_b, north.propsBus[5]) annotation (Line(
-      points={{34,-14},{28,-14},{28,10},{52,10},{52,41},{60,41}},
+      points={{32,-16},{28,-16},{28,10},{52,10},{52,41},{60,41}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
   connect(south_win.propsBus_a, south.propsBus[1]) annotation (Line(
-      points={{6.3,-50},{6,-50},{6,-36.3333},{60,-36.3333}},
+      points={{6.3,-48},{6,-48},{6,-36.3333},{60,-36.3333}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
@@ -170,7 +164,7 @@ equation
       thickness=0.5,
       smooth=Smooth.None));
   connect(wall.propsBus_a, south.propsBus[5]) annotation (Line(
-      points={{44,-14},{54,-14},{54,-39},{60,-39}},
+      points={{42,-16},{54,-16},{54,-39},{60,-39}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
@@ -207,34 +201,30 @@ equation
       points={{-59,-54},{-50,-54},{-50,65},{150,65}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(pulse.y, south_win.Ctrl) annotation (Line(
-      points={{21,-80},{32,-80},{32,-58.8},{21,-58.8}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(north_common.propsBus_a, north.propsBus[6]) annotation (Line(
-      points={{-113,33},{-113,40.3333},{60,40.3333}},
+      points={{-113,31},{-113,40.3333},{60,40.3333}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
   connect(south_common.propsBus_a, south.propsBus[6]) annotation (Line(
-      points={{-113,-51},{-113,-39.6667},{60,-39.6667}},
+      points={{-113,-49},{-113,-39.6667},{60,-39.6667}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
   connect(north.flowPort_Out, flowPort_Out[1]) annotation (Line(
-      points={{68,48},{68,72},{-20,72},{-20,95}},
-      color={0,0,0},
-      smooth=Smooth.None));
-  connect(north.flowPort_In, flowPort_In[1]) annotation (Line(
-      points={{72,48},{72,78},{20,78},{20,95}},
+      points={{68,48},{68,76},{-20,76},{-20,95}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(south.flowPort_Out, flowPort_Out[2]) annotation (Line(
-      points={{68,-32},{68,20},{30,20},{30,72},{-20,72},{-20,105}},
+      points={{68,-32},{68,22},{86,22},{86,76},{-20,76},{-20,105}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(north.flowPort_In, flowPort_In[1]) annotation (Line(
+      points={{72,48},{72,82},{20,82},{20,95}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(south.flowPort_In, flowPort_In[2]) annotation (Line(
-      points={{72,-32},{72,22},{36,22},{36,78},{20,78},{20,105}},
+      points={{72,-32},{74,-32},{74,22},{86,22},{86,82},{20,82},{20,105}},
       color={0,0,0},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-150,
