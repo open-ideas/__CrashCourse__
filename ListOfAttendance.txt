@@ -6,17 +6,17 @@ Wouter Mistiaen															NO
 Paul Lacko																OK		OK
 Joris Coddé
 Jelle.Laverge@UGent.be:													OK
-lien.debacker@ugent.be
+lien.debacker@ugent.be													OK		OK
 peterj.devlieger@ugent.be												OK		OK
 elisa.vankenhove@ugent.be
 Filip Corten
 Seppe Delmeiren															OK
 Ine Huybreghs
 Gertjan Van den Bossche <gertjan.vandenbossche@student.kuleuven.be>; 	OK		OK
-Marijn Verstappen <marijn.verstappen@student.kuleuven.be>				OK
+Marijn Verstappen <marijn.verstappen@student.kuleuven.be>				No
 Arnout Aertgeerts (arnoutaertgeerts@gmail.com)							OK 		OK
 robbe salenbien (robbe.salenbien@vito.be)
-Geert.Bauwens@bwk.kuleuven.be											OK
+Geert.Bauwens@bwk.kuleuven.be											OK		OK
 Wouter.VanDeWalle@bwk.kuleuven.be										OK
 gertjan.vandenbossche@student.kuleuven.be								OK		OK
 b.vanderh@hotmail.com													OK
