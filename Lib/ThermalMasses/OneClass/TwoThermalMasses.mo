@@ -1,7 +1,7 @@
 within Lib.ThermalMasses.OneClass;
 model TwoThermalMasses "Make a file to simulate two connected thermal masses"
 
-  //Thermal mass model1. The model is unbalanced because it lacks an equation (for T or for Q_flow)"
+  //Thermal mass model1.
   Modelica.SIunits.Temperature T1(start=273.15) "mass temperature";
   Modelica.SIunits.HeatFlowRate Q_flow1 "heat exchange";
 
@@ -22,7 +22,6 @@ model TwoThermalMasses "Make a file to simulate two connected thermal masses"
     "dangerous without 'final' keyword";
 
   //Thermal resistance model Fourier conduction.
-  //Model is singular when it is use alone because it lacks two equation (for T_a / T_b or for Q_flow_a Q_flow_b)"
 
   Modelica.SIunits.Temperature T_a "Left-side resistor temperature";
   Modelica.SIunits.Temperature T_b "Right-side resistor temperature";
@@ -46,7 +45,6 @@ equation
   Q_flow_a + Q_flow_b = 0;
 
   //Connect
-  // (Kirchhoff Loop Rule)
   T1 = T_a;
   T2 = T_b;
 
