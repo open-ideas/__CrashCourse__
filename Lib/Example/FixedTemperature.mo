@@ -2,7 +2,7 @@ within Lib.Example;
 model FixedTemperature "Fixes the temperature in a HeatPort"
   parameter Modelica.SIunits.Temperature T "constant temperature";
 
-  Lib.Connectors.With.HeatPort heatPort
+  Lib.ThermalMasses.ClassesAndConnectors.HeatPort heatPort
     annotation (Placement(transformation(extent={{88,-10},{108,10}})));
 
 equation

@@ -1,8 +1,8 @@
 within Lib.Classes;
-model PCMCap
+model PCMMass
              // extension of partial cap: variable capacity value depending on the temperature of the phase-changing material
 
-  extends Classes.PartialCap;
+  extends PartialMass;
 
   parameter Modelica.SIunits.HeatCapacity CMax=30000;
   parameter Modelica.SIunits.Temperature TNom=330;
@@ -15,4 +15,4 @@ equation
     C=CNom+(CMax-CNom)/2+(CMax-CNom)/2*sin(2*Modelica.Constants.pi*(T/(10))+3.1415/2);
   end if;
 
-end PCMCap;
+end PCMMass;

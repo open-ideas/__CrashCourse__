@@ -1,9 +1,9 @@
 within Lib.Classes;
-model FixedCap
+model FixedMass
                // extension of PartialCap
 
-    extends Classes.PartialCap;
+    extends PartialMass;
 
 equation
     C = CNom;
-end FixedCap;
+end FixedMass;
