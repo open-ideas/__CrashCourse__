@@ -12,7 +12,7 @@ protected
   final parameter Modelica.SIunits.Time interval=3600 "Time interval";
   final parameter Modelica.SIunits.Time period=86400/interval
     "Number of intervals per repetition";
-  final parameter Real[3] QDay(unit="W/m2") = {8,20,2}*0.1
+  final parameter Real[3] QDay(unit="W/m2") = {8,20,2}
     "Specific power for dayzone";
   Integer t "Time interval";
 
