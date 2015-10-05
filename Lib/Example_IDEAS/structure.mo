@@ -1,13 +1,15 @@
 within Lib.Example_IDEAS;
 model Structure "Building envelope model"
-  extends IDEAS.Interfaces.BaseClasses.Structure( final nZones=2, final nEmb = 2);
+  extends IDEAS.Interfaces.BaseClasses.Structure( final nZones=2, final nEmb = 2, redeclare
+      package Medium =
+        Lib.Example_IDEAS.Data.Medium);
 
 public
-IDEAS.Buildings.Components.Zone north(                  V=39.2, nSurf=6)
-    "north zone of office area"
+IDEAS.Buildings.Components.Zone north(                  V=39.2, nSurf=6,
+    redeclare package Medium = Medium) "north zone of office area"
   annotation (Placement(transformation(extent={{60,28},{80,48}})));
-IDEAS.Buildings.Components.Zone south(                  V=39.2, nSurf=6)
-    "south zone of office area"
+IDEAS.Buildings.Components.Zone south(                  V=39.2, nSurf=6,
+    redeclare package Medium = Medium) "south zone of office area"
   annotation (Placement(transformation(extent={{60,-52},{80,-32}})));
 IDEAS.Buildings.Components.OuterWall north_ext(
      AWall=3.51,
