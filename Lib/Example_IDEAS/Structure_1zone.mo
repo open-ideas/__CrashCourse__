@@ -38,7 +38,7 @@ IDEAS.Buildings.Components.InternalWall north_floor(
     redeclare Lib.Example_IDEAS.Data.Constructions.IntFloorHeaFh
       constructionType) "Floor as well as roof of the north zone"
                                                                annotation (Placement(transformation(
-      extent={{5,-10},{-5,10}},
+      extent={{-5,-10},{5,10}},
       rotation=90,
       origin={-69,26})));
   IDEAS.Buildings.Components.BoundaryWall north_common(
@@ -54,26 +54,26 @@ IDEAS.Buildings.Components.InternalWall north_floor(
     annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=90,
-        origin={-109,26})));
+        origin={-109,24})));
 
 equation
   connect(north_win.propsBus_a, north.propsBus[1]) annotation (Line(
-      points={{6.3,32},{6,32},{6,43.6},{60,43.6}},
+      points={{6.3,32},{6,32},{6,40},{60,40},{60,44},{60,44},{60,44},{60,43.6}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
   connect(north_ext.propsBus_a, north.propsBus[2]) annotation (Line(
-      points={{-33.7,32},{-34,32},{-34,42.8},{60,42.8}},
+      points={{-33.7,32},{-34,32},{-34,40},{60,40},{60,42.8}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
   connect(north_floor.propsBus_b, north.propsBus[3]) annotation (Line(
-      points={{-73,31},{-73,42},{60,42}},
+      points={{-73,21},{-73,16},{-88,16},{-88,40},{60,40},{60,42}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
   connect(north_floor.propsBus_a, north.propsBus[4]) annotation (Line(
-      points={{-73,21},{-73,16},{-86,16},{-86,41.2},{60,41.2}},
+      points={{-73,31},{-73,36},{-74,36},{-74,40},{60,40},{60,41.2}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
@@ -91,16 +91,16 @@ equation
       smooth=Smooth.None));
 
   connect(north_common.propsBus_a, north.propsBus[5]) annotation (Line(
-      points={{-113,31},{-113,40.4},{60,40.4}},
+      points={{-113,29},{-113,36},{-112,36},{-112,40},{60,40},{60,40.4}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
   connect(north.flowPort_Out, flowPort_Out[1]) annotation (Line(
-      points={{68,48},{68,76},{-20,76},{-20,100}},
+      points={{68,48},{68,78},{-20,78},{-20,100}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(north.flowPort_In, flowPort_In[1]) annotation (Line(
-      points={{72,48},{72,82},{20,82},{20,100}},
+      points={{72,48},{72,86},{20,86},{20,100}},
       color={0,0,0},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-150,

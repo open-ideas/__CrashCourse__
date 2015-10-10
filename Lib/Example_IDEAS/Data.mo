@@ -92,15 +92,16 @@ package Data
         nLay=5, locGain=2,
         mats={Data.Materials.Tile(d=0.01),
         Data.Materials.Screed(d=0.06),
-        IDEAS.Buildings.Data.Insulation.Pur(d=0.06),
+        IDEAS.Buildings.Data.Insulation.Pur(d=0.04),
         Data.Materials.Concrete(d=0.20),
         Data.Materials.Plaster(d=0.02)});
 
     end IntFloorHeaFh;
   end Constructions;
 
-  package Medium "ExIDEAS Air: Simple dry air model (0..100 degC)"
-  extends Modelica.Media.Air.SimpleAir
+  package Medium
+    "ExIDEAS Air: Package with moist air model that decouples pressure and temperature"
+  extends IDEAS.Media.Air
   annotation (Documentation(info="<html>
 <p>
     <IMG src=\"modelica://Modelica/Resources/Images/Media/IdealGases/SingleGases/Air.png\">

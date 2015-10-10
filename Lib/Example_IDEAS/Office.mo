@@ -5,7 +5,7 @@ model Office
         Lib.Example_IDEAS.Data.Medium,redeclare IDEAS.VentilationSystems.None
       ventilationSystem(redeclare package Medium = Medium),
     redeclare IDEAS.HeatingSystems.Heating_Radiators
-      heatingSystem(nLoads=0, idealCtrlMixer(dynamicValve=true, tau=600)),
+      heatingSystem(nLoads=0),
     redeclare Structure building(
       AZones={11.88,11.88},
       VZones=building.AZones .* 3.3,
