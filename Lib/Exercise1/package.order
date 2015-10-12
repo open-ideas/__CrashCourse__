@@ -1,3 +1,4 @@
+Pin
 Pin_a
 Pin_b
 OnePin
@@ -5,4 +6,6 @@ TwoPin
 Resistor
 Capacitor
 Ground
-circuit
+SineVoltage
+Diode
+Circuit
