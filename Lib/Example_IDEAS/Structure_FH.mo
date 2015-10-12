@@ -1,6 +1,6 @@
 within Lib.Example_IDEAS;
 model Structure_FH "Building envelope model with floor heating"
-  extends IDEAS.Interfaces.BaseClasses.Structure( final nZones=2, final nEmb = 2);
+  extends IDEAS.Interfaces.BaseClasses.Structure(final Q_design={north.Q_design,south.Q_design}, final nZones=2, final nEmb = 2);
 
 public
 IDEAS.Buildings.Components.Zone north(                  V=39.2, nSurf=6,
