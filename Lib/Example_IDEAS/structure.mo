@@ -4,10 +4,14 @@ model Structure "Building envelope model"
 
 public
 IDEAS.Buildings.Components.Zone north(                  V=39.2, nSurf=6,
-    redeclare package Medium = Medium) "north zone of office area"
+    redeclare package Medium = Medium,
+    A=11.88,
+    n50=12) "north zone of office area"
   annotation (Placement(transformation(extent={{60,28},{80,48}})));
 IDEAS.Buildings.Components.Zone south(                  V=39.2, nSurf=6,
-    redeclare package Medium = Medium) "south zone of office area"
+    redeclare package Medium = Medium,
+    A=11.88,
+    n50=12) "south zone of office area"
   annotation (Placement(transformation(extent={{60,-52},{80,-32}})));
 IDEAS.Buildings.Components.OuterWall north_ext(
      AWall=3.51,
@@ -92,11 +96,11 @@ IDEAS.Buildings.Components.InternalWall north_floor(
     insulationThickness=0,
     redeclare Lib.Example_IDEAS.Data.Constructions.IntWall constructionType,
     redeclare IDEAS.Buildings.Data.Insulation.none insulationType,
-    AWall=2*14.52,
     inc=IDEAS.Constants.Wall,
     azi=IDEAS.Constants.East,
     use_T_in=false,
-    use_Q_in=false)
+    use_Q_in=false,
+    AWall=29.04)
     "Common (adiabatic) walls to neighboring offices of the north zone"
     annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
@@ -106,11 +110,11 @@ IDEAS.Buildings.Components.InternalWall north_floor(
     insulationThickness=0,
     redeclare Lib.Example_IDEAS.Data.Constructions.IntWall constructionType,
     redeclare IDEAS.Buildings.Data.Insulation.none insulationType,
-    AWall=2*14.52,
     inc=IDEAS.Constants.Wall,
     azi=IDEAS.Constants.East,
     use_T_in=false,
-    use_Q_in=false)
+    use_Q_in=false,
+    AWall=29.04)
     "Common (adiabatic) walls to neighboring offices of the south zone"
     annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
@@ -123,14 +127,12 @@ IDEAS.Buildings.Components.InternalWall north_floor(
     annotation (Placement(transformation(extent={{0,-98},{20,-78}})));
 equation
   connect(north_win.propsBus_a, north.propsBus[1]) annotation (Line(
-      points={{6.3,32},{6,32},{6,42},{60,42},{60,42},{60,44},{60,43.6667},{60,
-          43.6667}},
+      points={{6.3,32},{6,32},{6,42},{60,42},{60,43.6667}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
   connect(north_ext.propsBus_a, north.propsBus[2]) annotation (Line(
-      points={{-33.7,32},{-34,32},{-34,42},{60,42},{60,42},{60,44},{60,44},{60,
-          43}},
+      points={{-33.7,32},{-34,32},{-34,42},{60,42},{60,43}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
@@ -151,14 +153,12 @@ equation
       thickness=0.5,
       smooth=Smooth.None));
   connect(south_win.propsBus_a, south.propsBus[1]) annotation (Line(
-      points={{6.3,-50},{6,-50},{6,-38},{34,-38},{34,-38},{60,-38},{60,-36},{60,
-          -36},{60,-36.3333},{60,-36.3333}},
+      points={{6.3,-50},{6,-50},{6,-38},{60,-38},{60,-36.3333}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
   connect(south_ext.propsBus_a, south.propsBus[2]) annotation (Line(
-      points={{-33.7,-48},{-34,-48},{-34,-38},{12,-38},{12,-38},{36,-38},{36,
-          -37},{60,-37}},
+      points={{-33.7,-48},{-34,-48},{-34,-38},{36,-38},{36,-37},{60,-37}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
