@@ -1,6 +1,63 @@
 within Lib;
 package Task
   extends Modelica.Icons.Package;
+  model House_EqBased
+    type Temperature=Real(unit="K");
+    type HeatFlow=Real(unit="W");
+    type Resistance=Real(unit="K/W");
+    type Capacitance=Real(unit="J/K");
+
+    parameter Integer n = 5;
+
+    parameter Resistance RWall=0.00806;
+    parameter Resistance RSlab1=0.016;
+    parameter Resistance RSlab2=0.016;
+    parameter Resistance RGro1[n] = 0.033 * ones(n);
+    parameter Resistance RGro2[n] = 0.033 * ones(n);
+    parameter Capacitance CZone = 240960000;
+    parameter Capacitance CSlab = 336000000;
+    parameter Capacitance CGro[n] = 2.52*10^8 * ones(n);
+
+    parameter Temperature TGroBou = 283.15;
+
+    Temperature TAmb = 10*cos(2*Modelica.Constants.pi*time * 3*10^(-8)) + 276.15;
+    Temperature TZone(start=293.15);
+    Temperature TSlab(start=293.15);
+    Temperature TGro[n](each start=283.15);
+  protected
+    HeatFlow QZA;
+    HeatFlow QZS;
+    HeatFlow QZone;
+    HeatFlow QSlab;
+    HeatFlow QSG;
+    HeatFlow QGG[n+1];
+    HeatFlow QGro[n];
+
+    HeatFlow QSol = floor(cos(2*Modelica.Constants.pi*time / 86400) + 1) * 5000 * cos(2*Modelica.Constants.pi*time / 86400);
+  equation
+    // Zone equation
+    TZone - TAmb = RWall * QZA;
+    TZone - TSlab = RSlab1 * QZS;
+    CZone * der(TZone) = QZone;
+    QZA + QZS + QZone - QSol = 0;
+
+    // Slab equation
+    CSlab * der(TSlab) = QSlab;
+    TSlab - TGro[1] = (RSlab2 + RGro1[1]) * QSG;
+    QSlab + QSG - QZS = 0;
+
+    //Ground equation
+    QGG[1] = QSG;
+    for i in 1:n-1 loop
+      CGro[i] * der(TGro[i]) = QGro[i];
+      TGro[i] - TGro[i+1] = (RGro2[i] + RGro1[i+1]) * QGG[i+1];
+      QGG[i+1] + QGro[i] - QGG[i] = 0;
+    end for;
+    CGro[n] * der(TGro[n]) = QGro[n];
+    TGro[n]- TGroBou = RGro2[n] * QGG[n+1];
+    QGG[n+1] + QGro[n] - QGG[n] = 0;
+  end House_EqBased;
+
   model House_OjectsBased
 
     parameter Integer n = 5 "number of ground layer";
@@ -106,11 +163,11 @@ package Task
           points={{-40,-60},{-54,-60}},
           color={191,0,0},
           smooth=Smooth.None));
-      connect(RGro2[n].port_b, CGro[n].port) annotation (Line(
+    connect(RGro2[n].port_b, CGro[n].port) annotation (Line(
         points={{-68,-60},{-54,-60}},
         color={191,0,0},
         smooth=Smooth.None));
-      connect(RGro2[n].port_a, TGro.port)  annotation (Line(
+    connect(RGro2[n].port_a, TGro.port)  annotation (Line(
         points={{-88,-60},{-88,-90},{-80,-90}},
         color={191,0,0},
         smooth=Smooth.None));
@@ -144,59 +201,4 @@ package Task
               -100,-100},{100,100}}), graphics));
   end House_ObjectBasedHeated;
 
-  model House_EqBased
-    type Temperature=Real(unit="K");
-    type HeatFlow=Real(unit="W");
-    type Resistance=Real(unit="K/W");
-    type Capacitance=Real(unit="J/K");
-
-    parameter Integer n = 5;
-
-    parameter Resistance RWall=0.00806;
-    parameter Resistance RSlab1=0.016;
-    parameter Resistance RSlab2=0.016;
-    parameter Resistance RGro1[n] = 0.033 * ones(n);
-    parameter Resistance RGro2[n] = 0.033 * ones(n);
-    parameter Capacitance CZone = 240960000;
-    parameter Capacitance CSlab = 336000000;
-    parameter Capacitance CGro[n] = 2.52*10^8 * ones(n);
-
-    parameter Temperature TGroBou = 283.15;
-
-    Temperature TAmb = 10*cos(2*Modelica.Constants.pi*time * 3*10^(-8)) + 276.15;
-    Temperature TZone(start=293.15);
-    Temperature TSlab(start=293.15);
-    Temperature TGro[n](each start=283.15);
-    HeatFlow QZA;
-    HeatFlow QZS;
-    HeatFlow QZone;
-    HeatFlow QSlab;
-    HeatFlow QSG;
-    HeatFlow QGG[n+1];
-    HeatFlow QGro[n];
-
-    HeatFlow QSol = floor(cos(2*Modelica.Constants.pi*time / 86400) + 1) * 5000 * cos(2*Modelica.Constants.pi*time / 86400);
-  equation
-    // Zone equation
-    TZone - TAmb = RWall * QZA;
-    TZone - TSlab = RSlab1 * QZS;
-    CZone * der(TZone) = QZone;
-    QZA + QZS + QZone - QSol = 0;
-
-    // Slab equation
-    CSlab * der(TSlab) = QSlab;
-    TSlab - TGro[1] = (RSlab2 + RGro1[1]) * QSG;
-    QSlab + QSG - QZS = 0;
-
-    //Ground equation
-    QGG[1] = QSG;
-    for i in 1:n-1 loop
-      CGro[i] * der(TGro[i]) = QGro[i];
-      TGro[i] - TGro[i+1] = (RGro2[i] + RGro1[i+1]) * QGG[i+1];
-      QGG[i+1] + QGro[i] - QGG[i] = 0;
-    end for;
-    CGro[n] * der(TGro[n]) = QGro[n];
-    TGro[n]- TGroBou = RGro2[n] * QGG[n+1];
-    QGG[n+1] + QGro[n] - QGG[n] = 0;
-  end House_EqBased;
 end Task;

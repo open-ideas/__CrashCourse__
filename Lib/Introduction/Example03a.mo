@@ -15,5 +15,6 @@ bigThan5= n>5;
 algorithm
             // algorithm part. Equations are computed line by line
   y:= n*x;
+  y := y/10;
 
 end Example03a;
