@@ -38,5 +38,8 @@ equation
   connect(bou.ports[1], fan.port_a)
     annotation (Line(points={{-40,0},{-40,0},{-20,0}},  color={0,127,255}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}})));
+            -100},{100,100}})), Documentation(info="<html>
+<p><span style=\"font-family: Sans Serif;\">The two radiators do not contain a pressure drop equation. Therefore the total mass flow rate of the pump can be split over the two branches in an infinite amount of ways, meaning this is a singular system.</span></p>
+<p><span style=\"font-family: Sans Serif;\">You can solve this by adding pressure drop components or by adding <i>one</i> pump in one of the two branches.</span></p>
+</html>"));
 end ParallelPaths;

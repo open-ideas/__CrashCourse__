@@ -62,5 +62,10 @@ equation
   connect(fan1.m_flow_in, fan2.m_flow_in)
     annotation (Line(points={{61.8,22},{61.8,22},{61.8,-8}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}})));
+            -100},{100,100}})), Documentation(info="<html>
+<p><span style=\"font-family: Sans Serif;\">The system is singular since:</span></p>
+<p><span style=\"font-family: Sans Serif;\">m_flow_left = 1</span></p>
+<p><span style=\"font-family: Sans Serif;\">m_flow_right_top = 0.5</span></p>
+<p><span style=\"font-family: Sans Serif;\">from this we can already deduce that m_flow_right_bottom = 0.5 since mass is conserved. Adding the third pump again adds m_flow_right_bottom = 0.5. This leads to a singular system. Note that in this system the pressure in the radiators is undefined.</span></p>
+</html>"));
 end ParallelPathsPump;

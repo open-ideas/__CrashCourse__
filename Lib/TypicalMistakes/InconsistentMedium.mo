@@ -26,6 +26,6 @@ equation
           {-10.2,12}},color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})), Documentation(info="<html>
-<p>This model does not contain a pressure boundary (component boundary_pT) and therefore the <b>absolute</b> pressure is not defined in this system.</p>
+<p><span style=\"font-family: Sans Serif;\">When using fluid components, each component in the same loop must use the same Medium.</span></p>
 </html>"));
 end InconsistentMedium;
