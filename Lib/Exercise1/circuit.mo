@@ -1,8 +1,6 @@
 within Lib.Exercise1;
 model Circuit
 
-  Ground ground
-    annotation (Placement(transformation(extent={{-10,-56},{10,-36}})));
   Resistor resistor(R=0.5)
     annotation (Placement(transformation(extent={{-50,34},{-30,54}})));
   Resistor resistor1(R=0.5)
@@ -22,25 +20,23 @@ model Circuit
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={0,34})));
+  Ground ground
+    annotation (Placement(transformation(extent={{-14,-56},{6,-36}})));
 equation
-  connect(capacitor.pin_b, ground.pin) annotation (Line(
-      points={{0,-26},{0,-36}},
-      color={0,0,255},
-      smooth=Smooth.None));
-  connect(resistor1.pin_b, ground.pin) annotation (Line(
-      points={{52,44},{66,44},{66,-36},{0,-36}},
-      color={0,0,255},
-      smooth=Smooth.None));
   connect(V.pin_a, resistor.pin_a)
     annotation (Line(points={{-72,28},{-72,44},{-50,44}}, color={0,0,255}));
-  connect(V.pin_b, ground.pin)
-    annotation (Line(points={{-72,8},{-72,-36},{0,-36}}, color={0,0,255}));
   connect(resistor.pin_b, diode.pin_a)
     annotation (Line(points={{-30,44},{-15,44},{0,44}}, color={0,0,255}));
   connect(diode.pin_a, resistor1.pin_a)
-    annotation (Line(points={{0,44},{32,44},{32,44}}, color={0,0,255}));
+    annotation (Line(points={{0,44},{32,44}},         color={0,0,255}));
   connect(diode.pin_b, capacitor.pin_a)
     annotation (Line(points={{0,24},{0,9},{0,-6}}, color={0,0,255}));
+  connect(resistor1.pin_b, capacitor.pin_b) annotation (Line(points={{52,44},{
+          68,44},{68,-26},{0,-26}}, color={0,0,255}));
+  connect(V.pin_b, capacitor.pin_b) annotation (Line(points={{-72,8},{-72,8},{
+          -72,-26},{-1.77636e-015,-26}}, color={0,0,255}));
+  connect(ground.pin, capacitor.pin_b) annotation (Line(points={{-4,-36},{-2,
+          -36},{-2,-26},{0,-26}}, color={0,0,255}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-80,-60},
             {80,60}}),         graphics={
         Text(

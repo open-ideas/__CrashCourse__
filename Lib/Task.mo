@@ -20,6 +20,7 @@ package Task
 
     parameter Temperature TGroBou = 283.15;
 
+  public
     Temperature TAmb = 10*cos(2*Modelica.Constants.pi*time * 3*10^(-8)) + 276.15;
     Temperature TZone(start=293.15);
     Temperature TSlab(start=293.15);
@@ -33,7 +34,8 @@ package Task
     HeatFlow QGG[n+1];
     HeatFlow QGro[n];
 
-    HeatFlow QSol = floor(cos(2*Modelica.Constants.pi*time / 86400) + 1) * 5000 * cos(2*Modelica.Constants.pi*time / 86400);
+    HeatFlow QSol =  floor(cos(2*Modelica.Constants.pi*time / 86400) + 1) * 5000 * cos(2*Modelica.Constants.pi*time / 86400);
+
   equation
     // Zone equation
     TZone - TAmb = RWall * QZA;
@@ -56,6 +58,8 @@ package Task
     CGro[n] * der(TGro[n]) = QGro[n];
     TGro[n]- TGroBou = RGro2[n] * QGG[n+1];
     QGG[n+1] + QGro[n] - QGG[n] = 0;
+    annotation (experiment(StopTime=3.15e+007, __Dymola_Algorithm="Rkfix2"),
+        __Dymola_experimentSetupOutput);
   end House_EqBased;
 
   model House_OjectsBased
@@ -120,10 +124,6 @@ package Task
           *time/86400))
       annotation (Placement(transformation(extent={{78,40},{58,60}})));
   equation
-    connect(RWall.port_b, CZone.port) annotation (Line(
-        points={{-18,20},{0,20}},
-        color={191,0,0},
-        smooth=Smooth.None));
     connect(prescribedTemperature.port, RWall.port_a) annotation (Line(
         points={{-40,70},{-20,70},{-20,40},{-60,40},{-60,20},{-38,20}},
         color={191,0,0},
@@ -183,8 +183,10 @@ package Task
         points={{57,50},{40,50}},
         color={0,0,127},
         smooth=Smooth.None));
+    connect(RWall.port_b, CZone.port)
+      annotation (Line(points={{-18,20},{-9,20},{0,20}}, color={191,0,0}));
     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-              -100},{100,100}}), graphics));
+              -100},{100,100}})));
   end House_OjectsBased;
 
   model House_ObjectBasedHeated

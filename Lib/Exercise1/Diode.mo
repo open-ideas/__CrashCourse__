@@ -7,21 +7,16 @@ model Diode "Simple diode"
     "Max. exponent for linear continuation";
   parameter SI.Resistance R=1.e8 "Parallel ohmic resistance";
 
-protected
-  SI.Current i_high "Current when voltage higher then threshold";
-  SI.Current i_low "Current when voltage lower then threshold";
 equation
-  i_high = Ids*(exp(Maxexp)*(1 + v/Vt - Maxexp) - 1) + v/R;
-  i_low = Ids*(exp(v/Vt) - 1) + v/R;
-  i = if (v/Vt > Maxexp) then i_high else i_low;
+  i = if (v/Vt > Maxexp) then Ids*(exp(Maxexp)*(1 + v/Vt - Maxexp) - 1) + v/R
+     else Ids*(exp(v/Vt) - 1) + v/R;
   annotation (
     Documentation(info="<html>
 <p>The simple diode is a one port. It consists of the diode itself and an parallel ohmic resistance <i>R</i>. The diode formula is:</p>
 <pre>                v/vt
   i  =  ids ( e      - 1).</pre>
 <p>If the exponent <i>v/vt</i> reaches the limit <i>maxex</i>, the diode characteristic is linearly continued to avoid overflow.</p><p><b>Please note:</b> In case of useHeatPort=true the temperature dependence of the electrical behavior is <b>not </b>modelled yet. The parameters are not temperature dependent.</p>
-</html>",
- revisions="<html>
+</html>", revisions="<html>
 <ul>
 <li><i> March 11, 2009   </i>
        by Christoph Clauss<br> conditional heat port added<br>
@@ -34,9 +29,8 @@ equation
        </li>
 </ul>
 </html>"),
-    Icon(coordinateSystem(
-        preserveAspectRatio=true,
-        extent={{-100,-100},{100,100}}), graphics={
+    Icon(coordinateSystem(preserveAspectRatio=true, extent={{-100,-100},{100,
+            100}}), graphics={
         Polygon(
           points={{30,0},{-30,40},{-30,-40},{30,0}},
           lineColor={0,0,255},
@@ -59,9 +53,8 @@ equation
           color={127,0,0},
           smooth=Smooth.None,
           pattern=LinePattern.Dot)}),
-    Diagram(coordinateSystem(
-        preserveAspectRatio=true,
-        extent={{-100,-100},{100,100}}), graphics={
+    Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
+            100,100}}), graphics={
         Polygon(
           points={{30,0},{-30,40},{-30,-40},{30,0}},
           lineColor={0,0,255},
