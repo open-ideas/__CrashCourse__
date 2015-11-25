@@ -1,11 +1,13 @@
 within Lib.Example_IDEAS;
 model Structure_1zone "One zone building envelope model"
-  extends IDEAS.Interfaces.BaseClasses.Structure( final nZones=1, final nEmb = 0);
+  extends IDEAS.Interfaces.BaseClasses.Structure(final Q_design={north.Q_design}, final nZones=1, final nEmb = 0);
 
 public
 IDEAS.Buildings.Components.Zone north(                  V=39.2,
     redeclare package Medium = Medium,
-    nSurf=5) "north zone of office area"
+    nSurf=5,
+    A=11.88,
+    n50=12) "north zone of office area"
   annotation (Placement(transformation(extent={{60,28},{80,48}})));
 IDEAS.Buildings.Components.OuterWall north_ext(
      AWall=3.51,
@@ -45,11 +47,11 @@ IDEAS.Buildings.Components.InternalWall north_floor(
     insulationThickness=0,
     redeclare Lib.Example_IDEAS.Data.Constructions.IntWall constructionType,
     redeclare IDEAS.Buildings.Data.Insulation.none insulationType,
-    AWall=2*14.52,
     inc=IDEAS.Constants.Wall,
     azi=IDEAS.Constants.East,
     use_T_in=false,
-    use_Q_in=false)
+    use_Q_in=false,
+    AWall=29.04)
     "Common (adiabatic) walls to neighboring offices of the north zone"
     annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
@@ -58,7 +60,7 @@ IDEAS.Buildings.Components.InternalWall north_floor(
 
 equation
   connect(north_win.propsBus_a, north.propsBus[1]) annotation (Line(
-      points={{6.3,32},{6,32},{6,40},{60,40},{60,44},{60,44},{60,44},{60,43.6}},
+      points={{6.3,32},{6,32},{6,40},{60,40},{60,43.6}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));

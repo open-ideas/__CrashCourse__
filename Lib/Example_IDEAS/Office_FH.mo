@@ -4,8 +4,8 @@ model Office_FH
   extends IDEAS.Interfaces.Building(redeclare package Medium =
         Lib.Example_IDEAS.Data.Medium,redeclare IDEAS.VentilationSystems.None
       ventilationSystem(redeclare package Medium = Medium),
-    redeclare IDEAS.HeatingSystems.Heating_Embedded
-      heatingSystem(AEmb=building.AZones),
+    redeclare IDEAS.HeatingSystems.IdealEmbeddedHeating
+      heatingSystem(QNom=Q_design, VZones=building.VZones),
     redeclare Structure_FH building(
       AZones={11.88,11.88},
       VZones=building.AZones .* 3.3,
