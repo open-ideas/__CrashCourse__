@@ -6,6 +6,7 @@
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 \usepackage{url}
 \usepackage{graphicx}
+\usepackage[per-mode=symbol]{siunitx}
 
 \begin{document}
 \title{IDEAS SimpleHouse exercise instructions}
@@ -145,7 +146,7 @@ an air model assuming the zone is 8 x 8 x 3 m in size.
 The air will exchange heat with the wall.
 This may be modelled using a thermal resistance 
 where $R=\frac{1}{hA}$ with $A$ the heat exchange 
-surface area and we choose $h=2$W/mK.
+surface area and we choose $h=\SI{2}{\watt\per\square\meter\per\kelvin}$.
 
 
 \paragraph{Required models}
@@ -163,7 +164,7 @@ Set
  its value to `MediumAir', which is declared in the template.
 
 \paragraph{Reference result}
-The result with and without the window model
+The result with and without the air model
 is plotted in Figure~\ref{fig:res3}.
 
  
@@ -182,10 +183,10 @@ with and without air model}
 The wall temperature (and therefore the room temperature) are quite low. 
 In this step a heating system is added to resolve this.
 It consists of a radiator, a pump and a heater.
-The radiator has a nominal power of 3 kW 
-for a temperature difference of 20 K between inlet and outlet
+The radiator has a nominal power of \SI{3}{\kilo\watt} 
+for a temperature difference of \SI{20}{\kelvin} between inlet and outlet
 of the radiator.
-The pump has a (nominal) mass flow rate of 0.1 kg/s.
+The pump has a (nominal) mass flow rate of \SI{0.1}{\kilogram\per\second}.
 Since the heating system uses water as a heat carrier fluid, 
 the media for the models should be set to MediumWater.
 
@@ -222,7 +223,7 @@ produce 1 time its nominal power.
 The result of the \underline{air} temperature 
 is plotted in Figure~\ref{fig:res4}.
 The temperature rises very steeply since the 
-wall is relatively well insulated (k=0.04)
+wall is relatively well insulated ($k=\SI{0.04}{\watt\per\meter\per\kelvin}$)
 and the heater is not disabled when it becomes too warm.
 
 
@@ -240,7 +241,8 @@ and the heater is not disabled when it becomes too warm.
 Since the zone becomes too warm, a controller
 is required that disables the
 heater when a set point is reached.
-We will implement a hysteresis controller with a set point of 295.15 +- 1 K (21-23 $^{\circ}$C).
+We will implement a hysteresis controller with a set point of $295.15 \pm \SI{1}{\kelvin}$ 
+(21-\SI{23}{\celsius}).
 A temperature sensor will measure the zone air temperature.
 
 
