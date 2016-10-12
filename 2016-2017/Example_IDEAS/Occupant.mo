@@ -21,15 +21,15 @@ algorithm
 
 equation
 
-  mDHW60C = 0;
+  mDHW60C = 0; // no tap water requirements
   heatPortRad.Q_flow = heatPortCon.Q_flow; //50% convective & 50% radiative gains
-  P[1] = heatPortCon[1].Q_flow + heatPortRad[1].Q_flow;
+  P[1] = 0; // no electrical loads defined
   Q[1] = 0;
 
   if noEvent(t > 7 and t <= 17) then
-    heatPortCon.Q_flow = -AZones*Qgain[1]*0.5;
-    TSet = ones(nZones)*(21 + 273.15);
-  else
+    heatPortCon.Q_flow = -AZones*Qgain[1]*0.5; //gains during office hours
+    TSet = ones(nZones)*(21 + 273.15); // Set point during office hours
+  else //outside office hours
     heatPortCon.Q_flow = -AZones*Qgain[2]*0.5;
     TSet = ones(nZones)*(15 + 273.15);
   end if;
