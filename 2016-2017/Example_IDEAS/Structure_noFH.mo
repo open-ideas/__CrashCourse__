@@ -1,8 +1,6 @@
 within Example_IDEAS;
 model Structure_noFH "Building envelope model without floor heating"
-  extends IDEAS.Templates.Interfaces.BaseClasses.Structure( final nZones=2, final nEmb=0, redeclare
-      package Medium =
-         Example_IDEAS.Data.Medium);
+  extends IDEAS.Templates.Interfaces.BaseClasses.Structure( final nZones=2, final nEmb=0);
 
 public
 IDEAS.Buildings.Components.Zone north(                  V=39.2, nSurf=6,

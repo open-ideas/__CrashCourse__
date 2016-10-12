@@ -1,8 +1,6 @@
 within Example_IDEAS;
 model Structure "Building envelope model"
-  extends IDEAS.Templates.Interfaces.BaseClasses.Structure( final nZones=2, final nEmb = 2, redeclare
-      package Medium =
-       Example_IDEAS.Data.Medium);
+  extends IDEAS.Templates.Interfaces.BaseClasses.Structure( final nZones=2, final nEmb = 2);
 
 public
 IDEAS.Buildings.Components.Zone north(                  V=39.2, nSurf=6,
