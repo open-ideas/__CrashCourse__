@@ -1,12 +1,12 @@
 within Example_IDEAS;
-model ConstantAirFlowRecup
+model Ventilation
   "Ventilation System with constant airflow rate and recuperation efficiency"
 
   extends IDEAS.Templates.Interfaces.BaseClasses.VentilationSystem(
-                                                         nLoads=1);
+                                                         nLoads=1, Q_design=1012*1.204.*n/3600*(273.15+ 21 - sim.Tdes) * (1-recupEff));
 
   parameter Real[nZones] n(unit="m3/h")
-    "Ventilation rate";
+    "Ventilation rate per zone";
   final parameter Modelica.SIunits.MassFlowRate m_flow_nominal = sum(n) / 3600 * 1.204
     "total ventilation mass flow rate";
   parameter Modelica.SIunits.Time tau = 30
@@ -55,7 +55,7 @@ model ConstantAirFlowRecup
   Modelica.Blocks.Sources.RealExpression[nZones] realExpressionPump(y=pump.m_flow_nominal)
     annotation (Placement(transformation(extent={{-40,-60},{-60,-40}})));
 equation
-  P[1:nLoads_min] = sum(n ./3600)*sysPres/fanEff/motEff / nLoads_min .*ones(nLoads_min);
+  P[1:nLoads_min] = sum(n ./3600)*sysPres/fanEff/motEff / nLoads_min .*ones(nLoads_min); // electricity needed for ventilation
   Q[1:nLoads_min] = zeros(nLoads_min);
 
   for i in 1:nZones loop
@@ -97,4 +97,4 @@ equation
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}), graphics), Icon(coordinateSystem(extent={{-200,
             -100},{200,100}})));
-end ConstantAirFlowRecup;
+end Ventilation;
