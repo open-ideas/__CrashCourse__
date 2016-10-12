@@ -1,7 +1,7 @@
 within Example_IDEAS;
 model Office_noFh "Model of the whole office including HVAC and occupants"
-  extends IDEAS.Templates.Interfaces.Building(redeclare ConstantAirFlowRecup
-      ventilationSystem(recupEff=0.65, n={30,30}),
+  extends IDEAS.Templates.Interfaces.Building(
+    redeclare Ventilation ventilationSystem(recupEff=0.65, n={36,36}),
     redeclare IDEAS.Templates.Heating.IdealRadiatorHeating
       heatingSystem(nLoads=0,
       VZones=building.AZones .* 3.3,
