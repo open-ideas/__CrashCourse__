@@ -13,6 +13,8 @@
 %\usepackage{dsfont}	
 \usepackage{amsfonts,amsthm, tabularx}					% wiskundige symbolen and table of equations
 %\usepackage[fleqn]{amsmath}
+\usepackage{graphicx}
+\usepackage{epstopdf}
 
 % Package for hyperlink, without ugly box around and nice blue color for text
 \usepackage{hyperref}
@@ -52,13 +54,15 @@
 \pagestyle{fancyplain}
 \renewcommand{\headrulewidth}{1.0pt}
 \lhead{\fancyplain{}{Crash course Modelica}}
-\rhead{\fancyplain{}{13 October 2016}}
+\rhead{\fancyplain{}{\today}}
 
 \author{Damien Picard}
 						
 \begin{document}
 
-\section*{Assignment}
+\section*{Prepare for the Modelica Crash Course!}
+
+This guide will help you to install Dymola and already get the hang of Modelica, such that you can profit maximally from the Crash Course. 
 
 \subsection*{Installation}
 
@@ -100,6 +104,57 @@ Additionally, to come prepared for the course, please read through the following
 \item	\href{http://book.xogeny.com/components/components/#review}{Components>Review}
 \item \href{http://book.xogeny.com/components/architectures/replaceable/}{Architecture>Configuration Management}
 		
+\end{enumerate}
+
+\subsection*{Homework exercise}
+The purpose of this exercise is to model an electrical circuit using only your own code implementation. You will learn how to create connectors, partial models, models and how to re-use your code.
+
+\begin{figure}[h]
+	\centering
+	\begin{minipage}{.4\textwidth}
+		\centering
+		\includegraphics[width=1\linewidth]{images/circuit.eps}
+		\captionof{figure}{Electrical circuit.}
+		\label{fig:cir}
+	\end{minipage}%
+	\begin{minipage}{.6\textwidth}
+		\centering
+		\includegraphics[width=.8\linewidth]{images/result.eps}
+		\captionof{figure}{Result of simulation}
+		\label{fig:res}
+	\end{minipage}
+\end{figure}
+
+
+Consider the electrical circuit shown in Fig.~\ref{fig:cir}. The circuit has a sinusoidal source, a resistor, a diode, a capacitor and the ground. You are going to build your first Modelica library from scratch to compose this model.
+
+
+\begin{enumerate}
+	\item After opening Dymola, create a new \textit{package} called \textit{MyLib}. All component models you will define in the following step need to be placed in this folder.
+	
+	\item Each component uses electrical connectors. Create a \texttt{partial connector} called \textit{Pin} which contains the variables $i$ (current) and $v$ (voltage). You can add variables while you are in the \textit{Modelica text} context of the \textit{Modeling} tab. Which one is a \textit{flow} and which is a \textit{potential} variable, and how should this be reflected in your code? 
+	
+	\item Create the \texttt{connector}s \textit{Pin\_a} and \textit{Pin\_b} for the positive and negative pins. Make two different graphical illustrations for the pins. Use \texttt{extends} to inherit the variables $i$ and $v$ from the \texttt{partial connector} you have just defined. An easy way to create extending models is by right-clicking on the model you want to extend from, and click \textit{New > Extend from\ldots}.
+	
+	\item Create a \texttt{partial model} \textit{OnePin} which contains the variables $i$ (current) and $v$ (voltage) and one connector \textit{Pin\_a}. To add the connector, drag \textit{Pin\_a} from your libary folder to the modelling window while you are in the \textit{Diagram} context of the \textit{Modeling} tab. The pin should be located at the top border of the white box. This model will be the basis for all models which have only one pin (i.e., the ground node).
+	
+	\item Create variables $i$ and $v$ in \textit{OnePin} and write \texttt{equation}s to link these variables to those you have defined in the \textit{Pin} you use in the component. In order to access variables, you can use dot notation as follows: \texttt{name.variable}. 
+	
+	\item Now create a \texttt{partial model} \textit{TwoPin} with the same variables and two \textit{Pin} connectors, one positive pin on the left and one negative on the right. Add two variables: voltage difference $dv$ and current $i$. 
+	While still in \texttt{partial model} \textit{TwoPin}, add equations that link the variables in this model with the variables of the pins. When connecting currents, use the conventian that when the current flows into the component from the pin, it is positive and vice versa.
+	
+	\item Create the source, the resistor, the diode and the capacity by extending \textit{OnePin} or \textit{TwoPin}. Make use of the following equations:
+	\begin{enumerate}
+		\item Resistor: $R i = v$\footnote{$v$ in this equation is equivalent to variable $dv$ in the Modelica model.}
+		\item Capacity: $C \frac{d v}{dt} = i$
+		\item source: $v = V sin( 2 \pi f t + \omega) + \beta$
+		\item Diode: if $ \frac{v}{V_t} \geq \alpha$: $i = I_{ds} \left( \exp\left(\alpha \left( 1 + \frac{v}{V_t} - \alpha \right)\right) - 1\right) + \frac{v}{R}$, else $i = I_{ds} (e^\alpha - 1) + \frac{v}{R}$
+		\item ground: $ v = 0$
+	\end{enumerate}
+	Define $R$, $C$,\ldots as \texttt{parameter}, such that you can change their value using the parameter dialog in the \textit{Diagram} context.\\
+	Make use of following values for the diode: $I_{ds}$ = 1.e-6, $V_t=0.04$, $\alpha=1$, $R=1.e8$.
+	\item Create a model called \textit{Circuit} in which you include all these components as shown in Fig.~\ref{fig:cir}.
+	\item Simulate the circuit for 100 seconds.
 \end{enumerate}
 
 \subsection*{Optional exercise}
