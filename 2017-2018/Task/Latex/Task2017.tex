@@ -62,11 +62,26 @@
 
 \subsection*{Installation}
 
-First of all, install Dymola (commercial software).  Fill out this \href{http://www.claytex.com/products/dymola/dymola-demo/}{form} to download the demo. After installation you HAVE to install a c-compiler, otherwise you cannot run any model.  You can download and install for example the Visual Studio Express 2012 from this  \href{https://www.microsoft.com/en-us/download/details.aspx?id=34673}{link}.
-Test your installation by running a demo (e.g. open File/Demos/Robot, then click Commands/Simulate and wait till you see a graph.). More detailed instructions can be found \href{http://www.3ds.com/fileadmin/PRODUCTS/CATIA/DYMOLA/PDF/install.pdf}{here}. Do not forget to select your C-compiler in Dymola>Simulation Set Up>Compiler.
+First of all, install Dymola (commercial software).  Fill out this 
+\href{http://www.claytex.com/products/dymola/dymola-demo/}{form} to download 
+the demo. After installation you HAVE to install a c-compiler, otherwise you 
+cannot run any model.  You can download and install for example the Visual 
+Studio \texttt{C++} 2015 Build Tools from this  
+\href{http://landinghub.visualstudio.com/visual-cpp-build-tools}{link}. 
+Do not forget to select your C-compiler in Dymola>Simulation Set Up>Compiler. 
+In order to access this menu item, open Dymola and change to the Simulation tab 
+(lower right corner).
+Test your installation by running a demo (e.g. open File/Demos/Robot, then 
+click Commands/Simulate and wait till you see a graph). 
+More detailed 
+instructions can be found 
+\href{http://www.3ds.com/fileadmin/PRODUCTS/CATIA/DYMOLA/PDF/install.pdf}{here}.
 
 \subsection*{Prerequisites}
-Read carefully the following chapters of the open-access book  \href{http://book.xogeny.com/}{Modelica by Example} of Michael M. Tiller:
+Read the following chapters of the open-access book  
+\href{http://book.xogeny.com/}{Modelica by Example} of Michael M. Tiller 
+carefully.
+If the website is offline, refer to the pdf version on \href{https://github.com/open-ideas/__CrashCourse__/blob/master/2017-2018/ModelicaByExample.pdf}{GitHub}. The website offers the advantage of interactive examples of Modelica code.
 
 \begin{enumerate}
 \item \href{http://book.xogeny.com/behavior/equations/}{Basic equations}: general introduction to the Modelica language, illustration of the model structure, basic concepts such as derivative, initialization, parameter, variable and type.
@@ -75,9 +90,9 @@ Read carefully the following chapters of the open-access book  \href{http://book
 
 \end{enumerate}
 
-Read carefully chapter 1, p.23 to 37, of the Dymola manual Volume 1 (can be found in your installation folder: C:\textbackslash Program Files (x86)\textbackslash Dymola 2015 FD01\textbackslash Documentation \textbackslash Dymola User Manual Volume 1) to get familiar with the Dymola environment (model editor, parameters change, simulation, ...).\\
+Read carefully chapter 1 ``What is Dymola?'', p.~13 to 22, of the Dymola manual Volume 1 (can be found in your installation folder: C:\textbackslash Program Files (x86)\textbackslash Dymola \textit{xx}\textbackslash Documentation \textbackslash Dymola User Manual Volume 1, where \textit{xx} stands for the version you installed) to get familiar with the Dymola environment (model editor, parameters change, simulation, ...).\\
 
-Additionally, to come prepared for the course, please read through the following: 
+Additionally, to come prepared for the course, please read through the following parts of ``Modelica by Example'' of Michael Tiller: 
 \begin{enumerate}
 \item \href{http://book.xogeny.com/behavior/discrete/}{Discrete Behavior} >State Event Handling, Hysteresis and Review
 \item	\href{http://book.xogeny.com/behavior/arrays/}{Vectors and Arrays} >Array Declarations and Array Construction
@@ -87,8 +102,8 @@ Additionally, to come prepared for the course, please read through the following
 		
 \end{enumerate}
 
-\subsection*{Description}
-This assignment aims at testing your comprehension of the basic Modelica concepts learned during the above mentioned reading by setting a model of a building and simulating its thermal behaviour. \textbf{It is  strongly recommended to complete the assignment prior to the crash-course.}
+\subsection*{Optional exercise}
+This assignment aims at testing your comprehension of the basic Modelica concepts learned during the above mentioned reading by setting a model of a building and simulating its thermal behaviour. \textbf{This assignment will not be treated during the Crash Course. However, you may find it a useful exercise to get more acquainted with Modelica and Dymola.}
 
 Let us consider a simplified building as represented in Fig. \ref{fig:bui}. The building consists of  walls, a window and a single room called \textit{zone} which thermally interacts with the environment(ambient air \textit{TAmb}, the ground, and the sun. The building foundation is approximated by a thick concrete layer called \textit{slab} separating the zone from the ground. On the right-hand side of the figure, a thermal model of the building is proposed using the resistance-capacitance approach. The heat transfer is approximated by a 1D conduction resistance and the heat storage by a heat capacity. \textit{CZone} represents the thermal capacity of the zone (consisting of the internal walls, the furnitures, and a part of the external wall). The \textit{CSlab}'s represent the thermal capacities of the slab. Finally, the ground is discretized in \textit{n = 5} layers, each of them having an identical heat capacity \textit{CGro[i]}. Through the window, the sun heats up the room with a thermal power $QSol$. 
 
@@ -135,5 +150,11 @@ Temperature $[K]$ &  283.15 & 283.15 & 293.15 & 293.15 & \\
 \begin{center}
  \textbf{Good luck!}
 \end{center}
+
+\subsection*{Further reading}
+\begin{itemize}
+	\item \url{http://simulationresearch.lbl.gov/modelica/downloads/workshops/2015-06-22-lbnl/slides/modelica-intro.pdf}
+	\item \url{http://book.xogeny.org}
+\end{itemize}
 
 \end{document}
