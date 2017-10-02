@@ -89,8 +89,11 @@ If the website is offline, refer to the pdf version on \href{https://github.com/
 
 \begin{enumerate}
 \item \href{http://book.xogeny.com/behavior/equations/}{Basic equations}: general introduction to the Modelica language, illustration of the model structure, basic concepts such as derivative, initialization, parameter, variable and type.
-\item \href{http://book.xogeny.com/behavior/arrays/oned/}{One-Dimensional Heat Transfer}: introduction to arrays and loop in Modelica.
 \item \href{http://book.xogeny.com/behavior/functions/polynomial/}{Polynomial Evaluation}: introduction to function definition, protected variable and time.
+\item \href{http://book.xogeny.com/behavior/arrays/oned/}{One-Dimensional Heat Transfer}: introduction to arrays and loop in Modelica.
+\item	\href{http://book.xogeny.com/components/connectors/}{Connectors}: Component-Oriented Modeling, classes of variables.
+
+
 
 \end{enumerate}
 
@@ -100,8 +103,7 @@ Additionally, to come prepared for the course, please read through the following
 \begin{enumerate}
 \item \href{http://book.xogeny.com/behavior/discrete/}{Discrete Behavior} >State Event Handling, Hysteresis and Review
 \item	\href{http://book.xogeny.com/behavior/arrays/}{Vectors and Arrays} >Array Declarations and Array Construction
-\item	\href{http://book.xogeny.com/components/connectors/}{Connectors}
-\item	\href{http://book.xogeny.com/components/components/#review}{Components>Review}
+\item	\href{http://book.xogeny.com/components/components/#review}{Components}>Review, Examples>Heat Transfer Components, Electrical Components
 \item \href{http://book.xogeny.com/components/architectures/replaceable/}{Architecture>Configuration Management}
 		
 \end{enumerate}
@@ -138,10 +140,10 @@ Consider the electrical circuit shown in Fig.~\ref{fig:cir}. The circuit has a s
 	
 	\item Create a \texttt{partial model} \textit{OnePin} which contains the variables $i$ (current) and $v$ (voltage) and one connector \textit{Pin\_a}. To add the connector, drag \textit{Pin\_a} from your libary folder to the modelling window while you are in the \textit{Diagram} context of the \textit{Modeling} tab. The pin should be located at the top border of the white box. This model will be the basis for all models which have only one pin (i.e., the ground node).
 	
-	\item Create variables $i$ and $v$ in \textit{OnePin} and write \texttt{equation}s to link these variables to those you have defined in the \textit{Pin} you use in the component. In order to access variables, you can use dot notation as follows: \texttt{name.variable}. 
+	\item Create variables $i$ and $v$ in \textit{OnePin} and write \texttt{equation}s to link these variables to those you have defined in the \textit{Pin} you use in the component. In order to access variables, you can use dot notation as follows: \texttt{componentName.variable}. 
 	
 	\item Now create a \texttt{partial model} \textit{TwoPin} with the same variables and two \textit{Pin} connectors, one positive pin on the left and one negative on the right. Add two variables: voltage difference $dv$ and current $i$. 
-	While still in \texttt{partial model} \textit{TwoPin}, add equations that link the variables in this model with the variables of the pins. When connecting currents, use the conventian that when the current flows into the component from the pin, it is positive and vice versa.
+	While still in \texttt{partial model} \textit{TwoPin}, add equations that link the variables in this model with the variables of the pins. When connecting currents, use the convention that when the current flows into the component from the pin, it is positive and vice versa.
 	
 	\item Create the source, the resistor, the diode and the capacity by extending \textit{OnePin} or \textit{TwoPin}. Make use of the following equations:
 	\begin{enumerate}
