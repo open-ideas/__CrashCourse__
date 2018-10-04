@@ -38,7 +38,6 @@
 % Instellingen voor document
 \renewcommand{\arraystretch}{1.1}			% tabelrijen iets hoger maken
 
-\usepackage[squaren,Gray]{SIunits}
 \usepackage{amsmath,amsfonts,amsthm,mathrsfs,MnSymbol}	% wiskundige symbolen
 \renewcommand*\thesection{\arabic{section}}
 \DeclareMathOperator*{\argmin}{\arg\!\min}
@@ -56,7 +55,11 @@
 \lhead{\fancyplain{}{Crash course Modelica}}
 \rhead{\fancyplain{}{\today}}
 
-\author{Damien Picard}
+\usepackage{listings}
+\usepackage{siunitx}
+\input{listings-modelica.cfg}
+
+\author{Bram van der Heijde}
 						
 \begin{document}
 
@@ -70,9 +73,10 @@ First of all, install Dymola (commercial software).  Fill out this
 \href{http://www.claytex.com/products/dymola/dymola-demo/}{form} to download 
 the demo. After installation you HAVE to install a c-compiler, otherwise you 
 cannot run any model.  You can download and install for example the Visual 
-Studio \texttt{C++} 2015 Build Tools from this  
-\href{http://landinghub.visualstudio.com/visual-cpp-build-tools}{link}. 
-Do not forget to select your C-compiler in Dymola>Simulation Set Up>Compiler. 
+Studio \texttt{C++} 2017 Build Tools from this  
+\href{https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=BuildTools&rel=15}{link}.
+Do not forget to select your C-compiler in \texttt{Dymola>Simulation Set 
+Up>Compiler}. 
 In order to access this menu item, open Dymola and change to the Simulation tab 
 (lower right corner).
 Test your installation by running a demo (e.g. open File/Demos/Robot, then 
@@ -85,11 +89,13 @@ instructions can be found
 Read the following chapters of the open-access book  
 \href{http://book.xogeny.com/}{Modelica by Example} of Michael M. Tiller 
 carefully.
-If the website is offline, refer to the pdf version on \href{https://github.com/open-ideas/__CrashCourse__/blob/master/2017-2018/ModelicaByExample.pdf}{GitHub}. The website offers the advantage of interactive examples of Modelica code.
 
 \begin{enumerate}
 \item \href{http://book.xogeny.com/behavior/equations/}{Basic equations}: general introduction to the Modelica language, illustration of the model structure, basic concepts such as derivative, initialization, parameter, variable and type.
-\item \href{http://book.xogeny.com/behavior/functions/polynomial/}{Polynomial Evaluation}: introduction to function definition, protected variable and time.
+\item \href{http://book.xogeny.com/behavior/functions/polynomial/}{Polynomial 
+Evaluation}: Example of 
+\href{http://book.xogeny.com/behavior/functions/func_def/}{function 
+definition}, protected variable and time.
 \item \href{http://book.xogeny.com/behavior/arrays/oned/}{One-Dimensional Heat Transfer}: introduction to arrays and loop in Modelica.
 \item	\href{http://book.xogeny.com/components/connectors/}{Connectors}: Component-Oriented Modeling, classes of variables.
 
@@ -97,9 +103,16 @@ If the website is offline, refer to the pdf version on \href{https://github.com/
 
 \end{enumerate}
 
-Read carefully chapter 1 ``What is Dymola?'', p.~13 to 22, of the Dymola manual Volume 1 (can be found in your installation folder: C:\textbackslash Program Files (x86)\textbackslash Dymola \textit{xx}\textbackslash Documentation \textbackslash Dymola User Manual Volume 1, where \textit{xx} stands for the version you installed) to get familiar with the Dymola environment (model editor, parameters change, simulation, ...).\\
+Carefully read chapter 1 ``What is Dymola?'' (p.~13 to 22) of the Dymola manual 
+Volume 1 (can be found in your installation folder: C:\textbackslash Program 
+Files (x86)\textbackslash Dymola \textit{xx}\textbackslash Documentation 
+\textbackslash Dymola User Manual Volume 1, where \textit{xx} stands for the 
+version you installed) to get familiar with the Dymola environment (model 
+editor, parameters change, simulation, ...).\\
 
-Additionally, to come prepared for the course, please read through the following parts of ``Modelica by Example'' of Michael Tiller: 
+For further background, following sections from ``Modelica by Example'' of 
+Michael Tiller are interesting, however it is not compulsory to read before the 
+course: 
 \begin{enumerate}
 \item \href{http://book.xogeny.com/behavior/discrete/}{Discrete Behavior} >State Event Handling, Hysteresis and Review
 \item	\href{http://book.xogeny.com/behavior/arrays/}{Vectors and Arrays} >Array Declarations and Array Construction
@@ -128,21 +141,107 @@ The purpose of this exercise is to model an electrical circuit using only your o
 \end{figure}
 
 
-Consider the electrical circuit shown in Fig.~\ref{fig:cir}. The circuit has a sinusoidal source, a resistor, a diode, a capacitor and the ground. You are going to build your first Modelica library from scratch to compose this model.
+Consider the electrical circuit shown in Fig.~\ref{fig:cir}. The circuit has a 
+sinusoidal source, a resistor, a diode, a capacitor and the ground. You are 
+going to build your first Modelica library from scratch to compose this model.
+
+Some tips:
+\begin{itemize}
+	\item Make sure you end statements in Modelica code with a semicolon 
+	(\textbf{;}). With some exceptions (e.g., \texttt{(partial) model}, 
+	\texttt{equation} and \texttt{algorithm} lines), this is always necessary.
+	\item You can \texttt{check} your model using the check box in the toolbar. 
+	This will usually point you to possible mistakes you made, so make sure to 
+	read error and warning messages carefully. Although Modelica has a bad 
+	reputation for debugging, its syntax checker is not bad.
+	\item Dymola has a nifty autocompletion function, which helps you reduce 
+	how much of the code you have to type yourself. Just start typing something 
+	and press \texttt{Ctrl + space} to open a context menu with some 
+	suggestions.
+\end{itemize}
 
 
 \begin{enumerate}
-	\item After opening Dymola, create a new \textit{package} called \textit{MyLib}. All component models you will define in the following step need to be placed in this folder.
+	\item After opening Dymola, create a new \textit{package} called 
+	\textit{MyLib} (through \texttt{File>New>Package\ldots}). Don't forget to 
+	provide an appropriate description so you know what your library is for 
+	when you don't touch it for a longer time. Also, it is useful to deselect 
+	``Save contents of package in one file'' if you are going to use version 
+	control (GIT).
 	
-	\item Each component uses electrical connectors. Create a \texttt{partial connector} called \textit{Pin} which contains the variables $i$ (current) and $v$ (voltage). You can add variables while you are in the \textit{Modelica text} context of the \textit{Modeling} tab. Which one is a \textit{flow} and which is a \textit{potential} variable, and how should this be reflected in your code? 
+	All component models you will define in the following step need to be 
+	placed in this folder.
 	
-	\item Create the \texttt{connector}s \textit{Pin\_a} and \textit{Pin\_b} for the positive and negative pins. Make two different graphical illustrations for the pins. Use \texttt{extends} to inherit the variables $i$ and $v$ from the \texttt{partial connector} you have just defined. An easy way to create extending models is by right-clicking on the model you want to extend from, and click \textit{New > Extend from\ldots}.
+	\item Each component uses electrical connectors. Create a \texttt{partial 
+	connector} (right-click \textit{MyLib}, then \texttt{New > 
+	Connector\ldots}). Make sure to select the option ``Partial'' in the dialog 
+	that pops up.
+	Call the \texttt{partial connector} \textit{Pin}. This connector will need 
+	two variables $i$ (current) and $v$ 
+	(voltage). You can add variables while you are in the \textit{Modelica 
+	text} context of the \textit{Modeling} tab. If you want to know how to 
+	create variables in the \texttt{Modelica text} context, you can review 
+	\href{http://book.xogeny.com/behavior/equations/variables/#variables}{this 
+	page}. 
+
+	Which one is a \textit{flow} and which is a \textit{potential} variable, 
+	and how should this be reflected in your code? Check 
+	\href{http://book.xogeny.com/components/connectors/simple_domains/#simple-domains}{this
+	 link} for a hint.
 	
-	\item Create a \texttt{partial model} \textit{OnePin} which contains the variables $i$ (current) and $v$ (voltage) and one connector \textit{Pin\_a}. To add the connector, drag \textit{Pin\_a} from your libary folder to the modelling window while you are in the \textit{Diagram} context of the \textit{Modeling} tab. The pin should be located at the top border of the white box. This model will be the basis for all models which have only one pin (i.e., the ground node).
+	\item Create the \texttt{connector}s \textit{Pin\_a} and \textit{Pin\_b} 
+	for the positive and negative pins.  Use \texttt{extends} to inherit the 
+	variables $i$ and $v$ from the \texttt{partial connector} you have just 
+	defined. 
+	An easy way to create extending models is by right-clicking on the model 
+	you want to extend from, and click \texttt{New > Extend from\ldots}.
 	
-	\item Create variables $i$ and $v$ in \textit{OnePin} and write \texttt{equation}s to link these variables to those you have defined in the \textit{Pin} you use in the component. In order to access variables, you can use dot notation as follows: \texttt{componentName.variable}. 
+	Make two different graphical illustrations for the pins. To do so, select 
+	the \texttt{Icon} context from the toolbar. For example, you can draw a 
+	square in the available canvas and choose a different color for each of the 
+	pins. A good convention is to use the same shape for pins of the same flow 
+	type. 
 	
-	\item Now create a \texttt{partial model} \textit{TwoPin} with the same variables and two \textit{Pin} connectors, one positive pin on the left and one negative on the right. Add two variables: voltage difference $dv$ and current $i$. 
+	\item Create a \texttt{partial model} \textit{OnePin} which contains the 
+	variables $i$ (current) and $v$ (voltage) and one connector 
+	\textit{Pin\_a}. To add the connector, drag \textit{Pin\_a} from your 
+	libary folder to the modelling window while you are in the \textit{Diagram} 
+	context of the \textit{Modeling} tab. The pin should be located on the top 
+	border of the white canvas. This model will be the basis for all models 
+	which have only one pin (i.e. the ground node).
+	
+	\item Create variables $i$ and $v$ in \textit{OnePin} and write 
+	\texttt{equation}s to link these variables to those you have defined in the 
+	\textit{Pin} you use in the component. In order to access variables, you 
+	can use dot notation as follows: \texttt{componentName.variable}.
+	
+	Your code should look something like this:
+	\begin{lstlisting}
+	partial model OnePin "Model with a single pin"
+	  flow Modelica.SIunits.Current i "Current flowing through this component";
+	  Modelica.SIunits.Voltage v "Voltage of this component";
+	
+	  Pin_a pin annotation...;
+	equation
+	  pin.i = i;
+	  pin.v = v;
+	  annotation...;
+	end OnePin;
+	\end{lstlisting}
+	
+	Notice that the model \texttt{OnePin} contains an instance of 
+	\texttt{Pin\_a} named \texttt{pin}. In the \texttt{equation} section, you 
+	can see that the current through this \texttt{pin} is accessed with the 
+	dot-notation and made equal to the current of the \texttt{OnePin}. The same 
+	is done for the voltages. \\
+	However, it is not possible to access a variable on something that is not 
+	an instance of a Modelica model. For instance, \texttt{OnePin.v} would make 
+	no sense.
+	
+	\item Now create a \texttt{partial model} \textit{TwoPin} with the same 
+	variables and two \textit{Pin} connectors, one positive pin on the left and 
+	one negative on the right. Add two variables: voltage difference between 
+	the two pins $dv$ and current $i$. 
 	While still in \texttt{partial model} \textit{TwoPin}, add equations that link the variables in this model with the variables of the pins. When connecting currents, use the convention that when the current flows into the component from the pin, it is positive and vice versa.
 	
 	\item Create the source, the resistor, the diode and the capacity by extending \textit{OnePin} or \textit{TwoPin}. Make use of the following equations:
@@ -154,8 +253,22 @@ Consider the electrical circuit shown in Fig.~\ref{fig:cir}. The circuit has a s
 		\item ground: $ v = 0$
 	\end{enumerate}
 	Define $R$, $C$,\ldots as \texttt{parameter}, such that you can change their value using the parameter dialog in the \textit{Diagram} context.\\
-	Make use of following values for the diode: $I_{ds}$ = 1.e-6, $V_t=0.04$, $\alpha=1$, $R=1.e8$.
-	\item Create a model called \textit{Circuit} in which you include all these components as shown in Fig.~\ref{fig:cir}.
+	Make use of following values for the diode: $I_{ds}$ = 1.e-6, $V_t=0.04$, 
+	$\alpha=1$, $R=1.e8$.
+	To review how to define the time derivative of a variable, revise 
+	\href{http://book.xogeny.com/behavior/equations/first_order/}{this link}.
+	\item Create a model called \textit{Circuit} in which you include all these 
+	components as shown in Fig.~\ref{fig:cir}.
+	
+	You are very welcome to experiment with model parameters, but to verify 
+	your solution against Fig.~\ref{fig:res}, use following parameters:
+	\begin{itemize}
+		\item Voltage source: frequency \SI{0.1}{\hertz}, voltage \SI{10}{\volt}
+		\item Left resistance: Resistance \SI{1}{\ohm}
+		\item Right resistance: Resistance \SI{10}{\ohm}
+		\item Diode: as indicated above
+		\item Capacitor: Capacity \SI{1}{\farad}, start voltage \SI{0}{\volt}
+	\end{itemize}
 	\item Simulate the circuit for 100 seconds.
 \end{enumerate}
 
