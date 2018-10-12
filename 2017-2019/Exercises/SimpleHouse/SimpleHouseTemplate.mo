@@ -14,8 +14,9 @@ model SimpleHouseTemplate
   parameter Modelica.SIunits.Area A_win = 6 "Window area";
   parameter Modelica.SIunits.CoefficientOfHeatTransfer h = 2 "Heat transfer coefficient";
     IDEAS.BoundaryConditions.WeatherData.ReaderTMY3
-                                                  weaDat(
-    filNam="modelica://IDEAS/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos")
+                                                  weaDat(filNam=
+        ModelicaServices.ExternalReferences.loadResource(
+        "modelica://IDEAS/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos"))
     "Weather data reader"
     annotation (Placement(transformation(extent={{-200,-18},{-180,2}})));
 
