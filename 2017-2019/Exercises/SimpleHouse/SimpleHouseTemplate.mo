@@ -12,8 +12,9 @@ model SimpleHouseTemplate
   parameter Modelica.SIunits.SpecificHeatCapacity cp_wall = 1000 "Wall specific heat capacity";
 
 
-  IDEAS.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(
-    filNam="modelica://IDEAS/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos")
+  IDEAS.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
+        ModelicaServices.ExternalReferences.loadResource(
+        "modelica://IDEAS/Resources/weatherdata/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.mos"))
     "Weather data reader"
     annotation (Placement(transformation(extent={{-200,-18},{-180,2}})));
   IDEAS.BoundaryConditions.WeatherData.Bus weaBus "Weather data bus"
