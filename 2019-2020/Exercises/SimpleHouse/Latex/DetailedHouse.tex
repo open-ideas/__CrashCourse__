@@ -11,6 +11,7 @@
 \begin{document}
 \title{IDEAS crash course exercise instructions}
 \author{Filip Jorissen, KU Leuven}
+\date{September 20, 2019}
 \maketitle
 
 \section*{Introduction}
@@ -71,7 +72,7 @@ This step requires the main building envelope component models of IDEAS:
 
 \paragraph{Instructions}
 Drag the required components into a newly created model. To inform Modelica how the components are physically `linked', each yellow bus connector of a surface (\path{Window}, \path{OuterWall} or\path{InternalWall}) has to be connected to exactly one zone bus connector.
-To support multiple connections, the zone has an array of bus connectors with size \path{nSurf}, where \path{nSurf} is a parameter of \path{Zone}, which has to be set by the user. It is the user's responsibility to ensure that each element of this array is connected to exactly one surface and that there is a total of \path{nSurf} connections to the zone \footnote{While this is quite cumbersome, we will use a more convenient approach later, and automated toolchains are developed to avoid needing this manual indexing.}.
+To support multiple connections, the zone has an array of bus connectors with size \path{nSurf}, where \path{nSurf} is a parameter of \path{Zone}, which has to be set by the user. It is the user's responsibility to ensure that each element of this array is connected to exactly one surface and that there is a total of \path{nSurf} connections to the zone \footnote{While this is quite cumbersome, we will use a more convenient approach later, and automated toolchains are under development to avoid needing this manual indexing.}.
 
 In addition to connecting each surface, the parameters of each component have to be set. 
 Components typically have many default values that are appropriate for many purposes.
@@ -179,7 +180,7 @@ is plotted in Figure~\ref{fig:res2}.
 
 \section{Occupancy extension}
 \paragraph{Qualitative discussion}
-IDEAS has built-in functionality for zone occupants and lighting.
+IDEAS has built-in functionalities for zone occupants and lighting.
 Based on the chosen options IDEAS will automatically compute
 the zone heat gains, relative humidity and CO$_2$ concentration.
 Implement a continuous occupancy of 1 person and LED
@@ -260,7 +261,7 @@ returns the parameter value \path{k} during office hours
 Then implement this model by extending the previous example, 
 redeclaring the occupancy model and setting parameter $k$.
 
-Hint: use an if-then-else statement with logical checks for the calendar outputs \path{weekDay} and \path{hour}.
+Hint: use an if-then-else statement (\texttt{if condition then result else other\_result}) with logical checks for the calendar outputs \path{weekDay} and \path{hour}.
 
 \paragraph{Side notes}
 The model \path{IDEAS.Buildings.Components.Occupants.BaseClasses.PartialOccupants} 
@@ -312,7 +313,7 @@ zones of 4 m x 4 m and with a window on the south and north sides instead of a s
 \end{itemize}
 
 \paragraph{Connection instructions}
-Create a new model. Add the SimInfoManager and two templates.
+Create a new model. Add the SimInfoManager and two \path{RectangularZoneTemplate}s.
 Set the required parameters in the template, check all tabs! 
 Note that the internal wall can only be defined in one of the two templates.
 For the other template use an `external connection'. 
