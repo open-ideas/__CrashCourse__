@@ -131,7 +131,7 @@ Start by adding one radiator for each zone and by
 connecting them to the respective zone models using the (red) heat ports.
 See the port documentation\footnote{By hovering your mouse over the port.} 
 for more hints about how to do so.
-The radiator parameters can be set to 500 W, 45/35 degrees inlet/outlet \footnote{From these \textit{nominal} values, the model computes the \textit{actual} heat flow rate based on the \textit{actual} inlet temperature.}
+The radiator parameters can be set to 500 W, 45/35 degrees inlet/outlet\footnote{From these \textit{nominal} values, the model computes the \textit{actual} heat flow rate based on the \textit{actual} inlet temperature.}
 and a pressure drop of 0 Pa\footnote{We here implicitly assume that the radiator pressure drop is negligible compared to the valve pressure drop, which we are about to add.}.\\
 
 Typically, radiators have a Thermostatic Radiator Valve (TRV)
@@ -142,7 +142,7 @@ the zone temperature \path{TSensor} as an input.
 Physically, each radiator has its own TRV, 
 so this should be reflected in the model.
 The nominal mass flow rate of the valve can be set to the nominal
-mass flow rate of the respective radiator and its pressure drop can be set 
+mass flow rate of the respective radiator and its nominal pressure drop can be set 
 to 20 kPa.\\
 
 Add a heat pump. 
@@ -153,30 +153,32 @@ Therefore set the heat pump scaling factor to 0.025,
 which rescales the heat pump behaviour to a thermal power of 2.5 \%.
 Furthermore, choose realistic nominal mass flow rates and set the nominal pressure
 drop to 10 kPa. Set \path{enable_variable_speed=false} and set the control input (orange triangle)
-such that the heat pump is on.
+such that the heat pump is on using an \path{IntegerConstant}.\\
 
 Add a storage tank that buffers the warm water that is produced.
 Connect the storage tank at the secondary (the warm side) outlet of the heat pump.
-Choose a volume of 100 l (0.1 m$^3$), a height of 0.5~m and an insulation thickness of 10~cm.
+Choose a volume of 100 l (0.1 m$^3$), a height of 0.5~m and an insulation thickness of 10~cm.\\
 
 Add two pumps.
 At the secondary side of the heat pump, 
 set the pump nominal flow rate to the sum of the radiator nominal flow rates
 and set the nominal pressure head to 20~kPa.
 At the primary side, do the same.
-Both pumps should always be on.
+Both pumps should always be on.\\
 
 The primary side of the heat pump and its circulation pump should be connected
-to a heat source. We used the model \path{IDEAS.Fluid.Sources.Boundary_pT} for this,
-which acts as a source and sink for some fluid. You can specify the pressure
-and the temperature of the fluid. Set the temperature to 10 degrees.
+to a heat source. Use the model \path{IDEAS.Fluid.Sources.Boundary_pT} for this,
+which acts as a fluid source and a fluid sink. You can specify the pressure
+and the temperature of the fluid. Set the temperature to 10 degrees.\\
 
-Add a \textit{water} Medium to the model and add it to all components.
+Add a \textit{water} Medium to the model 
+in the text view and use it in all components.\\
 
 
 Compute the electrical energy by integrating the electrical power of the heat pump
-using an \path{Integrator}.
+using an \path{Integrator}.\\
 
+A reference implementation for this example is shown in Figure~\ref{fig:sche}.
 
 \paragraph{Side notes}
 By default, the Dymola `canvas' has a size of 100 pt by 100 pt. 
@@ -193,7 +195,7 @@ the most physically detailed and models and should be used whenever possible.\\
 Modelica uses SI units by default, which means that temperatures by default 
 are presented with the units of Kelvin.
 
-A reference implementation for this example is shown in Figure~\ref{fig:sche}.
+
 
 \begin{figure}
 \centering
@@ -272,7 +274,7 @@ when the supply water temperature exceeds 45 degrees.
 Before extending the previous step, add a temperature sensor between the storage tank
 and the secondary circulation pump.
 This measurement serves as an input to the hysteresis controller.
-Now extend the model and configure the controller such that it switches to an `false' signal below
+Now extend the model and configure the controller such that it switches to a `false' signal below
 40 degrees and to `true' above 45 degrees\footnote{Take into account that the measurement has units of Kelvin!}.
 
 The output of the hysteresis controller is thus `true' when the supply temperature is 
@@ -282,7 +284,8 @@ accepted by the heat pump model.
 For this purpose use the \path{BooleanToReal} block.
 
 The heat pump already has a control signal. 
-Since blocks cannot be removed from an extension of a model,
+Since blocks cannot be removed from an extension of a model\footnote{Unless 
+they are conditional, but we have not implemented that in this example.},
 we can (in this case) work around the existing control signal
 by changing the heat pump model input type to \path{enable_variable_speed=true}.
 The model then accepts any real signal and connections to the other control 
@@ -295,10 +298,11 @@ the circulation pumps.
 However, disabling the circulation pump disables the flow of water,
 which causes the temperature sensor output to remain fixed at
 its last value.
-Since this value, at the point of disabling the point, was more then 45 degrees,
+Since this value, at the point of disabling the pump, was more then 45 degrees,
 it would stay at that value and consequently the system would not be enabled again.
 Note that this is not necessarily a model error, since the same problem could
-occur in reality!\\
+occur in reality! This problem can be alleviated by modelling
+heat losses in the sensor.\\
 
 
 We have used a hysteresis controller to enable and disable the heat pump,
@@ -319,18 +323,18 @@ connections to removed connectors or components should be ignored.
 
 \paragraph{Reference result}
 Figure~\ref{fig:res2} compares the results with the results without controller.
-We see that indeed, the supply temperature is significantly reduced significantly.
+We see that indeed, the supply temperature is reduced significantly.
 This causes the zone temperature to be slightly lower, up to about 0.25~K.
 The COP however increases significantly, from about 2.7 to about 3 to 4.
 Consequently, the energy use over the period is reduced from 17.2~kWh
-to 12.57~kWh.\\
+to 12.57~kWh.
 
 Note that this heating system configuration is still 
 not efficient since the small flow rates still cause 
 large temperatures to occur within the heat pump
 and thus cause a small COP.
-COP's of more than 5 are obtainable when using a separate
-pump to charge the storage tank.
+COP's of more than 5 are obtainable when using a bypass and a separate
+pump to charge the storage tank.\\
 
 
 \begin{figure}
@@ -416,13 +420,14 @@ The control consists of PI controllers with a set point of 1000 ppm.
 \item \path{IDEAS.Fluid.Actuators.Dampers.PressureIndependent}
 \item \path{IDEAS.Fluid.HeatExchangers.ConstantEffectiveness}
 \item \path{IDEAS.Controls.Continuous.LimPID}
+\item \path{Modelica.Blocks.Sources.Constant}
 \end{itemize}
 
 
 \paragraph{Important notes on Media}
 \path{IDEAS.Media} contains a selection of medium \textit{packages}. 
 Media packages contain the properties of media such as water or air.
-Depending on the user requirements the required level of detail can change a lot.
+Depending on the user requirements, the level of detail in these packages can change a lot.
 For building applications, we use relatively simple media.
 
 \path{IDEAS.Media.Water} assumes constant density and heat capacity and is thus
@@ -483,7 +488,8 @@ For this exercise, assume that the VAV has a nominal flow rate of 100 m$^3$/h,
 which equals $100*1.2/3600$ kg/s.
 Assume a nominal pressure drop of 50 Pa and
 also add \path{dpFixed_nominal=50}, which causes the VAV
-model to include a pressure drop of a series duct.
+model to include a pressure drop of ducts, grills, filters or bends that are connected
+at the inlet or outlet of the VAV.
 
 Next, add a supply fan and a return fan to which the VAVs
 are connected in parallel. The fan pressure head is constant at 200 Pa
@@ -494,8 +500,8 @@ Choose reasonable nominal flow rates and set the nominal pressure drop to 100 Pa
 Make sure to use the new air Medium for all components that were just added.\\
 
 The ventilation system model is now ready but cannot be simulated yet since
-we do not yet have a control input for the VAVs.
-For this purpose, add two PI controllers and connect their output to the VAVs.
+the control input of the VAVs is not set.
+For this purpose, add two PI controllers and connect their outputs to the VAVs.
 Connect the zone \path{ppm} outputs to the PI controller measurement inputs \path{u_m}.
 Connect a constant set point of 1000 ppm to the PI input \path{u_s}.
 Add a minimum VAV opening of 10 \%.
@@ -519,7 +525,7 @@ by checking the error compared to a measurement of that variable \path{u_m}
 and by adjusting the control output \path{y}, which should be connected
 to some actuator (in this case the VAV) that affects the measured variable.
 The PID controller control internally computes the error $e=u_s-u_m$
-and the output $y$ consists of three (optional parts): 
+and the output $y$ consists of three (optional) parts: 
 \begin{enumerate}
 \item the proportional part (P), which is proportional to $e$,
 \item the integral part (I), which is proportional to the time integral $\int_0^\tau e \, \mathrm{d}t$
@@ -543,8 +549,9 @@ Since the integral term takes a while to respond,
 an instantaneous step is only affected by $y=ke$.
 Furthermore, we want $\Delta y = 1$  for $\Delta e = 200$,
 which results in $k=0.005$.
+
 The proportional term $k$ may not be sufficient
-to obtain the set point. 
+to track the set point. 
 The remaining error can be compensated by the integral term, 
 which can also be tuned using parameter $Ti$.
 The reasoning here is as follows.
@@ -552,6 +559,10 @@ If an error of 200 ppm persists for $Ti$ seconds,
 we want to PI controller output to increase an additional 100 \% 
 during that period.
 In this case we chose $Ti=300$ seconds.
+We have also set \path{reverseAction=true} to indicate to the PI,
+that if the set point is larger than the measurement, the control output should
+decrease instead of increase, which is the default. The same behaviour
+can be obtained by  switch the two PI inputs.\\
 
 Note that it may be tempting to set $k$ large and $Ti$ small
 in order to get a controller that reacts very quickly. However,
@@ -561,19 +572,15 @@ You  can observe such behaviour when setting \path{riseTime=300} for the VAVs an
 \path{Ti=60} in the PIs.
 These oscillations cause the solver to take smaller time steps, 
 which prolongs the simulation time.
-Note that this is again not a software problem since these oscillations can occur 
-in practice too!
-
-We have also set \path{reverseAction=true} to indicate to the PI,
-that if the set point is larger than the measurement, the control output should
-decrease instead of increase, which is the default. The same behaviour
-can be obtained by  switch the two PI inputs.\\
+Note that this is again not a software problem since these oscillations can/would occur 
+in practice too!\\
 
 
-By default, the humidity of air is simulated, and the generation of water
-vapor by occupants too.
-By default, air infiltration in zones is quite low, which can cause the
-humidity to increase strongly, even above 100 \% since water condensation
+By default, both the humidity of air, and the generation of water
+vapor by occupants are simulated.
+Furthermore, natural air infiltration in zones\footnote{See parameter n50.} is quite low, 
+which can cause the zone humidity to increase strongly, 
+even above 100 \% since water condensation
 is not modelled by default.
 This can explain seemingly wrong results when not modelling
 a ventilation system.\\
