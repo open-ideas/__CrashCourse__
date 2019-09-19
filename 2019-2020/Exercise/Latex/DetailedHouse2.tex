@@ -16,7 +16,7 @@
 
 \section*{Introduction}
 The goal of this exercise is to become familiar with the 
-Modelica package of IDEAS that are
+Modelica packages of IDEAS that are
 complementary to \path{IDEAS.Buildings}. \\
 
 For this exercise you will extend the model of a simple house,
@@ -45,12 +45,13 @@ Depending on the parameter values that you choose, results
 may differ slightly.
 We also list some side notes, which are not strictly required for this
 exercise, but which may help you to effectively use Modelica
-and IDEAS in the future.\\
+and IDEAS in the future.
+In some cases we list some important background information.\\
 
 The main packages that you will need are:
 \begin{enumerate}
-\item \path{IDEAS.Fluid}: a package containing air flow and hydronic system components.
-\item \path{IDEAS.Media}: a package containing commonly used media implementations that are tailored to building applications.
+\item \path{IDEAS.Fluid}: a package containing air flow and hydronic system components,
+\item \path{IDEAS.Media}: a package containing commonly used media implementations that are tailored to building applications,
 \item \path{IDEAS.Utilities}: a package containing components that simplify model development and automation of workflows.
 \end{enumerate}
 
@@ -59,6 +60,7 @@ The main packages that you will need are:
 In this step you will extend the model \path{IDEAS.Examples.Tutorial.Example5} 
 by adding a HVAC system.
 The system consists of a water-water heat pump, radiators, 
+a storage tank,
 circulation pumps and a low temperature heat source for the heat pump.
 Use constant control set points for the heat pump and pumps.
 Add a system that measures the heat pump electrical power use.\\
