@@ -10,7 +10,8 @@
 
 \begin{document}
 \title{IDEAS SimpleHouse exercise instructions}
-\author{Filip Jorissen, KU Leuven}
+\author{Filip Jorissen, Damien Picard}
+\date{KU Leuven, September 20, 2019}
 \maketitle
 
 \section*{Introduction}
@@ -37,10 +38,13 @@ Dymola can be downloaded from
 Installation instructions for Dymola and a C-compiler can be found on 
 \url{http://www.3ds.com/fileadmin/PRODUCTS/CATIA/DYMOLA/PDF/Installation.pdf}.
 The latest version from the IDEAS library should be downloaded and opened in Dymola. 
-To verify you installation try to simulate \path{IDEAS.Fluid.Actuators.Dampers.Examples.Damper} by opening the simulation tab (bottom right) and by clicking simulate (\includegraphics[scale=0.5]{simulate.png}).\\
+To verify you installation try to simulate \path{IDEAS.Fluid.Actuators.Dampers.Examples.Damper} by opening the simulation tab (bottom right) and by clicking simulate (\includegraphics[scale=0.5]{simulate.png}). Finally, download 
+\textit{SimpleHouseTemplate.mo} from \url{https://github.com/open-ideas/__CrashCourse__/tree/master/2019-2020/Exercises/SimpleHouse}
+and load it into Dymola.\\
 
 In the following sections the simple house model is discussed 
-in several steps. 
+in several steps. The graphical representation of the final model is 
+given in Figure~\ref{fig:simpleHouse}
 Each step first qualitatively explains the model part.
 Secondly the names of the required IDEAS models 
 are listed.
@@ -56,7 +60,12 @@ if your implementation is correct.
 Depending on the parameter values that you choose, results
 may differ.
  
-
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.35]{simpleHouse.png}
+\caption{Graphical representation of simple house model.}
+\label{fig:simpleHouse}
+\end{figure}
 
 
 \section{Building wall model}
@@ -99,7 +108,7 @@ It should look like Figure~\ref{fig:res1}.
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.7]{result1.png}
+\includegraphics[scale=0.6]{result1.png}
 \caption{Wall temperature in K as function of time in seconds}
 \label{fig:res1}
 \end{figure}
@@ -132,7 +141,7 @@ is plotted in Figure~\ref{fig:res2}.
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.7]{result2.png}
+\includegraphics[scale=0.6]{result2.png}
 \caption{Wall temperature in K as function of time in seconds,
 with and without window}
 \label{fig:res2}
@@ -161,7 +170,14 @@ information about the type of fluid and its properties
 that should be modelled by the \path{MixingVolume}.
 Set
 \footnote{Click the right small arrow and `edit text' in the parameter dialog box, or use the Modelica text view.}
- its value to `MediumAir', which is declared in the template.
+ its value to `MediumAir', which is declared in the template. Your model should now look like Figure~\ref{fig:airModel}.
+ 
+ \begin{figure}[h!]
+\centering
+\includegraphics[scale=0.4]{airModel.png}
+\caption{Simple house model with a wall, a window, and an air model.}
+\label{fig:airModel}
+\end{figure} 
 
 \paragraph{Reference result}
 The result with and without the air model
@@ -171,7 +187,7 @@ is plotted in Figure~\ref{fig:res3}.
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.7]{result3.png}
+\includegraphics[scale=0.6]{result3.png}
 \caption{Wall temperature in K as function of time in seconds,
 with and without air model}
 \label{fig:res3}
@@ -230,7 +246,7 @@ and the heater is not disabled when it becomes too warm.
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.7]{result4.png}
+\includegraphics[scale=0.6]{result4.png}
 \caption{Air temperature in K as function of time in seconds}
 \label{fig:res4}
 \end{figure}
@@ -256,7 +272,15 @@ A temperature sensor will measure the zone air temperature.
 
 \paragraph{Connection instructions}
 The heater modulation level should be set to one when
-the heater is on and to zero otherwise.
+the heater is on and to zero otherwise. Your model should now
+look like Figure~\ref{fig:heatingControllerModel}.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.4]{heatingControllerModel.png}
+\caption{Simple house model with heating controller model.}
+\label{fig:heatingControllerModel}
+\end{figure} 
 
 
 \paragraph{Reference result}
@@ -267,7 +291,7 @@ the controller is added.
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.7]{result5.png}
+\includegraphics[scale=0.6]{result5.png}
 \caption{Air temperature in K as function of time in seconds with hysteresis controller}
 \label{fig:res5}
 \end{figure}
@@ -303,8 +327,15 @@ Connect the components such that they exchange mass
 representing the zone air.
 Add a \path{boundary_pT} to draw air from the environment.
 Enable its temperature input and connect it to the `TDryBul'
-variable in the weather data reader.
+variable in the weather data reader. The final model will look like
+Figure~\ref{fig:freeCoolingModel}.
 
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{freeCoolingModel.png}
+\caption{Simple house model with free cooling model.}
+\label{fig:freeCoolingModel}
+\end{figure} 
 
 
 \paragraph{Reference result}
