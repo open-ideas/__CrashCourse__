@@ -66,7 +66,7 @@ Use constant control set points for the heat pump and pumps.
 Add a system that measures the heat pump electrical energy use.\\
 
 \paragraph{Required models}
-This step requires the main building envelope component models of IDEAS:
+This step requires the following components:
 \begin{itemize}
 \item \path{IDEAS.Fluid.HeatPumps.ScrollWaterToWater}
 \item \path{IDEAS.Fluid.HeatExchangers.Radiators.RadiatorEN442_2}
@@ -115,12 +115,13 @@ temperature increase of the water when passing though the pump
 \footnote{Since the model assumes that the flow work 
 is injected into the stream as a thermal power.}.\\
 
-To summarize, modelling Fluid flows in Modelica can be quite involved,
+To summarize, modelling fluid flows in Modelica can be quite involved,
 but you can achieve a high level of detail in doing so.
 Proceed with care, think about how a system physically works and make sure to 
 include all relevant components.
-One notable example is that each fluid loop somewhere has to define the 
-\textit{absolute} pressure of that loop: pumps and valves only provide information
+One notable example is that in each fluid loop the 
+\textit{absolute} pressure of that loop has to be defined somewhere: 
+pumps and valves only provide information
 about \textit{differential} pressures. 
 For this purpose use \path{IDEAS.Fluid.Sources.Boundary_pT} and connect
 it to the loop, which will set the absolute pressure at the connection point.
@@ -264,6 +265,7 @@ when the supply water temperature exceeds 45 degrees.
 
 
 \paragraph{Required models}
+This step requires the following components:
 \begin{itemize}
 \item \path{IDEAS.Fluid.Sensors.TemperatureTwoPort}
 \item \path{Modelica.Blocks.Logical.Hysteresis}
@@ -373,6 +375,7 @@ Note that the external library \path{ExternData} can be used to read json files.
 
 
 \paragraph{Required models}
+This step requires the following component:
 \begin{itemize}
 \item \path{IDEAS.Utilities.IO.Files.JSONWriter}
 \end{itemize}
@@ -414,6 +417,7 @@ The control consists of PI controllers with a set point of 1000 ppm.
 
 
 \paragraph{Required models}
+This step requires the following components:
 \begin{itemize}
 \item Custom occupant model from Example 4
 \item \path{IDEAS.Fluid.Sources.Outside}
@@ -556,7 +560,7 @@ The remaining error can be compensated by the integral term,
 which can also be tuned using parameter $Ti$.
 The reasoning here is as follows.
 If an error of 200 ppm persists for $Ti$ seconds,
-we want to PI controller output to increase an additional 100 \% 
+we want the PI controller output to increase an additional 100 \% 
 during that period.
 In this case we chose $Ti=300$ seconds.
 We have also set \path{reverseAction=true} to indicate to the PI,
