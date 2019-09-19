@@ -9,7 +9,7 @@
 \usepackage[per-mode=symbol]{siunitx}
 
 \begin{document}
-\title{IDEAS crash course exercise instructions}
+\title{Task 2: IDEAS Tutorial, part 2}
 \author{Filip Jorissen, KU Leuven}
 \date{September 20, 2019}
 \maketitle
@@ -73,10 +73,10 @@ This step requires the main building envelope component models of IDEAS:
 \item \path{IDEAS.Fluid.HeatPumps.ScrollWaterToWater}
 \item \path{IDEAS.Fluid.HeatExchangers.Radiators.RadiatorEN442_2}
 \item \path{IDEAS.Fluid.Actuators.Valves.TwoWayTRV}
-\item \path{Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor}
 \item \path{IDEAS.Fluid.Movers.FlowControlled_dp}
 \item \path{IDEAS.Fluid.Sources.Boundary_pT}
 \item \path{IDEAS.Media.Water}
+\item \path{IDEAS.Fluid.Storage.Stratified}
 \item \path{Modelica.Blocks.Sources.IntegerConstant}
 \item \path{Modelica.Blocks.Continuous.Integrator}
 \end{itemize}
@@ -134,8 +134,8 @@ and a pressure drop of 0 Pa\footnote{We here implicitly assume that the radiator
 Typically, radiators have a Thermostatic Radiator Valve (TRV)
 that automatically reduces the flow towards the radiator
 when the zone temperature is sufficiently high.
-We model this by adding a TRV model, which takes
-the convective (air) temperature of the zone as an input.
+We model this by adding a TRV model, which uses
+the zone temperature \path{TSensor} as an input.
 Physically, each radiator has its own TRV, 
 so this should be reflected in the model.
 The nominal mass flow rate of the valve can be set to the nominal
@@ -152,8 +152,12 @@ Furthermore, choose realistic nominal mass flow rates and set the nominal pressu
 drop to 10 kPa. Set \path{enable_variable_speed=false} and set the control input (orange triangle)
 such that the heat pump is on.
 
+Add a storage tank that buffers the warm water that is produced.
+Connect the storage tank at the secondary (the warm side) outlet of the heat pump.
+Choose a volume of 100 l (0.1 m$^3$), a height of 0.5~m and an insulation thickness of 10~cm.
+
 Add two pumps.
-At the secondary side of the heat pump (the warm side), 
+At the secondary side of the heat pump, 
 set the pump nominal flow rate to the sum of the radiator nominal flow rates
 and set the nominal pressure head to 20~kPa.
 At the primary side, do the same.
@@ -203,7 +207,7 @@ seconds later, which is a period of 11.6 days.\\
 
 
 We now plot the zone temperatures, 
-the supply water temperature \path{pumpSec.heatPort.T},
+the heat pump condenser temperature \path{heaPum.con.T},
 the heat pump heat flow rate \path{heaPum.QCon_flow}
 and the radiator heat flow rates \path{rad.Q_flow}.
 
@@ -213,7 +217,7 @@ the 21 degree set point of the radiator thermostatic valves.
 The temperatures do rise above the set point, 
 which is caused by solar heat gains, not by the radiators.
 
-The supply temperature towards the radiators rises up to 65 degrees.
+The supply water temperature of the radiators rises up to 65 degrees.
 The radiator nominal dimensions are for a supply water temperature of
 45 degrees. The elevated temperatures mean that the radiator can
 emit a higher than nominal thermal power.
@@ -222,7 +226,7 @@ even half of its nominal value.
 This is caused by the thermostatic valves, which reduce the mass flow rate
 that enters the radiator, and consequently lowers the thermal power.
 This reduced mass flow rate causes a large temperature difference across the heat pump,
-which in turn explains the elevated supply water temperatures.
+which in turn explains the elevated heat pump condenser temperatures.
 The heat pump model contains a built-in temperature protection, which disables
 the heat pump when the temperature exceeds a predefined threshold.
 Consequently, the heat pump continuously switches on and off
@@ -231,7 +235,7 @@ This switching also negatively impacts the computation time,
 as you may have noticed.\\
 
 This example illustrates the importance of control, which is currently not modelled.
-All pumps and the heat pump are assumed to be operated continuously, 
+All pumps and the heat pump are assumed to be active continuously, 
 which is detrimental for the system performance.
 The COP (\path{heaPum.com.COP}) is only about 2.7.
 
@@ -252,16 +256,16 @@ when the supply water temperature exceeds 45 degrees.
 
 \paragraph{Required models}
 \begin{itemize}
+\item \path{IDEAS.Fluid.Sensors.TemperatureTwoPort}
 \item \path{Modelica.Blocks.Logical.Hysteresis}
 \item \path{Modelica.Blocks.Math.BooleanToReal}
-\item \path{Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor}
 \end{itemize}
 
 \paragraph{Instructions}
-Use a temperature sensor to measure the pump temperature,
-which is equal to the supply water temperature.
+Before extending the previous step, add a temperature sensor between the storage tank
+and the secondary circulation pump.
 This measurement serves as an input to the hysteresis controller.
-Configure the controller such that it switches to an `false' signal below
+Now extend the model and configure the controller such that it switches to an `false' signal below
 40 degrees and to `true' above 45 degrees\footnote{Take into account that the measurement has units of Kelvin!}.
 
 The output of the hysteresis controller is thus `true' when the supply temperature is 
@@ -282,7 +286,7 @@ signal are ignored.
 Note that the control signal of the heat pump could also have been used to disable
 the circulation pumps.
 However, disabling the circulation pump disables the flow of water,
-which causes the circulation pump temperature to remain fixed at
+which causes the temperature sensor output to remain fixed at
 its last value.
 Since this value, at the point of disabling the point, was more then 45 degrees,
 it would stay at that value and consequently the system would not be enabled again.
@@ -292,8 +296,9 @@ occur in reality!\\
 
 We have used a hysteresis controller to enable and disable the heat pump,
 while we might as well have used a simple `greater or equal' comparison.
-This can however introduce very rapid switching between turning the heat pump on
-and off. Indeed, enabling the heat pump will, almost instantaneously increase the 
+If there were no storage tank,
+this would however introduce very rapid switching between turning the heat pump on
+and off. Indeed, enabling the heat pump will, almost instantaneously increases the 
 supply water temperature, causing the heat pump to be disabled again.
 This effect is called chattering and can be very detrimental for the simulation speed 
 and should therefore be avoided.
@@ -309,15 +314,22 @@ connections to removed connectors or components should be ignored.
 Figure~\ref{fig:res2} compares the results with the results without controller.
 We see that indeed, the supply temperature is significantly reduced significantly.
 This causes the zone temperature to be slightly lower, up to about 0.25~K.
-The COP however increases tremendously, from about 2.7 to about 5.
-Consequently, the energy use over the period is reduced from 14.74~kWh
-to 7.61~kWh.\\
+The COP however increases significantly, from about 2.7 to about 3 to 4.
+Consequently, the energy use over the period is reduced from 17.2~kWh
+to 12.57~kWh.\\
+
+Note that this heating system configuration is still 
+not efficient since the small flow rates still cause 
+large temperatures to occur within the heat pump
+and thus cause a small COP.
+COP's of more than 5 are obtainable when using a separate
+pump to charge the storage tank.
 
 
 \begin{figure}
 \centering
 \includegraphics[width=\linewidth]{Example7.png}
-\caption{Comparison with (blue) and without (red) control for zone temperature, supply water temperature and radiator thermal power.}
+\caption{Comparison with (red) and without (blue) control for zone temperature, supply water temperature and radiator thermal power.}
 \label{fig:res2}
 \end{figure}
 
@@ -326,12 +338,10 @@ To further play with this model, you can try to enable/disable the circulation p
 signal and see what happens.
 Secondly, you can set the heat pump control signal to 0.3 instead of 1,
 which causes the heat pump to be modulated to 30\% thermal power.
-This has a huge impact on computation time since the heat pump is no longer
-continuously switching on and off. 
+This has a large impact on the COP since the temperature difference across the heat 
+pump is reduced. 
 However, the heat pump is unable to satisfy the heat demand.
-Note that frequent on/off switching is problematic in reality too.
-Therefore heat pumps can often modulate, or a thermal storage tank is
-added to the system to slow the thermal response of the heating system.
+
 
 
 \section{Workflow automation}
@@ -376,8 +386,9 @@ Depending on the chosen value for the parameter \path{varKeys},
 you should get something similar to:
 \begin{verbatim}
 {
-  "Electrical energy [kWh]" : 7.6106504607e+00
+  "Electrical energy [kWh]" : 1.2577137592e+01
 }
+
 \end{verbatim}
 
 
@@ -583,21 +594,24 @@ concentration when there are no occupants.
 
 
 \section{Computation time}
-The models that you have just created are fairly slow. 
-The main reason is that the heat pump on/off controller, causes a lot
-of sudden transients that force the solver to take small steps, 
-which takes a lot of time.
-As we explained, the controller is switching more than it should,
-but even then the computation time is high.\\
+The models that you have just created are fairly slow
+and computation time can easily explode when controller
+oscillations occur or when the heat pump experiences frequent on/off switches. 
+These effects cause a lot
+of fast transients that force the solver to take small steps, 
+which takes a lot of time.\\
 
 Fortunately, there are many tricks that can be used to speed up the solver. 
 The fundamental principle is that we remove small time constants from the problem,.
 \path{IDEAS.Examples.Tutorial.Example10} implements changes that
-cause the simulation to become 4 times faster.
+cause the simulation to become 2 times faster.
 If we do this systematically, and we remove \textbf{all} fast time constants,
-we can use a different solver (Euler), for which the simulation time becomes 20 times smaller
+we can use a different solver (Euler), 
+using which the simulation time also becomes 2 times smaller
 when using a fixed time step of 20 seconds.
-For large models, the difference in computation time can even be a factor 1000.
+These are modest improvements since this small example model behaves rather well.
+However, for large models, the difference in computation time 
+when using Euler integration can become a factor 1000.
 The modifications however require a bit of knowledge about solvers 
 and the models that you are using, including some of the more advanced parameters.
 To learn more about this, we refer to \cite{Jorissen2015,Jorissen2018,phd}.
