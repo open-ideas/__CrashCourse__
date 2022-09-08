@@ -1,5 +1,0 @@
-Some notes for improving the crash course next time
-- intro: don't explain language concepts, this was just to give an overview AFTER having explained it in the first demo
-- first model examples: start with a dynamic first order model: this is more natural for Modelica as it's stupid to show static models
-- the restructuring of the Lib package was too drastic: the Mass model is a huge step from the example models: too much information at once.  It used to be more gradual (SI units, der(), instantiation, modification, ...)
-- the comment above (3) is annoted by Dirk, he added that before the hands on, we should add soem short explanation on the GUI of Dymola, how to structure in packages and include models in packages and so on.
