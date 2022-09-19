@@ -1,0 +1,114 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage[per-mode=symbol]{siunitx}
+% Package for hyperlink, without ugly box around and nice blue color for text
+\usepackage{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+	colorlinks,
+	linkcolor={red!50!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
+}
+\setlength\parindent{0pt}
+
+\usepackage[
+    type={CC},
+    modifier={by-sa},
+    version={4.0},
+]{doclicense}
+
+\begin{document}
+\title{Exercise 1: Exploring IDEAS}
+\author{Filip Jorissen, Damien Picard, Jelger Jansen, Iago Cupeiro Figueroa}
+\date{KU Leuven, September 23, 2022}
+\maketitle
+
+
+\doclicenseThis
+
+
+\section*{Introduction}
+The goal of this first exercise is to explore and become familiar with the Dymola environment and ... COMPLETE
+Modelica and the IDEAS library. 
+Since the IDEAS library components are typically used
+by combining several components graphically, the use of 
+equations falls outside of the scope of this exercise.\\
+
+For this exercise you will create a model of a simple house,
+consisting of a heating system, one building zone 
+and a ventilation model. 
+The exercise starts from a template file that should 
+not produce any errors. This file will be extended in
+several steps, adding complexity.
+In between each step the user should be able to simulate the
+model, i.e. no errors should be produced and simulation results 
+may be compared.\\
+
+Prerequisites are that you should have the latest version of Dymola
+installed. You should have a working compiler, and a license. 
+Dymola can be downloaded from 
+\href{http://www.3ds.com/products-services/catia/products/dymola/trial-version/}{this link}. 
+Installation instructions for Dymola and a C compiler can be found 
+\href{http://www.3ds.com/fileadmin/PRODUCTS/CATIA/DYMOLA/PDF/Installation.pdf}{here}.
+The latest version from the \href{https://github.com/open-ideas/IDEAS}{IDEAS library} should be downloaded and opened in Dymola. 
+To verify your installation, try to simulate \path{IDEAS.Fluid.Actuators.Dampers.Examples.Damper} by opening the simulation tab (tab bar at the top) and by clicking \textit{Simulate}. Finally, download 
+\textit{SimpleHouseTemplate.mo} from \url{Add_new_and_correct_link}
+and load it into Dymola.\\
+
+In the following sections the simple house model is discussed 
+in several steps. The graphical representation of the final model is 
+given in Figure~\ref{fig:simpleHouse}.
+Each step first qualitatively explains the model part.
+Secondly, the names of the required IDEAS models 
+are listed.
+Thirdly, we provide high-level instructions of how to
+set up the model.
+If these instructions are not clear immediately, 
+have a look at the model documentation and at the type of
+connectors the model has, 
+try out some things, 
+make an educated guess, etc.
+Finally, we provide reference results that allow you to check
+if your implementation is correct. 
+Depending on the parameter values that you choose, results
+may differ.
+ 
+
+
+
+\section{Building wall model}
+\paragraph{Qualitative discussion}
+tekst
+
+\paragraph{Required models}
+In this first step only the Modelica Standard Library (MSL) 
+model \path{Modelica.Thermal.HeatTransfer.Components.HeatCapacitor}
+is required.
+
+\paragraph{Connection instructions}
+Connect the heat capacitor to the thermal resistor.
+
+\paragraph{Reference result}
+If you correctly added the model of the heat capacitor, connected it to the resistor and 
+added the parameter values for $C$ and $R$
+\footnote{Double-click on a component to see a list of its parameters. Gray values indicated default values.},
+then you should be able to simulate the model.
+To do this, go to the simulation tab (tab bar at the top),
+open the simulation options 'Setup',
+and set the model `Stop time' to 1e6 seconds.
+You can now simulate the model.
+You can plot individual variables values by clicking on their name in the variable browser on the left.
+Now plot the wall capacitor temperature value `\textit{T}'. 
+It should look like Figure~\ref{fig:res1}.
+
+
+
+
+\end{document}
