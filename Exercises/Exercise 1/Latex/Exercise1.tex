@@ -26,7 +26,7 @@
 
 \begin{document}
 \title{Exercise 1: Exploring Dymola, MSL and IDEAS}
-\author{Filip Jorissen, Damien Picard, Jelger Jansen, Iago Cupeiro Figueroa}
+\author{Filip Jorissen, Damien Picard \\  \thanks{Review} Jelger Jansen, Iago Cupeiro Figueroa, Lucas Verleyen}
 \date{KU Leuven, September 23, 2022}
 \maketitle
 
@@ -35,7 +35,7 @@
 
 
 \section*{Introduction}
-The goal of this first exercise is to explore and become familiar with the Dymola environment, the Modelica Standard Library (MSL) and the IDEAS library. For this exercise you will simulate two example models and adapt both model and simulation parameters. Additionally, you will plot some results using the plot function of Dymola to visualise the results. This functionality allows for a quick analysis of all results of any model you simulate. 
+The goal of this first exercise is to explore and become familiar with the Dymola environment, the Modelica Standard Library (MSL) and the IDEAS library. For this exercise you will simulate two example models and adapt both their model and simulation parameters. Additionally, you will plot some results using the plot function of Dymola to visualise the results. This functionality allows for a quick analysis of all results of any model you simulate. 
 
 
 \section*{Remarks}
@@ -43,9 +43,9 @@ The goal of this first exercise is to explore and become familiar with the Dymol
 \begin{itemize}
 	\item Make sure that Dymola is installed on your computer. More information you can find in the document enclosing the homework exercise.
 	\item Download IDEAS from \href{https://github.com/open-ideas/IDEAS}{https://github.com/open-ideas/IDEAS} and unzip the library locally.
-	\item Open Dymola and load IDEAS. To load a library, you can click on \path{File>Open>Load}. Then a file explorer will show up, where you go to your locally downloaded version of IDEAS. Inside the IDEAS folder, you select the file \path{package.mo}. Now, IDEAS should be loaded into Dymola.
-	\item Note that there is a difference between \path{Open} and \path{Load}. The command \path{Open} loads a file or library (via the file \path{package.mo}) into Dymola \underline{with} changing the working directory to the folder in which you selected the file. The command \path{Load} loads a file or library (via the file \path{package.mo}) into Dymola \underline{with} changing the working directory.
-	\item During simulation, Dymola will create executable files in a working directory, which will be executed subsequently by your computer. If you use a computer maintained by KU Leuven (which is the case during this crash course), it is not possible to run an executable file in any folder. Therefore, you should change the working directory to the local folder \path{C:\ Workdir}. For this, you can click on \path{File>WorkingDirectory} and select \path{C:\ Workdir} from the suggestions or the file explorer (\path{Browse}).
+	\item Open Dymola and load IDEAS. To load a library, you can click on \path{File>Open>Load}. Then a file explorer will show up, where you navigate to your locally downloaded version of IDEAS. Inside the IDEAS folder, you select the file \path{package.mo}. Now, IDEAS should be loaded into Dymola.
+	\item Note that there is a difference between \path{Open} and \path{Load}. The command \path{Open} loads a file or library (via the file \path{package.mo}) into Dymola \underline{and changes} the working directory to the folder in which you selected the file. The command \path{Load} loads a file or library (via the file \path{package.mo}) into Dymola \underline{without changing} the working directory.
+	\item During simulation, Dymola will create executable files in a working directory, which will be executed subsequently by your computer. If you use a computer maintained by KU Leuven (which is the case during this crash course), it is not possible to run an executable file in any arbitrary folder. Therefore, you should change the working directory to the local folder \path{C:\ Workdir}. For this, you can click on \path{File>WorkingDirectory} and select \path{C:\ Workdir} from the suggestions or the file explorer (\path{Browse}).
 \end{itemize}
 
 
@@ -67,7 +67,7 @@ The goal of this first exercise is to explore and become familiar with the Dymol
 
 \begin{itemize}
 	\item Open the model \path{Modelica.Blocks.Examples.PID_Controller}. For this, navigate in the \textit{Package Browser}.
-	\item Go to \path{Simulation>Setup}. Change the \textit{Stop time} to 4~$s$ (1 year). Make sure that the box \textit{Evaluate parameters to recuce models} is unchecked (in the tab \textit{Translation}).
+	\item Go to \path{Simulation>Setup}. Change the \textit{Stop time} to 4~$s$. Make sure that the box \textit{Evaluate parameters to recuce models} is unchecked (in the tab \textit{Translation}).
 	\item Simulate the model. Plot \textit{PI.u\_s} and \textit{PI.u\_m} in a first subplot and \textit{PI.y} in a second subplot.
 	\item Adapt some parameters (e.g. \textit{intertia1.J} to 2~$kg \cdot m^2$) in the variable browser, re-simulate and compare the results.
 	\item Plot \textit{intertia1.w} as function of \textit{intertia1.phi}.
