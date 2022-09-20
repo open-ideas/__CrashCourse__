@@ -25,8 +25,8 @@
 ]{doclicense}
 
 \begin{document}
-\title{Exercise 1: Exploring IDEAS}
-\author{Filip Jorissen, Damien Picard, Jelger Jansen, Iago Cupeiro Figueroa}
+\title{Exercise 1: Exploring Dymola, MSL and IDEAS}
+\author{Filip Jorissen, Damien Picard \\  \thanks{Review} Jelger Jansen, Iago Cupeiro Figueroa, Lucas Verleyen}
 \date{KU Leuven, September 23, 2022}
 \maketitle
 
@@ -35,80 +35,42 @@
 
 
 \section*{Introduction}
-The goal of this first exercise is to explore and become familiar with the Dymola environment and ... COMPLETE
-Modelica and the IDEAS library. 
-Since the IDEAS library components are typically used
-by combining several components graphically, the use of 
-equations falls outside of the scope of this exercise.\\
+The goal of this first exercise is to explore and become familiar with the Dymola environment, the Modelica Standard Library (MSL) and the IDEAS library. For this exercise you will simulate two example models and adapt both their model and simulation parameters. Additionally, you will plot some results using the plot function of Dymola to visualise the results. This functionality allows for a quick analysis of all results of any model you simulate. 
 
-For this exercise you will create a model of a simple house,
-consisting of a heating system, one building zone 
-and a ventilation model. 
-The exercise starts from a template file that should 
-not produce any errors. This file will be extended in
-several steps, adding complexity.
-In between each step the user should be able to simulate the
-model, i.e. no errors should be produced and simulation results 
-may be compared.\\
 
-Prerequisites are that you should have the latest version of Dymola
-installed. You should have a working compiler, and a license. 
-Dymola can be downloaded from 
-\href{http://www.3ds.com/products-services/catia/products/dymola/trial-version/}{this link}. 
-Installation instructions for Dymola and a C compiler can be found 
-\href{http://www.3ds.com/fileadmin/PRODUCTS/CATIA/DYMOLA/PDF/Installation.pdf}{here}.
-The latest version from the \href{https://github.com/open-ideas/IDEAS}{IDEAS library} should be downloaded and opened in Dymola. 
-To verify your installation, try to simulate \path{IDEAS.Fluid.Actuators.Dampers.Examples.Damper} by opening the simulation tab (tab bar at the top) and by clicking \textit{Simulate}. Finally, download 
-\textit{SimpleHouseTemplate.mo} from \url{Add_new_and_correct_link}
-and load it into Dymola.\\
-
-In the following sections the simple house model is discussed 
-in several steps. The graphical representation of the final model is 
-given in Figure~\ref{fig:simpleHouse}.
-Each step first qualitatively explains the model part.
-Secondly, the names of the required IDEAS models 
-are listed.
-Thirdly, we provide high-level instructions of how to
-set up the model.
-If these instructions are not clear immediately, 
-have a look at the model documentation and at the type of
-connectors the model has, 
-try out some things, 
-make an educated guess, etc.
-Finally, we provide reference results that allow you to check
-if your implementation is correct. 
-Depending on the parameter values that you choose, results
-may differ.
+\section*{Remarks}
  
+\begin{itemize}
+	\item Make sure that Dymola is installed on your computer. More information you can find in the document enclosing the homework exercise.
+	\item Download IDEAS from \href{https://github.com/open-ideas/IDEAS}{https://github.com/open-ideas/IDEAS} and unzip the library locally.
+	\item Open Dymola and load IDEAS. To load a library, you can click on \path{File>Open>Load}. Then a file explorer will show up, where you navigate to your locally downloaded version of IDEAS. Inside the IDEAS folder, you select the file \path{package.mo}. Now, IDEAS should be loaded into Dymola.
+	\item Note that there is a difference between \path{Open} and \path{Load}. The command \path{Open} loads a file or library (via the file \path{package.mo}) into Dymola \underline{and changes} the working directory to the folder in which you selected the file. The command \path{Load} loads a file or library (via the file \path{package.mo}) into Dymola \underline{without changing} the working directory.
+	\item During simulation, Dymola will create executable files in a working directory, which will be executed subsequently by your computer. If you use a computer maintained by KU Leuven (which is the case during this crash course), it is not possible to run an executable file in any arbitrary folder. Therefore, you should change the working directory to the local folder \path{C:\ Workdir}. For this, you can click on \path{File>WorkingDirectory} and select \path{C:\ Workdir} from the suggestions or the file explorer (\path{Browse}).
+\end{itemize}
 
 
+\section{IDEAS - SimpleHouse}
 
-\section{Building wall model}
-\paragraph{Qualitative discussion}
-tekst
-
-\paragraph{Required models}
-In this first step only the Modelica Standard Library (MSL) 
-model \path{Modelica.Thermal.HeatTransfer.Components.HeatCapacitor}
-is required.
-
-\paragraph{Connection instructions}
-Connect the heat capacitor to the thermal resistor.
-
-\paragraph{Reference result}
-If you correctly added the model of the heat capacitor, connected it to the resistor and 
-added the parameter values for $C$ and $R$
-\footnote{Double-click on a component to see a list of its parameters. Gray values indicated default values.},
-then you should be able to simulate the model.
-To do this, go to the simulation tab (tab bar at the top),
-open the simulation options 'Setup',
-and set the model `Stop time' to 1e6 seconds.
-You can now simulate the model.
-You can plot individual variables values by clicking on their name in the variable browser on the left.
-Now plot the wall capacitor temperature value `\textit{T}'. 
-It should look like Figure~\ref{fig:res1}.
+\begin{itemize}
+	\item Open the model \path{IDEAS.Fluid.Examples.SimpleHouse}. For this, navigate in the \textit{Package Browser}.
+	\item Go to \path{Simulation>Setup}. Change the \textit{Stop time} to 31563000~$s$ (1 year). Set the interval length to 100~$s$. Choose the \textit{Dassl} algorithm for the solver.
+	\item Simulate the model.
+	\item Plot the zone temperature. There are two options to do this. 
+	\begin{enumerate}
+		\item There is a temperature sensor that measures the zone temperature, so you can select the variable of the temperature sensor \textit{senTemZonAir.T}.
+		\item The zone of the house is represented by a \textit{Mixing Volume}, so you can select the temperature of the \textit{Mixing Volume} itself: \textit{zone.T}.
+	\end{enumerate}
+\end{itemize}
 
 
+\section{Modelica Standard Library - PID Controller}
 
+\begin{itemize}
+	\item Open the model \path{Modelica.Blocks.Examples.PID_Controller}. For this, navigate in the \textit{Package Browser}.
+	\item Go to \path{Simulation>Setup}. Change the \textit{Stop time} to 4~$s$. Make sure that the box \textit{Evaluate parameters to recuce models} is unchecked (in the tab \textit{Translation}).
+	\item Simulate the model. Plot \textit{PI.u\_s} and \textit{PI.u\_m} in a first subplot and \textit{PI.y} in a second subplot.
+	\item Adapt some parameters (e.g. \textit{intertia1.J} to 2~$kg \cdot m^2$) in the variable browser, re-simulate and compare the results.
+	\item Plot \textit{intertia1.w} as function of \textit{intertia1.phi}.
+\end{itemize}
 
 \end{document}
