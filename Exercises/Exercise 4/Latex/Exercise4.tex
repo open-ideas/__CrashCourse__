@@ -226,30 +226,22 @@ We simulate this model with the settings
 \item Number of intervals = 5000.
 \end{enumerate}
 We thus perform a simulation that starts $10^7$ seconds after new year and ends $10^6$
-seconds later, which is a period of 11.6 days.\\
+seconds later, which is a period of 11.6 days. Remark that the simulation time of this model will be significantly higher ($\sim$1 minute) than those of the models previoulsy developed in this crash course. The explanation follows below. You can track the simulation progress at the bottom of the Dymola window. \\
 
 
-We now plot the zone temperatures, 
-the heat pump condenser temperature \path{heaPum.con.T},
-the heat pump heat flow rate \path{heaPum.QCon_flow}
-and the radiator heat flow rates \path{rad.Q_flow}.
+We now plot the zone temperatures \path{rectangularZoneTemplate.TSensor} and \path{rectangularZoneTemplate1.TSensor}, the radiator heat flow rates \path{rad.Q_flow} and \path{rad1.Q_flow}, the heat pump condenser temperature \path{heaPum.con.T} and the heat pump heat flow rate \path{heaPum.QCon_flow}. The results are shown in Figure~\ref{fig:res1} and Figure~\ref{fig:res1_bis} and deserve some explanation.\\
 
-The results are shown in Figure~\ref{fig:res1} and deserve some explanation.
-Firstly, we see that the zone temperatures do not significantly drift below
-the 21 degree set point of the radiator thermostatic valves.
-The temperatures do rise above the set point, 
-which is caused by solar heat gains, not by the radiators.
+Firstly, we see that the zone temperatures are quite different. This is because the orientation of the windows. In the northern zone (\path{rectangularZoneTemplate}), there is only one window oriented towards the north, whereas in the southern zone (\path{rectangularZoneTemplate1}), there is only one window oriented towards the south. Much more solar irradiation will reach the southern zone by its window and leads to an increased zone temperature. As there is only solar irradiation during the day, you clearly see the day/night fluctuations. When the zone temperatures drop below the 21$^{\circ}C$ set point temperature (mostly during the night), the TRVs will open and a higher mass flow rate will flow through the radiators wich leads to a higher thermal power emitted by the radiators.\\
 
-The supply water temperature of the radiators rises up to 65 degrees.
-The radiator nominal dimensions are for a supply water temperature of
-45 degrees. The elevated temperatures mean that the radiator can
+When the TRVs are closed, the heat pump is still switched on (because we applied a constant integer input equal to 1). Consequently, the supply water temperature of the radiators rises up to 65$^{\circ}C$, even though the radiator nominal dimensions are for a supply water temperature of
+45$^{\circ}C$. The elevated temperatures mean that the radiators can
 emit a higher than nominal thermal power.
 However, in the bottom graph the radiator thermal power never surpasses
 even half of its nominal value.
 This is caused by the thermostatic valves, which reduce the mass flow rate
-that enters the radiator, and consequently lowers the thermal power.
-This reduced mass flow rate causes a large temperature difference across the heat pump,
-which in turn explains the elevated heat pump condenser temperatures.
+that enters the radiator, and consequently lowers the thermal power. \\
+
+This reduced mass flow rate when there is no heat demand in the zone and a heat pump which is always switched on due to the applied input signal, causes a high temperature at the condenser side of the heat pump and a large temperature difference across the heat pump (primary heat source of 10$^{\circ}C$),
 The heat pump model contains a built-in temperature protection, which disables
 the heat pump when the temperature exceeds a predefined threshold.
 Consequently, the heat pump continuously switches on and off
@@ -260,21 +252,27 @@ as you may have noticed.\\
 This example illustrates the importance of control, which is currently not modelled.
 All pumps and the heat pump are assumed to be active continuously, 
 which is detrimental for the system performance.
-The COP (\path{heaPum.com.COP}) is only about 2.7.
+The COP (\path{heaPum.com.COP}) is only about 2.9.
 
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=\linewidth]{Example6.png}
-\caption{The model response for Example 6.}
+\includegraphics[scale=0.28]{Example6.png}
+\caption{The model response for Example 6: zone temperatures and thermal power of radiators.}
 \label{fig:res1}
+\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.28]{Example6_bis.png}
+	\caption{The model response for Example 6: heat pump condenser temperature and condensor thermal power.}
+	\label{fig:res1_bis}
 \end{figure}
 \newpage
 
 \section{Adding HVAC control}
 \paragraph{Qualitative discussion}
 This step adds a controller that disables the heat pump
-when the supply water temperature exceeds 45 degrees.
+when the supply water temperature exceeds 45$^{\circ}C$.
 
 
 \paragraph{Required models}
@@ -289,15 +287,14 @@ This step requires the following components:
 Before extending the previous step, add a temperature sensor between the storage tank
 and the secondary circulation pump.
 This measurement serves as an input to the hysteresis controller.
-Now extend the model and configure the controller such that it switches to a `false' signal below
-40 degrees and to `true' above 45 degrees\footnote{Take into account that the measurement has units of Kelvin!}.
+Now extend the model and configure the controller such that it switches to a \textit{false} signal below
+40$^{\circ}C$ and to \textit{true} above 45$^{\circ}C$\footnote{Take into account that the measurement has units of Kelvin!}.\\
 
-The output of the hysteresis controller is thus `true' when the supply temperature is 
+The output of the hysteresis controller is thus \textit{true} when the supply temperature is 
 high enough and false otherwise.
-This Boolean signal has to be converted in a Real control signal that can be
+This Boolean signal has to be converted in a real control signal that can be
 accepted by the heat pump model.
 For this purpose use the \path{BooleanToReal} block.
-
 The heat pump already has a control signal. 
 Since blocks cannot be removed from an extension of a model\footnote{Unless 
 they are conditional, but we have not implemented that in this example.},
@@ -339,25 +336,15 @@ connections to removed connectors or components should be ignored.
 \paragraph{Reference result}
 Figure~\ref{fig:res2} compares the results with the results without controller.
 We see that indeed, the supply temperature is reduced significantly.
-This causes the zone temperature to be slightly lower, up to about 0.25~K.
-The COP however increases significantly, from about 2.7 to about 3 to 4.
-Consequently, the energy use over the period is reduced from 16.43~kWh
-to 11.84~kWh.
-
-Note that this heating system configuration is still 
+This causes the zone temperature to be slightly lower, up to about 0.25$^{\circ}C$.
+The COP however increases significantly, from about 2.9 to about 3.1.
+Consequently, the energy use over the period is reduced from 11.56~$kWh$
+to 9.64~$kWh$. Note that this heating system configuration is still 
 not efficient since the small flow rates still cause 
 large temperatures to occur within the heat pump
 and thus cause a small COP.
 COP's of more than 5 are obtainable when using a bypass and a separate
 pump to charge the storage tank.\\
-
-
-\begin{figure}
-\centering
-\includegraphics[width=\linewidth]{Example7.png}
-\caption{Comparison with (red) and without (blue) control for zone temperature, supply water temperature and radiator thermal power.}
-\label{fig:res2}
-\end{figure}
 
 
 To further play with this model, you can try to enable/disable the circulation pumps with the same control
@@ -366,9 +353,14 @@ Secondly, you can set the heat pump control signal to 0.3 instead of 1,
 which causes the heat pump to be modulated to 30\% thermal power.
 This has a large impact on the COP since the temperature difference across the heat 
 pump is reduced. 
-However, the heat pump is unable to satisfy the heat demand.
+However, the heat pump is unable to satisfy the heat demand.\\
 
-
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{Example7.png}
+	\caption{Comparison with (red) and without (blue) control for zone temperature, supply water temperature and radiator thermal power.}
+	\label{fig:res2}
+\end{figure}
 
 \section{Workflow automation}
 \paragraph{Qualitative discussion}
@@ -401,7 +393,7 @@ Connect the appropriate signal to the input of the block.
 \paragraph{Side notes}
 Unless you specify a full path, the file will be generated in
 the current working directory of your Dymola workspace.
-See File $>$ Working directory $>$ Browse to inspect your current
+See \path{File>Working directory>Browse} to inspect your current
 working directory.
 In this directory Dymola will generate all its own result files, C code, executables, etc.
 It is good practice to set this directory where the resulting output does not cause a mess.
@@ -446,25 +438,25 @@ This step requires the following components:
 Media packages contain the properties of media such as water or air.
 Depending on the user requirements, the level of detail in these packages can change a lot.
 For building applications, we use relatively simple media.
+\begin{itemize}
+	\item \path{IDEAS.Media.Water} assumes constant density and heat capacity and is thus
+	a very simple medium.
+	\item \path{IDEAS.Media.Antifreeze} contains media such as glycol water,
+	which is a commonly used antifreeze.
+	\item \path{IDEAS.Media.Air} is a simple air medium that 
+	neglects the temperature dependency of the density of air to
+	facilitate the numerics. By default, air is however compressible such that the density
+	varies with pressure.
+	\path{IDEAS.Media.Air} also contains water vapour,
+	which allows the zone humidity to be computed. By default \path{IDEAS.Media.Air} does not model CO$_2$.
+	However, any number of \textit{trace substances} can be added to the air model.
+	This can be CO$_2$, VOC, dust, as long as it is simply transported together
+	with the air stream without changing properties.
+\end{itemize}
 
-\path{IDEAS.Media.Water} assumes constant density and heat capacity and is thus
-a very simple medium.
-\path{IDEAS.Media.Antifreeze} contains media such as glycol water,
-which is a commonly used antifreeze.
 
-\path{IDEAS.Media.Air} is a simple air medium that 
-neglects the temperature dependency of the density of air to
-facilitate the numerics. 
-By default, air is however compressible such that the density
-varies with pressure.
-\path{IDEAS.Media.Air} also contains water vapour,
-which allows the zone humidity to be computed.
-By default \path{IDEAS.Media.Air} does not model CO$_2$.
-However, any number of `trace substances' can be added to the air model.
-This can be CO$_2$, VOC, dust, as long as it is simply transported together
-with the air stream without changing properties.
 Note that you have to ensure that all coupled components must have the same Medium
-for the model to work. I.e. if one zone is linked to a second zone through an air connection,
+for the model to work, i.e. if one zone is linked to a second zone through an air connection,
 then each of them must have the same set of trace substances.
 
 \paragraph{Instructions}
@@ -476,9 +468,7 @@ extends Example7(
 \end{verbatim}
 For one zone, add the occupancy model from Example 4. 
 You can copy it from \path{IDEAS.Examples.Tutorial.Example4}.
-For the other zone, add a fixed occupancy of 1 person.
-
-For making a connection with the outside air we use \path{IDEAS.Fluid.Sources.OutsideAir},
+For the other zone, add a fixed occupancy of 1 person. For making a connection with the outside air we use \path{IDEAS.Fluid.Sources.OutsideAir},
 which is similar to \path{IDEAS.Fluid.Sources.Boundary_pT} except that it 
 automatically sets the outdoor dry bulb temperature and humidity. \\
 %The outdoor CO$_2$ concentration is however not yet added automatically,
@@ -501,30 +491,27 @@ the air will not enter the zone and simply return from one
 connection into the other at the port.
 Also, use the convention that air enters in the blue port and leaves
 through the white port.
-For this exercise, assume that the VAV has a nominal flow rate of 100 m$^3$/h,
-which equals $100*1.2/3600$ kg/s.
-Assume a nominal pressure drop of 50 Pa and
+For this exercise, assume that the VAV has a nominal flow rate of 100~$m^3/h$,
+which equals 0.033~$kg/s$.
+Assume a nominal pressure drop of 50~$Pa$ and
 also add \path{dpFixed_nominal=50}, which causes the VAV
 model to include a pressure drop of ducts, grills, filters or bends that are connected
-at the inlet or outlet of the VAV.
-
-Next, add a supply fan and a return fan to which the VAVs
-are connected in parallel. The fan pressure head is constant at 200 Pa
+at the inlet or outlet of the VAV. Next, add a supply fan and a return fan to which the VAVs
+are connected in parallel. The fan pressure head is constant at 200~$Pa$
 and its nominal flow rate is the sum of the VAV flow rates.
-
 Finally, add a heat recovery heat exchanger with a constant effectiveness of 80 \%.
-Choose reasonable nominal flow rates and set the nominal pressure drop to 100 Pa.
+Choose reasonable nominal flow rates and set the nominal pressure drop to 100~$Pa$.
 Make sure to use the new air Medium for all components that were just added.\\
 
 The ventilation system model is now ready but cannot be simulated yet since
 the control input of the VAVs is not set.
 For this purpose, add two PI controllers and connect their outputs to the VAVs.
 Connect the zone \path{ppm} outputs to the PI controller measurement inputs \path{u_m}.
-Connect a constant set point of 1000 ppm to the PI input \path{u_s}.
+Connect a constant set point of 1000~$ppm$ to the PI input \path{u_s}.
 Add a minimum VAV opening of 10 \%.
 Furthermore, set \path{k=0.005},  \path{Ti=300}, \path{reverseAction=false} and \path{controllerType=PI}. 
 See the side notes for a motivation for these parameters, 
-which is beyond the scope of this course.
+which is beyond the scope of this course. The schematic of the model you should have now is represented in Figure \ref{fig:ex9}.
 
 %\begin{figure}
 %\centering
@@ -532,6 +519,13 @@ which is beyond the scope of this course.
 %\caption{Example connection for outdoor air source and its inputs.}
 %\label{fig:bus}
 %\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{Schematic9.png}
+	\caption{The schematic of Example 9.}
+	\label{fig:ex9}
+\end{figure}
 
 
 \paragraph{Side notes}
@@ -555,7 +549,7 @@ for the system to work effectively.
 Conceptually speaking, we have to tell the PID controller \textit{how much} it
 should change its output for an observed error $e$.
 To tune our PI, we used the following reasoning.
-If the PI suddenly observes an error $e$ of 200 ppm,
+If the PI suddenly observes an error $e$ of 200~$ppm$,
 we want the PI to change to fully open (assuming it was closed before).
 The PI implementation is as follows 
 \footnote{You can check \path{IDEAS.Controls.Continuous.LimPID} to verify this.}
@@ -566,13 +560,12 @@ Since the integral term takes a while to respond,
 an instantaneous step is only affected by $y=ke$.
 Furthermore, we want $\Delta y = 1$  for $\Delta e = 200$,
 which results in $k=0.005$.
-
 The proportional term $k$ may not be sufficient
 to track the set point. 
 The remaining error can be compensated by the integral term, 
 which can also be tuned using parameter $Ti$.
 The reasoning here is as follows.
-If an error of 200 ppm persists for $Ti$ seconds,
+If an error of 200~$ppm$ persists for $Ti$ seconds,
 we want the PI controller output to increase an additional 100 \% 
 during that period.
 In this case we chose $Ti=300$ seconds.
@@ -602,7 +595,7 @@ is not modelled by default.
 This can explain seemingly wrong results when not modelling
 a ventilation system.\\
 
-Note that the default outdoor CO$_2$ concentration is fixed to 400 ppm.
+Note that the default outdoor CO$_2$ concentration is fixed to 400~$ppm$.
 It can be changed using the parameter \path{ppmCO2} in the 
 \path{SimInfoManager}. You can even make it time-dependent
 by overriding the value of the \path{RealExpression} block \path{CEnv}
@@ -616,9 +609,9 @@ and the exponential decay towards the outdoor CO$_2$
 concentration when there are no occupants.
 
 
-\begin{figure}
+\begin{figure}[h]
 \centering
-\includegraphics[scale=0.7]{Example9.png}
+\includegraphics[width=\linewidth]{Example9.png}
 \caption{Zone temperature, CO$_2$ concentrations and PI control signals.}
 \label{fig:res4}
 \end{figure}
