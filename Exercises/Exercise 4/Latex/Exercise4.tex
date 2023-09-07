@@ -16,6 +16,7 @@
 	citecolor={blue!50!black},
 	urlcolor={blue!80!black}
 }
+\setlength\parindent{0pt}
 
 \usepackage[
     type={CC},
@@ -26,7 +27,7 @@
 \begin{document}
 \title{Exercise 4: IDEAS Tutorial - part 2}
 \author{Filip Jorissen, Damien Picard\\ \thanks{Review} Jelger Jansen, Iago Cupeiro Figueroa, Lucas Verleyen}
-\date{KU Leuven, September 23, 2022}
+\date{KU Leuven, September 20, 2023}
 \maketitle
 
 \doclicenseThis
@@ -43,7 +44,6 @@ Model complexity will be increased in each step by
 extending the model from the previous step, i.e. for each step a new model should be created that uses
 the Modelica \path{extends} clause to extend the previous model.
 In between steps, the result differences can be compared.\\
-
 
 In the following sections the exercise is discussed 
 in several steps. 
@@ -71,6 +71,8 @@ The main packages that you will need, are:
 \item \path{IDEAS.Utilities}: a package containing components that simplify model development and automation of workflows.
 \end{enumerate}
 
+\newpage
+
 \section{Heating system}
 \paragraph{Qualitative discussion}
 In this step you will extend the model \path{IDEAS.Examples.Tutorial.Example5} 
@@ -79,8 +81,7 @@ The system consists of a water-water heat pump, radiators,
 a storage tank,
 circulation pumps and a low temperature heat source for the heat pump.
 Use constant control set points for the heat pump and pumps.
-Add a system that measures the heat pump electrical energy use.\\
-\newpage
+Add a system that measures the heat pump electrical energy use.
 
 \paragraph{Required models}
 This step requires the following components:
@@ -142,6 +143,7 @@ about \textit{differential} pressures.
 For this purpose use \path{IDEAS.Fluid.Sources.Boundary_pT} and connect
 it to the loop, which will set the absolute pressure at the connection point.
 
+\newpage
 
 \paragraph{Instructions}
 Start by adding one radiator for each zone and by 
@@ -192,7 +194,14 @@ Add \textit{water} as a \path{Medium} to the model
 in the text view (\path{IDEAS.Media.Water}), and use it in all components. Compute the electrical energy by integrating the electrical power of the heat pump
 using an \path{Integrator}. A reference implementation for this example is shown in Figure~\ref{fig:sche}.
 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\linewidth]{Schematic6.png}
+	\caption{The schematic of Example 6.}
+	\label{fig:sche}
+\end{figure}
 
+\newpage
 
 \paragraph{Side notes}
 By default, the Dymola `canvas' has a size of 100 pt by 100 pt. 
@@ -207,16 +216,7 @@ and \path{IDEAS.Fluid.HeatPumps.ReciprocatingWaterToWater} are
 the most physically detailed models and should be used whenever possible.\\
 
 Modelica uses SI units by default, which means that temperatures by default 
-are presented with the units of Kelvin. However, if you plot results in Dymola, you can often change $K$ to $^{\circ}C$ in the plot interface. \\
-
-
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=\linewidth]{Schematic6.png}
-\caption{The schematic of Example 6.}
-\label{fig:sche}
-\end{figure}
+are presented with the units of Kelvin. However, if you plot results in Dymola, you can often change $K$ to $^{\circ}C$ in the plot interface.
 
 \paragraph{Reference result}
 We simulate this model with the settings
@@ -227,7 +227,6 @@ We simulate this model with the settings
 \end{enumerate}
 We thus perform a simulation that starts $10^7$ seconds after new year and ends $10^6$
 seconds later, which is a period of 11.6 days. Remark that the simulation time of this model will be significantly higher ($\sim$1 minute) than those of the models previoulsy developed in this crash course. The explanation follows below. You can track the simulation progress at the bottom of the Dymola window. \\
-
 
 We now plot the zone temperatures \path{rectangularZoneTemplate.TSensor} and \path{rectangularZoneTemplate1.TSensor}, the radiator heat flow rates \path{rad.Q_flow} and \path{rad1.Q_flow}, the heat pump condenser temperature \path{heaPum.con.T} and the heat pump heat flow rate \path{heaPum.QCon_flow}. The results are shown in Figure~\ref{fig:res1} and Figure~\ref{fig:res1_bis} and deserve some explanation.\\
 
@@ -254,26 +253,28 @@ All pumps and the heat pump are assumed to be active continuously,
 which is detrimental for the system performance.
 The COP (\path{heaPum.com.COP}) is only about 2.9.
 
+\newpage
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
 \includegraphics[scale=0.28]{Example6.png}
 \caption{The model response for Example 6: zone temperatures and thermal power of radiators.}
 \label{fig:res1}
 \end{figure}
-\begin{figure}[h]
+
+\begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.28]{Example6_bis.png}
 	\caption{The model response for Example 6: heat pump condenser temperature and condensor thermal power.}
 	\label{fig:res1_bis}
 \end{figure}
+
 \newpage
 
 \section{Adding HVAC control}
 \paragraph{Qualitative discussion}
 This step adds a controller that disables the heat pump
 when the supply water temperature exceeds 45$^{\circ}C$.
-
 
 \paragraph{Required models}
 This step requires the following components:
@@ -303,7 +304,6 @@ by changing the heat pump model input type to \path{enable_variable_speed=true}.
 The model then accepts any real signal and connections to the other control 
 signal are ignored. 
 
-
 \paragraph{Side notes}
 Note that the control signal of the heat pump could also have been used to disable
 the circulation pumps.
@@ -315,7 +315,6 @@ it would stay at that value and consequently the system would not be enabled aga
 Note that this is not necessarily a model error, since the same problem could
 occur in reality! This problem can be alleviated by modelling
 heat losses in the sensor.\\
-
 
 We have used a hysteresis controller to enable and disable the heat pump,
 while we might as well have used a simple `greater or equal' comparison.
@@ -332,6 +331,7 @@ control signal and by disabling the old one. This does not lead
 to too many equations, since the Modelica specification states that 
 connections to removed connectors or components should be ignored.
 
+\newpage
 
 \paragraph{Reference result}
 Figure~\ref{fig:res2} compares the results with the results without controller.
@@ -346,7 +346,6 @@ and thus cause a small COP.
 COP's of more than 5 are obtainable when using a bypass and a separate
 pump to charge the storage tank.\\
 
-
 To further play with this model, you can try to enable/disable the circulation pumps with the same control
 signal and see what happens.
 Secondly, you can set the heat pump control signal to 0.3 instead of 1,
@@ -355,12 +354,14 @@ This has a large impact on the COP since the temperature difference across the h
 pump is reduced. 
 However, the heat pump is unable to satisfy the heat demand.\\
 
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
 	\includegraphics[width=\linewidth]{Example7.png}
 	\caption{Comparison with (red) and without (blue) control for zone temperature, supply water temperature and radiator thermal power.}
 	\label{fig:res2}
 \end{figure}
+
+\newpage
 
 \section{Workflow automation}
 \paragraph{Qualitative discussion}
@@ -407,9 +408,9 @@ you should get something similar to:
 {
   "Electrical energy [kWh]" : 1.2577137592e+01
 }
-
 \end{verbatim}
 
+\newpage
 
 \section{Adding CO$_2$-controlled ventilation}
 \paragraph{Qualitative discussion}
@@ -419,7 +420,6 @@ and a fixed occupancy of 1 person to the other zone.
 The ventilation system consists of two fans, two supply and two return air
 VAVs (Variable Air Volume), a heat recovery unit and an outdoor air source.
 The control consists of PI controllers with a set point of 1000 ppm.
-
 
 \paragraph{Required models}
 This step requires the following components:
@@ -431,7 +431,6 @@ This step requires the following components:
 \item \path{IDEAS.Controls.Continuous.LimPID}
 \item \path{Modelica.Blocks.Sources.Constant}
 \end{itemize}
-
 
 \paragraph{Important notes on Media}
 \path{IDEAS.Media} contains a selection of medium \textit{packages}. 
@@ -454,10 +453,11 @@ For building applications, we use relatively simple media.
 	with the air stream without changing properties.
 \end{itemize}
 
-
 Note that you have to ensure that all coupled components must have the same Medium
 for the model to work, i.e. if one zone is linked to a second zone through an air connection,
 then each of them must have the same set of trace substances.
+
+\newpage
 
 \paragraph{Instructions}
 Extend this model from Example~7 and modify its existing medium declaration
@@ -520,13 +520,14 @@ which is beyond the scope of this course. The schematic of the model you should 
 %\label{fig:bus}
 %\end{figure}
 
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
 	\includegraphics[width=\linewidth]{Schematic9.png}
 	\caption{The schematic of Example 9.}
 	\label{fig:ex9}
 \end{figure}
 
+\newpage
 
 \paragraph{Side notes}
 Some background information on PI controllers, 
@@ -585,7 +586,6 @@ which prolongs the simulation time.
 Note that this is again not a software problem since these oscillations can/would occur 
 in practice too!\\
 
-
 By default, both the humidity of air, and the generation of water
 vapor by occupants are simulated.
 Furthermore, natural air infiltration in zones\footnote{See parameter n50.} is quite low, 
@@ -601,6 +601,8 @@ It can be changed using the parameter \path{ppmCO2} in the
 by overriding the value of the \path{RealExpression} block \path{CEnv}
 in the \path{SimInfoManager}.
 
+\newpage
+
 \paragraph{Reference result}
 The zone temperature, CO$_2$ concentrations and 
 PI control signals are plotted in Figure~\ref{fig:res4}.
@@ -608,14 +610,14 @@ Note the small overshoot of the PI controller outputs
 and the exponential decay towards the outdoor CO$_2$
 concentration when there are no occupants.
 
-
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
 \includegraphics[width=\linewidth]{Example9.png}
 \caption{Zone temperature, CO$_2$ concentrations and PI control signals.}
 \label{fig:res4}
 \end{figure}
 
+\newpage
 
 \section{Computation time}
 The models that you have just created are fairly slow
@@ -640,12 +642,14 @@ The modifications however require a bit of knowledge about solvers
 and the models that you are using, including some of the more advanced parameters.
 To learn more about this, we refer to \cite{Jorissen2015,Jorissen2018,phd}.
 
+\vfill
+
 \begin{thebibliography}{9}
 \bibitem{Jorissen2015} 
-F. Jorissen, M. Wetter, and L. Helsen. Simulation Speed Analysis and Improvements of Modelica Models for Building Energy Simulation. In 11th International Modelica Conference, 59–69, Paris, 2015. doi: 10.3384/ ecp1511859
+F. Jorissen, M. Wetter, and L. Helsen. \textit{Simulation Speed Analysis and Improvements of Modelica Models for Building Energy Simulation}. In 11th International Modelica Conference, 59–69, Paris, 2015. doi: 10.3384/ ecp1511859
 
 \bibitem{Jorissen2018}
-F. Jorissen, M. Wetter, and L. Helsen. Simplifications for hydronic system models in modelica, Journal of Building Performance Simulation, 11:6, 639-654, 2018, doi: 10.1080/19401493.2017.1421263
+F. Jorissen, M. Wetter, and L. Helsen. \textit{Simplifications for hydronic system models in Modelica}. Journal of Building Performance Simulation, 11:6, 639-654, 2018. doi: 10.1080/19401493.2017.1421263
 
 \bibitem{phd}
 F. Jorissen. \textit{Toolchain for Optimal Control and Design of Energy Systems in Buildings}. Phd thesis, Arenberg Doctoral School, KU Leuven, April 2018.
