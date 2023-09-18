@@ -27,12 +27,10 @@
 \begin{document}
 \title{Exercise 2: IDEAS SimpleHouse}
 \author{Filip Jorissen, Damien Picard\\ \thanks{Review} Jelger Jansen, Iago Cupeiro Figueroa, Lucas Verleyen}
-\date{KU Leuven, September 23, 2022}
+\date{KU Leuven, September 20, 2023}
 \maketitle
 
-
 \doclicenseThis
-
 
 \section*{Introduction}
 The goal of this exercise is to become familiar with 
@@ -79,14 +77,17 @@ Finally, we provide reference results that allow you to check
 if your implementation is correct. 
 Depending on the parameter values that you choose, results
 may differ.
+
+\newpage
  
 \begin{figure}[h!]
 \centering
-\includegraphics[scale=0.46]{simpleHouse.png}
+\includegraphics[scale=0.8]{simpleHouse.png}
 \caption{Graphical representation of the final simple house model.}
 \label{fig:simpleHouse}
 \end{figure}
 
+\newpage
 
 \section{Building wall model}
 \paragraph{Qualitative discussion}
@@ -102,9 +103,9 @@ The wall has a surface area of $A_{wall}$ = 100 $m^2$,
 a thickness of $d_{wall}$ = 25 $cm$
 \footnote{We suggest to declare these parameters in the equation section similar to the example, but this is not required.}, 
 a thermal conductivity of $k_{wall}$ = 0.04 $W/(m\cdot K)$, 
-a density of $rho_{wall}$ = 2000 $kg/m^3$.
+a density of $\rho_{wall}$ = 2000 $kg/m^3$.
 The conductive thermal resistance value of a wall may be computed as $R=d/(A\cdot k)$.
-The heat capacity value of a wall may be computed as $C=A\cdot d \cdot c_p \cdot rho$.
+The heat capacity value of a wall may be computed as $C=A\cdot d \cdot c_p \cdot \rho$.
 
 \paragraph{Required models}
 In this first step only the Modelica Standard Library (MSL) 
@@ -120,20 +121,21 @@ added the parameter values for $C$ and $R$
 \footnote{Double-click on a component to see a list of its parameters. Gray values indicated default values.},
 then you should be able to simulate the model.
 To do this, go to the simulation tab (tab bar at the top),
-open the simulation options 'Setup',
-and set the model `Stop time' to 1e6 seconds.
+open the simulation options \textit{Setup},
+and set the model \textit{Stop time} to 1e6 seconds.
 You can now simulate the model.
 You can plot individual variables values by clicking on their name in the variable browser on the left.
-Now plot the wall capacitor temperature value `\textit{T}'. 
+Now plot the wall capacitor temperature value \textit{T}. 
 It should look like Figure~\ref{fig:res1}.
 
-\begin{figure}
+\begin{figure}[h!]
 \centering
 \includegraphics[scale=0.6]{result1.png}
-\caption{Wall temperature in K as function of time in seconds.}
+\caption{Wall temperature as function of time.}
 \label{fig:res1}
 \end{figure}
 
+\newpage
 
 \section{Building window model}
 \paragraph{Qualitative discussion}
@@ -151,23 +153,24 @@ outdoor solar irradiance is injected as heat onto the inside of the wall.
 To be able to use the value of the outdoor solar irradiance
 you will need to access our weather data reader.
 To do this, make a connection to the \path{weaBus} block. 
-In the dialog box select `\textit{\textless add variable\textgreater}' and here
+In the dialog box select \textit{\textless add variable\textgreater} and here
 select \textit{HDirNor}, 
 which is the direct solar irradiance on a surface
-of 1~$m^2$, perpendicular to the sun rays. Set the gain factor '\textit{k}' to 2, in order to get the solar irradiance through the window of 2~$m^2$. Make a connection with the \path{PrescribedHeatFlow} as well. This block makes the connection between the heat flow from the gain, represented as a real value, and a heat port that is compatible with the connections of the thermal capacitance and resistance. 
+of 1~$m^2$, perpendicular to the sun rays. Set the gain factor \textit{k} to 2, in order to get the solar irradiance through the window of 2~$m^2$. Make a connection with the \path{PrescribedHeatFlow} as well. This block makes the connection between the heat flow from the gain, represented as a real value, and a heat port that is compatible with the connections of the thermal capacitance and resistance. 
 
 \paragraph{Reference result}
 The result with and without the window model
 is plotted in Figure~\ref{fig:res2}.
 
-\begin{figure}
+\begin{figure}[h!]
 \centering
 \includegraphics[scale=0.6]{result2.png}
-\caption{Wall temperature in K as function of time in seconds,
-with and without window.}
+\caption{Wall temperature as function of time,
+with (blue) and without (red) window.}
 \label{fig:res2}
 \end{figure}
 
+\newpage
 
 \section{Air model}
 \paragraph{Qualitative discussion}
@@ -175,9 +178,8 @@ To increase the model detail we now add
 an air model assuming the zone is 8~$m$ x 8~$m$ x 3~$m$ in size.
 The air will exchange heat with the wall.
 This may be modelled using a thermal resistance representing the convective heat resistance,
-where $R_{conv}=\frac{1}{hA}$. $A$ is the heat exchange 
-surface area and $h$ is the convective heat transfer coefficient. Take $A = A_{wall}$ and $h$ = 2~${W/(m^2\cdot K)}$.
-
+where $R_{conv}=\frac{1}{hA}$. $A$ represents the heat exchange 
+surface area and $h$ represents the convective heat transfer coefficient and is equal to $h$ = 2~${W/(m^2\cdot K)}$.
 
 \paragraph{Required models}
 \begin{itemize}
@@ -186,16 +188,16 @@ surface area and $h$ is the convective heat transfer coefficient. Take $A = A_{w
 \end{itemize}
 
 \paragraph{Connection instructions}
-The \path{MixingVolume} `\textit{Medium}' parameter contains
+The \path{MixingVolume} \textit{Medium} parameter contains
 information about the type of fluid and its properties
 that should be modelled by the \path{MixingVolume}.
 Set
 \footnote{Click the right small arrow and `edit text' in the parameter dialog box, or use the Modelica text view.}
- its value to `\textit{MediumAir}', which is declared in the template. Your model should now look like Figure~\ref{fig:airModel}.
+ its value to \textit{MediumAir}, which is declared in the template. For the nominal mass flow rate you may assume a value of 1~$kg/m^3$. You will have to change this value once you add a ventilation system to the model (part \ref{ch:ventilation}). Finally, set the \textit{energyDynamics} of the \path{MixingVolume}, which can be found in the \textit{Dynamics} tab of the model parameter window, to \textit{FixedInitial}. Your model should now look like Figure~\ref{fig:airModel}.
  
  \begin{figure}[h!]
 \centering
-\includegraphics[scale=0.4]{airModel.png}
+\includegraphics[scale=0.35]{airModel.png}
 \caption{Simple house model with a wall, a window, and an air model.}
 \label{fig:airModel}
 \end{figure} 
@@ -204,26 +206,26 @@ Set
 The result with and without the air model
 is plotted in Figure~\ref{fig:res3}.
 
- 
 
-\begin{figure}
+\begin{figure}[h!]
 \centering
-\includegraphics[scale=0.6]{result3.png}
-\caption{Wall temperature in K as function of time in seconds,
-with and without air model.}
+\includegraphics[scale=0.5]{result3.png}
+\caption{Wall temperature as function of time ,
+with (blue) and without (green) air model.}
 \label{fig:res3}
 \end{figure}
 
+\newpage
 
 \section{Heating model}
 \paragraph{Qualitative discussion}
-The wall temperature (and therefore the room temperature) are quite low. 
+The wall temperature (and therefore the room temperature) is quite low. 
 In this step a heating system is added to resolve this.
 It consists of a radiator, a pump and a heater.
 The radiator has a nominal power of 3~$kW$ for an inlet and outlet temperature of the radiator of 60$^{\circ}C$ and 40$^{\circ}C$ respectively.
 The pump has a (nominal) mass flow rate of 0.1~$kg/s$.
 Since the heating system uses water as a heat carrier fluid, 
-the media for the models should be set to '\textit{MediumWater}'.
+the media for the models should be set to \textit{MediumWater}.
 
 \paragraph{Required models}
 \begin{itemize}
@@ -239,7 +241,7 @@ The radiator contains one port for convective
 heat transfer and one for radiative heat transfer.
 Connect both in a reasonable way.
 Since the heating system uses water as a heat carrier fluid, 
-the media for the models should be set to '\textit{MediumWater}'.
+the media for the models should be set to \textit{MediumWater}.
 The \path{Boundary_pT} model needs to be used to set an absolute
 pressure somewhere in the system. 
 Otherwise the absolute 
@@ -249,7 +251,6 @@ sets a fixed mass flow rate regardless of the pressure drop.
 Set the heater input to 1, meaning that it will
 produce 1 time its nominal power.
 
-
 \paragraph{Reference result}
 The result of the \underline{air} temperature 
 is plotted in Figure~\ref{fig:res4}.
@@ -257,15 +258,14 @@ The temperature rises very steeply since the
 wall is relatively well insulated ($k$ = 0.04~$W/(m\cdot K)$)
 and the heater is not disabled when it becomes too warm.
 
-
-
-\begin{figure}
+\begin{figure}[h!]
 \centering
 \includegraphics[scale=0.6]{result4.png}
-\caption{Air temperature in K as function of time in seconds.}
+\caption{Air temperature as function of time.}
 \label{fig:res4}
 \end{figure}
 
+\newpage
 
 \section{Heating controller model}
 \paragraph{Qualitative discussion}
@@ -297,25 +297,24 @@ look like Figure~\ref{fig:heatingControllerModel}.
 \label{fig:heatingControllerModel}
 \end{figure} 
 
-
 \paragraph{Reference result}
 Figure~\ref{fig:res5} shows the air temperature when
 the controller is added.
 
-
-
-\begin{figure}
+\begin{figure}[h!]
 \centering
 \includegraphics[scale=0.6]{result5.png}
-\caption{Air temperature in K as function of time in seconds with hysteresis controller.}
+\caption{Air temperature as function of time.}
 \label{fig:res5}
 \end{figure}
 
+\newpage
 
-\section{Free cooling model}
+\section{Ventilation model}
+\label{ch:ventilation}
 \paragraph{Qualitative discussion}
-Finally consider that the window has a size of
-6~$m^2$ instead of 2~$m^2$.
+For this last exercise, we first increase the window size from
+2~$m^2$ to 6~$m^2$.
 We will add a ventilation model that allows to
 perform free cooling using outside air when
 solar irradiation heats up the room too much.
@@ -324,9 +323,8 @@ a damper,
 a controller with an air temperature 
 set point between 23$^{\circ}C$ and 25$^{\circ}C$
 and a heat recovery unit with a constant effectivity of 85\%.
-The damper and fan have a nominal pressure drop of 200~$Pa$. The heat recovery unit has a nominal pressure drop of 10~$Pa$ at both sides.
+The damper and fan have a nominal pressure drop/raise of 200~$Pa$. The heat recovery unit has a nominal pressure drop of 10~$Pa$ at both sides.
 The nominal mass flow rate of the complete cooling system is 0.1~$kg/s$.
-
 
 \paragraph{Required models}
 Use some of the previously used models and in addition to this:
@@ -341,27 +339,17 @@ Connect the components such that they exchange mass
 (and therefore also energy) with the \path{MixingVolume}
 representing the zone air.
 Add a \path{boundary_pT} to draw air from the environment.
-Enable its temperature input and connect it to the `\textit{TDryBul}'
-variable in the weather data reader. The final model will look like
-Figure~\ref{fig:freeCoolingModel}.
-
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.65]{simpleHouse.png}
-\caption{Simple house model with free cooling model.}
-\label{fig:freeCoolingModel}
-\end{figure} 
-
+Enable its temperature input and connect it to the \textit{TDryBul}
+variable in the weather data reader. Also reconsider the nominal mass flow rate parameter value in the \path{MixingVolume} given the flow rate information of the ventialtion system. The final model will look like
+Figure~\ref{fig:simpleHouse}.
 
 \paragraph{Reference result}
 Figure~\ref{fig:res6} shows the result.
 
-
-
-\begin{figure}
+\begin{figure}[h!]
 \centering
 \includegraphics[scale=0.7]{result6.png}
-\caption{Air temperature, hysteresis controller upper bound and hysteresis output signal as function of time in seconds.}
+\caption{\underline{Top}: Air temperature and upper bound of ventilation hysteresis controller as function of time. \\ . . . . . . \underline{Bottom}: Ventilation hysteresis output signal as function of time.}
 \label{fig:res6}
 \end{figure}
 
