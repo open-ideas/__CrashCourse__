@@ -101,7 +101,7 @@ The thermal resistor and boundary temperature
 are already added in the template.
 The wall has a surface area of $A_{wall}$ = 100 $m^2$, 
 a thickness of $d_{wall}$ = 25 $cm$
-\footnote{We suggest to declare these parameters in the equation section similar to the example, but this is not required.}, 
+\footnote{We suggest to declare these parameters in the model via the text editor tab, similar to the example, but this is not required.}, 
 a thermal conductivity of $k_{wall}$ = 0.04 $W/(m\cdot K)$, 
 a density of $\rho_{wall}$ = 2000 $kg/m^3$.
 The conductive thermal resistance value of a wall may be computed as $R=d/(A\cdot k)$.
@@ -140,8 +140,7 @@ It should look like Figure~\ref{fig:res1}.
 \section{Building window model}
 \paragraph{Qualitative discussion}
 The window has a surface area of 2~$m^2$. 
-In this simple model we will therefore assume that two times the
-outdoor solar irradiance is injected as heat onto the inside of the wall.
+As a simplified approach in this example, we are injecting two times the direct normal solar irradiance as heat onto the inside of the wall\footnote{This approach corresponds to a window which moves with the position of the sun and transmits only the direct radiation to 100\% and neglects diffuse radiation.}.
 
 \paragraph{Required models}
 \begin{itemize}
