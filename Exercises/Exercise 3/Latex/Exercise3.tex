@@ -122,11 +122,9 @@ All IDEAS building components have the modifier \path{outer} in their respective
 declarations of the \path{SimInfoManager}. 
 This causes the component declarations to point towards the higher level \path{SimInfoManager}
 declaration. This way all model equations for the weather data have to be generated only once,
-instead of for each surface.\\
+instead of for each surface.
 
-In this simple example we connect both sides of the \path{InternalWall} to the same model.
-While this is not physically possible, it's an easy trick to model a building with an 
-infinite number of identical zones stacked on top of each other.
+\newpage
 
 \paragraph{Reference result}
 We simulate this model with the settings
