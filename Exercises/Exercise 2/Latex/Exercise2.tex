@@ -100,10 +100,10 @@ by a single heat capacitor and a thermal resistor.
 The thermal resistor and boundary temperature 
 are already added in the template.
 The wall has a surface area of $A_{wall}$ = 100 $m^2$, 
-a thickness of $d_{wall}$ = 25 $cm$
-\footnote{We suggest to declare these parameters in the model via the text editor tab, similar to the example, but this is not required.}, 
+a thickness of $d_{wall}$ = 25 $cm$, 
 a thermal conductivity of $k_{wall}$ = 0.04 $W/(m\cdot K)$, 
-a density of $\rho_{wall}$ = 2000 $kg/m^3$.
+a density of $\rho_{wall}$ = 2000 $kg/m^3$ and a specific heat capacity $c_p$ = 1000 $J/(kg\cdot K)$
+\footnote{We suggest to declare these parameters in the model via the text editor tab, similar to the example, but this is not required.}.
 The conductive thermal resistance value of a wall may be computed as $R=d/(A\cdot k)$.
 The heat capacity value of a wall may be computed as $C=A\cdot d \cdot c_p \cdot \rho$.
 
@@ -192,9 +192,9 @@ information about the type of fluid and its properties
 that should be modelled by the \path{MixingVolume}.
 Set
 \footnote{Click the right small arrow and `edit text' in the parameter dialog box, or use the Modelica text view.}
- its value to \textit{MediumAir}, which is declared in the template. For the nominal mass flow rate you may assume a value of 1~$kg/m^3$. You will have to change this value once you add a ventilation system to the model (part \ref{ch:ventilation}). Finally, set the \textit{energyDynamics} of the \path{MixingVolume}, which can be found in the \textit{Dynamics} tab of the model parameter window, to \textit{FixedInitial}. Your model should now look like Figure~\ref{fig:airModel}.
+its value to \textit{MediumAir}, which is declared in the template. For the nominal mass flow rate you may assume a value of 1~$kg/s$. You will have to change this value once you add a ventilation system to the model (part \ref{ch:ventilation}). Finally, set the \textit{energyDynamics} of the \path{MixingVolume}, which can be found in the \textit{Dynamics} tab of the model parameter window, to \textit{FixedInitial}. Your model should now look like Figure~\ref{fig:airModel}.
  
- \begin{figure}[h!]
+\begin{figure}[h!]
 \centering
 \includegraphics[scale=0.35]{airModel.png}
 \caption{Simple house model with a wall, a window, and an air model.}
