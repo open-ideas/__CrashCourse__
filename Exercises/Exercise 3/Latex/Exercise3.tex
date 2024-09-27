@@ -96,7 +96,7 @@ In addition to connecting each surface, the parameters of each component have to
 Components typically have many default values that are appropriate for many purposes.
 When parameters do not have a default value, it must be set by the user. 
 Notable examples are the dimensions and orientation of the zone, walls and windows. 
-\path{inc} and \path{azi} define the surface orientation and can be set to a series of predefined constants such as \path{IDEAS.Types.Tilt.Wall}, \path{IDEAS.Types.Tilt.Ceiling}, \path{IDEAS.Types.Tilt.Floor}, \path{IDEAS.Types.Azimuth.S} (S means south) and \path{IDEAS.Types.Azimuth.}\textit{other orientations}.
+The surface orientation can be set using the parameters \path{incOpt}, which automatically sets the inclination depending on the type of outer wall, and \path{aziOpt}, which automatically sets the azimuth.
 Furthermore, the zone \path{Medium} must be set to \path{IDEAS.Media.Air}.
 Glazing and wall types must also be specified.
 For this example we propose to use the \textit{BESTEST Heavy Wall} for the walls, the \textit{BESTEST Heavy Floor} for the floor, the \textit{BESTEST ligth roof} for the roof
