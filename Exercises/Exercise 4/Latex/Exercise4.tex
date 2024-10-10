@@ -301,7 +301,14 @@ they are conditional, but we have not implemented that in this example.},
 we can (in this case) work around the existing control signal
 by changing the heat pump model input type to \path{enable_variable_speed=true}.
 The model then accepts any real signal and connections to the other control 
-signal are ignored. 
+signal are ignored. A reference implementation for this example is shown in Figure~\ref{fig:scheHVAC}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\linewidth]{Schematic7.png}
+	\caption{The schematic of Example 7.}
+	\label{fig:scheHVAC}
+\end{figure}
 
 \paragraph{Side notes}
 Note that the control signal of the heat pump could also have been used to disable
