@@ -26,8 +26,8 @@
 
 \begin{document}
 \title{Exercise 4: IDEAS Tutorial - part 2}
-\author{Filip Jorissen, Damien Picard\\ \thanks{Review} Jelger Jansen, Iago Cupeiro Figueroa, Lucas Verleyen}
-\date{KU Leuven, September 20, 2024}
+\author{Filip Jorissen, Damien Picard\\ \thanks{Review} Jelger Jansen, Iago Cupeiro Figueroa, Lucas Verleyen, Lone Meertens, Anna Dell'Isola}
+\date{KU Leuven, September 19, 2025}
 \maketitle
 
 \doclicenseThis
@@ -39,7 +39,7 @@ complementary to \path{IDEAS.Buildings} used in Exercise 3. \\
 
 For this exercise you will extend the model of a simple house,
 using HVAC and other components.
-This exercise starts/extends from the model \path{IDEAS.Examples.Tutorial.Example5}. 
+This exercise starts/extends from the model \path{IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse5}. 
 Model complexity will be increased in each step by 
 extending the model from the previous step, i.e. for each step a new model should be created that uses
 the Modelica \path{extends} clause to extend the previous model.
@@ -75,7 +75,7 @@ The main packages that you will need, are:
 
 \section{Heating system}
 \paragraph{Qualitative discussion}
-In this step you will extend the model \path{IDEAS.Examples.Tutorial.Example5} 
+In this step you will extend the model \path{IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse5} 
 by adding a HVAC system.
 The system consists of a water-water heat pump, radiators, 
 a storage tank,
@@ -173,16 +173,18 @@ Furthermore, choose realistic nominal mass flow rates and set the nominal pressu
 drop to 10~$kPa$. Set \path{enable_variable_speed=false} and set the control input (orange triangle)
 such that the heat pump is on using an \path{IntegerConstant}.\\
 
-Add a storage tank that buffers the warm water that is produced.
-Connect the storage tank at the secondary (the warm side) outlet of the heat pump.
+Add a storage tank that decouples the functioning of the emission system from the production system and that buffers the warm water produced. 
+It allows to reduce the water flow rates in the emission system without hampering the heat pump operation. 
+Additionally, it prevents rapid on-off heat pump cycling.
+Connect the storage tank at the secondary side (the warm side) of the heat pump.
 Choose a volume of 100~$l$ (0.1~$m^3$), a height of 0.5~$m$ and an insulation thickness of 10~$cm$.\\
 
-Add two pumps.
-At the secondary side of the heat pump, 
+Add three pumps.
+At the emission side,
 set the pump nominal flow rate to the sum of the radiator nominal flow rates
 and set the nominal pressure head to 20~$kPa$.
-At the primary side, do the same.
-Both pumps should always be on.\\
+At the secondary and primary side of the heat pump, do the same.
+All pumps should always be on.\\
 
 The primary side of the heat pump and its circulation pump should be connected
 to a heat source. Use the model \path{IDEAS.Fluid.Sources.Boundary_pT} for this,
@@ -195,8 +197,8 @@ using an \path{Integrator}. A reference implementation for this example is shown
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=\linewidth]{Schematic6.png}
-	\caption{The schematic of Example 6.}
+	\includegraphics[width=\linewidth]{DetailedHouse6_schematic.png}
+	\caption{The schematic of DetailedHouse6.}
 	\label{fig:sche}
 \end{figure}
 
@@ -220,29 +222,29 @@ are presented with the units of Kelvin. However, if you plot results in Dymola, 
 \paragraph{Reference result}
 We simulate this model with the settings
 \begin{enumerate}
+\item Dassl as the solver with tolerance = 1e-06,
 \item Start time = 1e7,
 \item Stop time = 1.1e7,
 \item Number of intervals = 5000.
 \end{enumerate}
 We thus perform a simulation that starts $10^7$ seconds after new year and ends $10^6$
-seconds later, which is a period of 11.6 days. Remark that the simulation time of this model will be significantly higher ($\sim$1 minute) than those of the models previoulsy developed in this crash course. The explanation follows below. You can track the simulation progress at the bottom of the Dymola window. \\
+seconds later, which is a period of 11.6 days. Remark that the simulation time of this model will be $\sim$7 times higher than those of the models previoulsy developed in this crash course. The explanation follows below. You can track the simulation progress at the bottom of the Dymola window. \\
 
 We now plot the zone temperatures \path{rectangularZoneTemplate.TSensor} and \path{rectangularZoneTemplate1.TSensor}, the radiator heat flow rates \path{rad.Q_flow} and \path{rad1.Q_flow}, the heat pump condenser temperature \path{heaPum.con.T} and the heat pump heat flow rate \path{heaPum.QCon_flow}. The results are shown in Figure~\ref{fig:res1} and Figure~\ref{fig:res1_bis} and deserve some explanation.\\
 
-Firstly, we see that the zone temperatures are quite different. This is because the orientation of the windows. In the northern zone (\path{rectangularZoneTemplate}), there is only one window oriented towards the north, whereas in the southern zone (\path{rectangularZoneTemplate1}), there is only one window oriented towards the south. Much more solar irradiation will reach the southern zone by its window and leads to an increased zone temperature. As there is only solar irradiation during the day, you clearly see the day/night fluctuations. When the zone temperatures drop below the 21$^{\circ}C$ set point temperature (mostly during the night), the TRVs will open and a higher mass flow rate will flow through the radiators wich leads to a higher thermal power emitted by the radiators.\\
+Firstly, we see that the zone temperatures are quite different. This is because the orientation of the windows. In the northern zone (\path{rectangularZoneTemplate}), there is only one window oriented towards the north, whereas in the southern zone (\path{rectangularZoneTemplate1}), there is only one window oriented towards the south. Much more solar irradiation will reach the southern zone by its window and leads to an increased zone temperature. As there is only solar irradiation during the day, you clearly see the day/night fluctuations. When the zone temperatures drop below the 21$^{\circ}C$ set point temperature (mostly during the night), the TRVs will open and a higher mass flow rate will flow through the radiators which leads to a higher thermal power emitted by the radiators.\\
 
-When the TRVs are closed, the heat pump is still switched on (because we applied a constant integer input equal to 1). Consequently, the supply water temperature of the radiators rises up to 65$^{\circ}C$, even though the radiator nominal dimensions are for a supply water temperature of
+The constant operation of the heat pump (because we applied a constant integer input equal to 1) and of the circulation pump at the secondary side, causes the supply water temperature to rise up to 65$^{\circ}C$, even though the radiator nominal dimensions are for a supply water temperature of
 45$^{\circ}C$. The elevated temperatures mean that the radiators can
 emit a higher than nominal thermal power.
-However, in the bottom graph the radiator thermal power never surpasses
-even half of its nominal value.
+However, the radiator thermal power never surpasses its nominal value.
 This is caused by the thermostatic valves, which reduce the mass flow rate
-that enters the radiator, and consequently lowers the thermal power. \\
+that enters the radiator, and consequently lower the radiator thermal power. \\
 
-This reduced mass flow rate when there is no heat demand in the zone and a heat pump which is always switched on due to the applied input signal, causes a high temperature at the condenser side of the heat pump and a large temperature difference across the heat pump (primary heat source of 10$^{\circ}C$),
+The reduced mass flow rate in the emission system when there is no heat demand in the zone and a heat pump which is always switched on due to the applied input signal, causes a high temperature at the condenser side of the heat pump and a large temperature difference across the heat pump (primary heat source of 10$^{\circ}C$),
 The heat pump model contains a built-in temperature protection, which disables
 the heat pump when the temperature exceeds a predefined threshold.
-Consequently, the heat pump continuously switches on and off
+Consequently, the heat pump switches on and off
 and operates at high temperatures for most of the time.
 This switching also negatively impacts the computation time, 
 as you may have noticed.\\
@@ -250,21 +252,21 @@ as you may have noticed.\\
 This example illustrates the importance of control, which is currently not modelled.
 All pumps and the heat pump are assumed to be active continuously, 
 which is detrimental for the system performance.
-The COP (\path{heaPum.com.COP}) is only about 2.9.
+The COP (\path{heaPum.com.COP}) is only about 2.5.
 
 \newpage
 
 \begin{figure}[h!]
 \centering
-\includegraphics[scale=0.28]{Example6.png}
-\caption{The model response for Example 6: zone temperatures and thermal power of radiators.}
+\includegraphics[width=\linewidth]{DetailedHouse6.png}
+\caption{The model response for DetailedHouse6: zone temperatures and thermal power of radiators.}
 \label{fig:res1}
 \end{figure}
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.28]{Example6_bis.png}
-	\caption{The model response for Example 6: heat pump condenser temperature and condensor thermal power.}
+	\includegraphics[width=\linewidth]{DetailedHouse6_bis.png}
+	\caption{The model response for DetailedHouse6: heat pump condenser temperature and condensor thermal power.}
 	\label{fig:res1_bis}
 \end{figure}
 
@@ -278,19 +280,19 @@ when the supply water temperature exceeds 45$^{\circ}C$.
 \paragraph{Required models}
 This step requires the following components:
 \begin{itemize}
+\item \path{Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor}
 \item \path{IDEAS.Fluid.Sensors.TemperatureTwoPort}
 \item \path{Modelica.Blocks.Logical.Hysteresis}
 \item \path{Modelica.Blocks.Math.BooleanToReal}
 \end{itemize}
 
 \paragraph{Instructions}
-Before extending the previous step, add a temperature sensor between the storage tank
-and the secondary circulation pump.
+Extend the model in the previous step and add a temperature sensor connected to the heat port of the storage tank.
 This measurement serves as an input to the hysteresis controller.
-Now extend the model and configure the controller such that it switches to a \textit{false} signal below
-40$^{\circ}C$ and to \textit{true} above 45$^{\circ}C$\footnote{Take into account that the measurement has units of Kelvin!}.\\
+Configure the controller such that it switches to a \textit{false} signal below
+45$^{\circ}C$ and to \textit{true} above 50$^{\circ}C$\footnote{Take into account that the measurement has units of Kelvin!}.\\
 
-The output of the hysteresis controller is thus \textit{true} when the supply temperature is 
+The output of the hysteresis controller is thus \textit{true} when the supply top tank temperature is 
 high enough and false otherwise.
 This Boolean signal has to be converted in a real control signal that can be
 accepted by the heat pump model.
@@ -309,7 +311,7 @@ the circulation pumps.
 However, disabling the circulation pump disables the flow of water,
 which causes the temperature sensor output to remain fixed at
 its last value.
-Since this value, at the point of disabling the pump, was more then 45 degrees,
+Since this value, at the point of disabling the pump, was more then 50 degrees,
 it would stay at that value and consequently the system would not be enabled again.
 Note that this is not necessarily a model error, since the same problem could
 occur in reality! This problem can be alleviated by modelling
@@ -335,15 +337,10 @@ connections to removed connectors or components should be ignored.
 \paragraph{Reference result}
 Figure~\ref{fig:res2} compares the results with the results without controller.
 We see that indeed, the supply temperature is reduced significantly.
-This causes the zone temperature to be slightly lower, up to about 0.25$^{\circ}C$.
-The COP however increases from about 2.9 to about 3.1.
-Consequently, the energy use over the period is reduced from 11.56~$kWh$
-to 9.64~$kWh$. Note that this heating system configuration is still 
-not efficient since the small flow rates still cause 
-large temperatures to occur within the heat pump
-and thus cause a small COP.
-COP's of more than 5 are obtainable when using a bypass and a separate
-pump to charge the storage tank.\\
+This causes the zone temperature to be slightly lower, up to about 0.2$^{\circ}C$.
+The COP however increases from about 2.5 to about 4-5.
+Consequently, the energy use over the period is reduced from 28.1~$kWh$
+to 17.4~$kWh$.\\
 
 To further play with this model, you can try to enable/disable the circulation pumps with the same control
 signal and see what happens.
@@ -355,7 +352,7 @@ However, the heat pump is unable to satisfy the heat demand.\\
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=\linewidth]{Example7.png}
+	\includegraphics[width=\linewidth]{DetailedHouse7.png}
 	\caption{Comparison with (red) and without (blue) control for zone temperature, supply water temperature and radiator thermal power.}
 	\label{fig:res2}
 \end{figure}
@@ -405,7 +402,7 @@ Depending on the chosen value for the parameter \path{varKeys},
 you should get something similar to:
 \begin{verbatim}
 {
-  "Electrical energy [kWh]" : 1.2577137592e+01
+  "Electrical energy [kWh]" : 1.7425569229e+01
 }
 \end{verbatim}
 
@@ -414,7 +411,7 @@ you should get something similar to:
 \section{Adding CO$_2$-controlled ventilation}
 \paragraph{Qualitative discussion}
 You will now add a CO$_2$-controlled ventilation system.
-Add the occupancy model from Example 4 to one zone
+Add the occupancy model from DetailedHouse4 to one zone
 and a fixed occupancy of 1 person to the other zone.
 The ventilation system consists of two fans, two supply and two return air
 VAVs (Variable Air Volume), a heat recovery unit and an outdoor air source.
@@ -423,7 +420,7 @@ The control consists of PI controllers with a set point of 1000 ppm.
 \paragraph{Required models}
 This step requires the following components:
 \begin{itemize}
-\item Custom occupant model from Example 4
+\item Custom occupant model from DetailedHouse4
 \item \path{IDEAS.Fluid.Sources.OutsideAir}
 \item \path{IDEAS.Fluid.Actuators.Dampers.PressureIndependent}
 \item \path{IDEAS.Fluid.HeatExchangers.ConstantEffectiveness}
@@ -459,14 +456,14 @@ then each of them must have the same set of trace substances.
 \newpage
 
 \paragraph{Instructions}
-Extend this model from Example~7 and modify its existing medium declaration
+Extend this model from DetailedHouse7 and modify its existing medium declaration
 to add CO$_2$, as follows:
 \begin{verbatim}
-extends Example7(
+extends DetailedHouse7(
     redeclare package Medium = IDEAS.Media.Air(extraPropertiesNames={"CO2"}));
 \end{verbatim}
-For one zone, add the occupancy model from Example 4. 
-You can copy it from \path{IDEAS.Examples.Tutorial.Example4}.
+For one zone, add the occupancy model from DetailedHouse4. 
+You can copy it from \path{IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse4}.
 For the other zone, add a fixed occupancy of 1 person. For making a connection with the outside air we use \path{IDEAS.Fluid.Sources.OutsideAir},
 which is similar to \path{IDEAS.Fluid.Sources.Boundary_pT} except that it 
 automatically sets the outdoor dry bulb temperature and humidity. \\
@@ -514,15 +511,15 @@ which is beyond the scope of this course. The schematic of the model you should 
 
 %\begin{figure}
 %\centering
-%\includegraphics[scale=0.4]{Example9_bus.png}
+%\includegraphics[scale=0.4]{DetailedHouse9_bus.png}
 %\caption{Example connection for outdoor air source and its inputs.}
 %\label{fig:bus}
 %\end{figure}
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=\linewidth]{Schematic9.png}
-	\caption{The schematic of Example 9.}
+	\includegraphics[width=\linewidth]{DetailedHouse9_schematic.png}
+	\caption{The schematic of DetailedHouse9.}
 	\label{fig:ex9}
 \end{figure}
 
@@ -611,7 +608,7 @@ concentration when there are no occupants.
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=\linewidth]{Example9.png}
+\includegraphics[width=\linewidth]{DetailedHouse9.png}
 \caption{Zone temperature, CO$_2$ concentrations and PI control signals.}
 \label{fig:res4}
 \end{figure}
@@ -619,21 +616,28 @@ concentration when there are no occupants.
 \newpage
 
 \section{Computation time}
-The models that you have just created are fairly slow
-and computation time can easily explode when controller
-oscillations occur or when the heat pump experiences frequent on/off switches. 
-These effects cause a lot
-of fast transients that force the solver to take small steps, 
+The models that you have just created are present a rather good computational performance. 
+However, the computation time can significantly increase for larger simulation time due to 
+frequent on/off switching of the heat pump. 
+This effect causes a lot of fast transients that force the solver to take small steps, 
 which takes a lot of time.\\
 
 Fortunately, there are many tricks that can be used to speed up the solver. 
-The fundamental principle is that we remove small time constants from the problem,.
-\path{IDEAS.Examples.Tutorial.Example10} implements changes that
-cause the simulation to become 2 times faster.
-If we do this systematically, and we remove \textbf{all} fast time constants,
-we can use a different solver (Euler), 
-using which the simulation time also becomes 2 times smaller
-when using a fixed time step of 20 seconds.
+The fundamental principle is that we remove small time constants from the problem.
+The example in \path{IDEAS.Examples.Tutorial.DetailedHouse.DetailedHouse10} implements changes that
+cause the simulation to become almost 3 times faster.
+By systematically removing fast time constants, the solver can be switched to a simpler method, 
+such as Euler integration, with a fixed time step of 20 seconds.
+
+It is important to note the trade-off between computation time and simulation 
+accuracy when choosing an integration method. While the Euler method is generally 
+much faster than implicit solvers such as Dassl, it is also less accurate, 
+especially for stiff or highly dynamic systems. Using smaller Euler time steps 
+increases simulation accuracy but also increases computation time, whereas larger
+time steps decrease computation time at the expense of accuracy. Therefore, careful
+consideration is needed when selecting the solver and time step size, balancing 
+the need for speed and the desired level of accuracy in the simulation results.\\ 
+
 These are modest improvements since this small example model behaves rather well.
 However, for large models, the difference in computation time 
 when using Euler integration can become a factor 1000.
