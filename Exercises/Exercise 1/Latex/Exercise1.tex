@@ -51,7 +51,7 @@ The goal of this first exercise is to explore and become familiar with the Dymol
 
 \begin{itemize}
 	\item Open the model \path{IDEAS.Examples.SimpleHouse}. For this, navigate in the \textit{Package Browser}.
-	\item Go to \path{Simulation>Setup}. Change the \textit{Stop time} to 31563000~$s$ (1 year). Set the interval length to 100~$s$. Choose the \textit{Dassl} algorithm for the solver.
+	\item Go to \path{Simulation>Setup}. Change the \textit{Stop time} to 31563000~$s$ (1 year). Set the output interval length to 60~$s$. This means that the results file, containing the simulation results for all variables in the model, has a resolution or sampling interval of 60~$s$. Choose the \textit{Dassl} algorithm for the solver.
 	\item Simulate the model.
 	\item Plot the zone temperature. There are two options to do this. 
 	\begin{enumerate}
@@ -60,6 +60,7 @@ The goal of this first exercise is to explore and become familiar with the Dymol
 	\end{enumerate}
 	\item Change the unit of the time axis to days and the unit of the temperature axis to degrees Celsius. By default, temperature is plotted in Kelvin. Since the zone temperature parameter is defined as a physical quantity in the model equations, you can easily change its unit and plot it in degrees Celsius by right-clicking on the variable name or on the trajectory in the plot and navigating to \path{Display} \path{Unit}.
 	\item Determine the minimum and maximum temperature. Right-click on the trajectory, navigate to \path{Signal} \path{Operators} in the menu, and select \path{Min...} or \path{Max...}.
+	\item Redo the simulation, but set the output interval length to 86400~$s$ (1 day). Do you notice any difference?
 \end{itemize}
 
 \section{Modelica Standard Library - PID Controller}
